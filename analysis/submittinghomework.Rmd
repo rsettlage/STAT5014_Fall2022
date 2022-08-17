@@ -1,0 +1,52 @@
+---
+title: "Submitting homework"
+author: "Robert Settlage"
+date: "2022-08-17"
+output: workflowr::wflow_html
+editor_options:
+  chunk_output_type: console
+header-includes: \setlength\parindent{24pt} \usepackage{MnSymbol} \usepackage{mathrsfs}
+---
+
+Homework submissions will be accomplished through GitHub.  At this point, I am assuming you have worked through the Git Configuration document and successfully added the README file via the command line.  
+
+Submitting homework will involve adding your homework to the tracked files, committing changes, and finally pushing your changes to your remote repo.
+
+After you have completed your assignment and saved your final knitted document, in the terminal, do the following:
+
+
+### Make sure your local copy is synced with your remote copy  
+`git pull`  
+
+### Add your homework files to the list of tracked files
+`git add <your homework file>`  
+
+### Commit changes you care about  
+`git commit -m "final version of homework XXX"`  
+
+### Push your homework to your remote repo  
+`git push`  
+
+So, the basic workflow is:  
+
+```{r eval=F, echo=TRUE}
+git pull
+<do work>
+git pull
+git add ./*pdf
+git add ./*Rmd
+git commit -m "my first draft"
+git push
+```
+
+As you work on your homework, you can and should add/commit/push often to save your work!  Again, if you want to learn more, check out the docs and the cheatsheet:  
+
+<https://services.github.com/on-demand/downloads/github-git-cheat-sheet/>
+
+
+
+
+
+
+
+

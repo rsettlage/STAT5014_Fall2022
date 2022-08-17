@@ -1,0 +1,55 @@
+---
+title: "Stat 5014 Fall 2022 Schedule"
+author: "Robert Settlage"
+date: "2022-08-17"
+output: workflowr::wflow_html
+editor_options:
+  chunk_output_type: console
+header-includes: \setlength\parindent{24pt} \usepackage{MnSymbol} \usepackage{mathrsfs}
+---
+
+This is the tentative schedule for the 2022 Fall semester.
+  
+### Office and logistics
+
+9:05-9:55 a.m.  Wednesday, DAV 325
+--------------  ---------------------------------------
+CRN:            89853  
+Office:         Torgersen 3050
+Email:          rsettlag@vt.edu
+Office hours:   By appointment: Zoom or in person
+Course Website: https://rsettlage.github.io/STAT5104_Fall2022/
+--------------  ---------------------------------------
+
+### Tentative schedule
+
+Suggested schedule, you can speed ahead.
+*Denotes homework due by date (you can turn in early)
+
+|Lecture | Date      | Topic
+|--------|:---------:|------------------------------------------------------------------ 
+|        |           | **MODULE 1 -- R Bootcamp for Reproducible Research**  
+|-       | 24-Aug    | No class  
+|1       | 31-Aug    | Introductions, R, Rstudio, Rmarkdown, LaTeX, Git and Reproducible Research
+|2	     |  7-Sep    | Data structures, plotting basics, Reproducible Research and (some) Git
+|3	     | 14-Sep*   | Base graphics, multi panel plots, and ggplot2  
+|4	     | 21-Sep    | Formula interface and multi panel plots in ggplot2  
+|        |           | **MODULE 2 -- Munging and wrangling**
+|5	     | 28-Sep*   | Loading, munging, summarizing data using tidyverse 
+|6	     |  5-Oct    | R functions, logic, good programming practices
+|7	     | 12-Oct*   | R Vector/matrix manipulations and math, speed considerations
+|        | 19-Oct    | No class  
+|8	     | 26-Oct    | R's Apply family of functions
+|9	     |  2-Nov*   | Parallel computing in R, parXapply, foreach and dopar
+|        |           | **MODULE 3 -- Working with others in R**  
+|10	     |  9-Nov    | Interactive Visualizations, FlexDashboards and Automation
+|11	     | 10-Nov*   | Automation, Shiny, and GUIs for working with collaborators  
+|        |           | **MODULE 4 -- Deep Learning and some Python**  
+|- 	     | 16-Nov    | No class  
+|12	     | 23-Nov    | Deep Learning using Keras in R 
+|-	     | 30-Nov    | No class -- Thanksgiving  
+|13	     |  7-Dec*   | Python and Jupyter Notebooks  
+|14	     | 14-Dec*   | More Python (Final projects due)  
+|-       | ------    | Final -- none  
+
+

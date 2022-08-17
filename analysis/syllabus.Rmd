@@ -1,0 +1,127 @@
+---
+title: "Stat 5014 Fall 2022 Syllabus"
+author: "Robert Settlage"
+date: 2022-08-17
+output: workflowr::wflow_html
+editor_options:
+  
+  chunk_output_type: console
+header-includes: \setlength\parindent{24pt} \usepackage{MnSymbol} \usepackage{mathrsfs}
+---
+
+Syllabus for STAT 5014, Fall 2022.
+  
+9:05-9:55 a.m.  Wednesday, DAV 325 
+--------------  ---------------------------------------
+CRN:            89853  
+Office:         Torgersen 3050
+Email:          rsettlag@vt.edu
+Office hours:   By appointment: Zoom or in person
+Course Website: https://rsettlage.github.io/STAT5104_Fall2022/
+--------------  ---------------------------------------
+
+### Text book 
+There is no required text book for this course. Although, if you were to read just one, I would suggest Hadley Wickam's R for Data Science (https://r4ds.had.co.nz/). Other resources that may be helpful:  Google, your classmates, NLI (https://nli.tlos.vt.edu), SAIG short courses.   
+
+### Required software (all free, install in order if you want a local install)
+
+For the majority of this class, we will use R and Rstudio.  For all my demos etc, I will use Rstudio via Advanced Research Computing (ARC) at VT.  This is an awesome research resource at VT. Within the computing limits we will need for this course, there are no associated fees.  Additionally, we will use the Primers on Rstudio.cloud.  This will require an account, but is available as a free resource.
+
+If you choose to use ARC, let me know and I will configure your account.
+
+
+Things you will need:
+
+Package         Source
+-------         --------------------------------
+Git:            https://git-scm.com/
+Github:         https://github.com (account) 
+LaTeX:          https://miktex.org/
+R:              https://cran.r-project.org/  
+Rstudio:        https://rstudio.com (and Rstudio.cloud)  
+-------         --------------------------------
+
+Note, on some platforms, LaTeX seems to be a royal PITA usually due to a previous installation.  If you have troubles, try installing the R package *tinytex*.  In this class, you are required to knit directly to pdf.  To test this, do "File -> New File -> R Markdown", choose the PDF toggle, click "ok", then simply "Knit to pdf".  If this works, you are good to go.
+
+### Grading:  
+Grading based on assigned homework and project.
+
+### Grading details:  
+
+Homework will be assigned as per the class schedule and accessible via the course git repository. Feel free to discuss assignments with other students, but the work handed in must be exclusively your own unless otherwise noted. Each assignment must be neatly typed in Rmarkdown in formal, correct English. Note that after the first assignement, ALL assignments will be accessible and searchable on the web. As such, treat these assignments as your first public work.  Homework is graded as pass/fail.  To pass the course, you must pass 4/5 of the homeworks plus pass the team project.
+
+\newpage
+
+### Course details
+
+This course endeavors to build competence in R programming, \LaTeX typsetting and concepts of Reproducible Research.  To accomplish this, we will use Swirl and/or Rstudio.cloud primers to reinforce the programming concepts and Rmarkdown for document typesetting. In the process of working through this course, you will also gain familiarity with version control (git). The course will include, but is not restricted to, the following programming topics:
+
++ R, Rmarkdown, Rnotebooks
++ Git as a code repository
++ Functions, conditional statements and loops in R
++ Base and grammer of graphics (ggplot2) in R
++ Apply family of functions in R
++ Matrix and vector math in R
++ Parallel computing
++ Basics of Python programming.
++ JMP and SAS (outside class lectures)
+
+\noindent In the process of learning the above programming methods and platforms, we may also explore the following statistical methods:
+
++ Exploratory Data Analysis tools
++ Linear regression
++ ANOVA
++ Monte Carlo procedures
++ Power
+
+### Honor System  
+
+Students enrolled in this course are responsible for abiding by the Honor Code. A student who has doubts about how the Honor Code applies to any assignment is responsible for obtaining specific guidance from the course instructor before submitting the assignment for evaluation. Ignorance of the rules does not exclude any member of the University community from the requirements and expectations of the Honor Code.  
+
+\noindent The Virginia Tech honor pledge for assignments is as follows: __*"I have neither given nor received unauthorized assistance on this assignment."*__
+
+
+### COVID-19
+
+Supporting the mental health and well-being of students in my class is of high priority to me and Virginia Tech. If you are feeling overwhelmed academically, having trouble functioning, or are worried about a friend, please reach out to any of the following offices:
+
+#### Cook Counseling:
+
++ 540-231-6557 to schedule an appointment and/or 24/7 crisis support
+
++ [ucc.vt.edu](http://www.ucc.vt.edu/) for more information
+
+#### Dean of Students Office:
+
++ 540 231-3787 for general advice
+
++ 540-231-6411 for after-hours crisis
+
++ [dos.vt.edu](http://www.dos.vt.edu/) for more information
+
+#### Hokie Wellness:
+
++ [hokiewellness](http://www.hokiewellness.vt.edu/)  for more information about health and wellness workshops and consultations
+
+#### Services for Students with Disabilities (SSD)
+
++ 540-231-3788 or [ssd.vt.edu](http://www.ssd.vt.edu/)  for more information about accommodations and other disability-related supports
+
+For a full listing of campus resources check out [well-being.vt.edu](http://www.well-being.vt.edu/) .
+
+**Please also feel free to speak with me.**
+
+#### COVID protocol for instruction.
+
+The Office of Emergency Management, OEM, has stated that face-shields will be acceptable when the instructor’s station is socially distanced from the students (meaning 6 feet or more distance). The following conditions should be met:
+
+ 
+
++ The instructor should wear a mask until they begin the actual lecture, then they can switch to the face shield.  
++ The instructor must maintain 6 ft or more distance from students throughout the entire lecture.  
++ The instructor may not rearrange the classroom to create 6 ft or more distance if that is not already present.  
++ The instructor should explain to the students that they (the instructor) can only wear the face shield while social distancing is maintained and if the students want to approach closer to ask questions, they need to give the instructor some time to switch back to a mask.
+
+
+
+

@@ -1,0 +1,74 @@
+---
+title: "Git Conf"
+author: "Bob Settlage"
+date: "2022-08-17"
+output: workflowr::wflow_html
+editor_options:
+  chunk_output_type: console
+header-includes: \setlength\parindent{24pt} \usepackage{MnSymbol} \usepackage{mathrsfs}
+---
+
+Note, this is a working document describing how we will use git in this class.  Every students local computing platform is different and we will see exceptions.  Please do this early and let me know if you have issues and see deviations that should go on this writeup.  Basically, we need to have:
+
+1. Git and github configured
+2. Git configured locally (Rstudio.cloud or personal laptop if using a local install of Rstudio) to allow pushing to your personal repo
+3. Me <rsettlag> invited as collaborator.
+
+
+# Step 1: get Git (only if setting up on personal computer)
+Download git from <https://git-scm.com>  
+
+# Step 2: sign up for a Github account
+<https://github.com>  
+
+# Step 3: configure your ssh keys (only do this on your local computer if using one)
+
+In Rstudio:  
+1. Go to Terminal (lower left).  
+2. type: mkdir -p ~/.ssh/  
+3. type: cd ~/.ssh  
+4. type: ls  
+5. if you see a file called id_rsa.pub, go to step 8  
+6. Type `ssh-keygen` in the terminal window.  
+7. Ideally you will use a short passphrase different from your pid password, but can simply hit enter for most (or all prompts).  
+8. Once done, type `cat ~/.ssh/id_rsa.pub` and copy the entire output.  
+9. You now need to add this to your GitHub profile. In Github, click on the pulldown (top right) to view your profile and choose settings then SSH and GPG keys.  
+10. Click on New SSH key, paste your RSA public key there and save.  
+
+
+# Step 4: configure your local Git
+
+To do this, type the following in your Rstudio Terminal:  
+
+```{r eval=F, echo=T}
+    git config --global user.email "you@example.com"  
+    git config --global user.name "Your GitHub USER Name" 
+```
+
+# Step 5: create a new repo for your coursework
+
+Create a new repo named `STAT_5014_2022_<pid>` via the GitHub web interface.  Where `<pid>` is your VT pid by hitting the New button.  Don't add a readme at this time but do add me as a collaborator under settings (please use rsettlage, not my pid).
+
+# Step 6: initialize the new repo to your local computer 
+
+In the Rstudio terminal window, change directories to where you want your coursework to live, for instance `cd ~/Documents/`.  Now copy and paste the directions from GitHub to create a new repository from the command line.  For me, this looks like:  
+
+```{r eval=F, echo=T}
+echo "# STAT_5014_Fall_2022" >> README.md
+git init
+git add README.md
+git commit -m "first commit"
+git remote add origin git@github.com:rsettlage/STAT_5014_Fall_2022.git
+git push -u origin master
+```
+
+If this set of commands is successful you are all setup and have made your first commit.  If you refresh the Github page, you should see your README.
+
+If you want to read more about this:  
+
+<https://services.github.com/on-demand/downloads/github-git-cheat-sheet/>
+
+
+
+
+

@@ -1,0 +1,67 @@
+---
+title: "Home"
+site: workflowr::wflow_site
+output:
+  workflowr::wflow_html:
+    toc: false
+editor_options:
+  chunk_output_type: console
+---
+
+Welcome to the STAT 5014 website for Fall 2022.  This is a 1 credit P/F class designed to get students up to speed with R and at least aware of other languages.  At 1 credit, we do not have time to cover many advanced topics.  I will introduce topics and I will provide lots of reading material for those interested in learning more.  On this site, you will find all the material we will go over in class, all assignments, and instructions for submitting homeworks.
+
+<ins>What this class is:</ins> a 0-60 run-through of R (and scripting/programming in Statistics) for those of you who had more pen/paper programs prior to this.
+
+<ins>What this class is not:</ins> a fundamentals of computing course.  
+
+We do not dive deep into the innards of R to squeeze every last bit of performance out of it.  We do, however, talk about ways to do things more intentionally that may in indeed result in speed improvements.  More importantly, we discuss ways to organize yourself that are both Reproducible and adher to Good Programming Practices.  We also rely on Git to submit homeworks.  More on that in class.  While doing all of this, I hope you take away short cuts, tips and tricks to make your work more professional and you more effective as a data scientist.
+
+#### Topics
+
+The course will include, but is not restricted to, the following programming topics:
+
++ R, Rmarkdown, Rnotebooks
++ Git as a code repository
++ Functions, conditional statements and loops in R
++ Base and grammer of graphics (ggplot2) in R
++ Apply family of functions in R
++ Matrix and vector math in R
++ Parallel computing
++ Basics of Python programming.
++ JMP and SAS (outside class lectures)
+
+\noindent In the process of learning the above programming methods and platforms, we may also explore the following statistical methods:
+
++ Exploratory Data Analysis tools
++ Linear regression
++ ANOVA
++ Monte Carlo procedures
++ Power
+
+#### Course material
+
+Generally, there will be 3 parts:
+
+1. Lecture slides -- html style markdown  
+2. Example code -- html style markdown
+3. Homework -- knitted pdf and the corresponding Rmd
+
+I am including both pdf and html markdown to provide examples for those that are interested.  I am wanting *ALL* homework to be written and knitted `directly` to pdf.  As you write papers using Overleaf or some other LaTeX editor, this is the syntax you will find most helpful.
+
+#### Swirl
+
+We will use Rsutio.cloud primers as "labs" for those students coming from pencil/paper programs that have little to no computer programming experience.
+
+#### GitHub
+
+All of our assignments will be submitted via GitHub.
+
+#### Reproducible Research
+
+We are endevouring to be reproducible in our practices, as such, we will discuss and then adhere to some basic tenants of Reproducible Research see <http://r4ds.had.co.nz>  
+
+#### Good Programming Practices
+
+Reading others poorly written code is hard, tedious and maddening.  We will discuss and then adhere to basics of Good Programming Practices.
+
+
