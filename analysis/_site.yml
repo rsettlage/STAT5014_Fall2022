@@ -1,0 +1,68 @@
+name: "STAT5014 Fall 2022 website"
+output_dir: ../docs
+navbar:
+  title: "STAT5014 Fall2022 website"
+  left:
+  - text: Home
+    href: index.html
+  - text: Syllabus
+    href: syllabus.html
+  - text: Schedule
+    href: schedule.html
+  - text: Lectures
+    menu:
+      - text: "Week 1"
+        href: Week_1_Introductions_Reproducible_Research_R.html
+      - text: "Week 2"
+        href: Week_2_Data_structures_Reproducible_research_Git.html
+      - text: "Week 3"
+        href: Week_3_Base_graphics_Mulitpanel_plots_GGplot2.html
+      - text: "Week 4"
+        href: Week_4_formula_interface_multipanel_ggplot2_plots.html
+      - text: "Week 5"
+        href: Week_5_wrangling_munging_tidying.html
+      - text: "Week 6"
+        href: Week_6_R_functions_logic_good_programming_practices.html
+      - text: "Week 7"
+        href: Week_7_matrix_vector_math.html
+      - text: "Week 8"
+        href: Week_8_apply_family.html
+      - text: "Week 9"
+        href: Week_9_going_parallel.html
+      - text: "Week 10"
+        href: Week_10_dashboards_reports_automation.html
+      - text: "Week 11"
+        href: Week_11_AI_ML.html
+
+  - text: Homework
+    menu:
+      - text: "Homework 1"
+        href: Week_1_homework_1.html
+      - text: "Homework 2"
+        href: Week_2_homework_2.html
+      - text: "Homework 3"
+        href: Week_4_homework_3.html
+      - text: "Homework 4"
+        href: Week_6_homework_4.html
+      - text: "Homework 5"
+        href: Week_9_homework_5.html
+      - text: "Homework 6"
+        href: Week_11_homework_6.html
+  - text: Setup
+    menu:
+      - text: "Submitting Homework"
+        href: submittinghomework.html
+      - text: "Sample Homework"
+        href: SampleHomework.html
+      - text: "Git Config"
+        href: gitconf.html
+  right:
+  - icon: fa-github
+    text: Source code
+    href: https://github.com/rsettlage/STAT5014_Fall2022
+output:
+  workflowr::wflow_html:
+    toc: yes
+    toc_float: yes
+    theme: flatly
+    highlight: textmate
