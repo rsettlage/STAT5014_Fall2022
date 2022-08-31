@@ -459,7 +459,7 @@ Research, (a little) R, and (a little) Git</h1>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
 <span class="glyphicon glyphicon-list" aria-hidden="true"></span>
-workflowr <span class="glyphicon glyphicon-exclamation-sign text-danger"
+workflowr <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span>
 </button>
 </p>
@@ -470,8 +470,8 @@ aria-hidden="true"></span>
 </li>
 <li>
 <a data-toggle="tab" href="#checks"> Checks <span
-class="glyphicon glyphicon-exclamation-sign text-danger"
-aria-hidden="true"></span> </a>
+class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
+</a>
 </li>
 <li>
 <a data-toggle="tab" href="#versions">Past versions</a>
@@ -484,9 +484,9 @@ aria-hidden="true"></span> </a>
 </p>
 <p>
 <strong>Checks:</strong> <span
-class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6
+class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7
 <span class="glyphicon glyphicon-exclamation-sign text-danger"
-aria-hidden="true"></span> 1
+aria-hidden="true"></span> 0
 </p>
 <p>
 <strong>Knit directory:</strong> <code>STAT5014_Fall2022_website/</code>
@@ -509,21 +509,18 @@ versions</em> tab lists the development history.
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguncommittedchanges">
-<span class="glyphicon glyphicon-exclamation-sign text-danger"
-aria-hidden="true"></span> <strong>R Markdown file:</strong> uncommitted
-changes </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguptodate">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>R Markdown file:</strong> up-to-date
+</a>
 </p>
 </div>
-<div id="strongRMarkdownfilestronguncommittedchanges"
+<div id="strongRMarkdownfilestronguptodate"
 class="panel-collapse collapse">
 <div class="panel-body">
-<p>The R Markdown file has unstaged changes. To know which version of
-the R Markdown file created these results, you’ll want to first commit
-it to the Git repo. If you’re still working on the analysis, you can
-ignore this warning. When you’re finished, you can run
-<code>wflow_publish</code> to commit the R Markdown file and build the
-HTML.</p>
+<p>Great! Since the R Markdown file has been committed to the Git
+repository, you know the exact version of the code that produced these
+results.</p>
 </div>
 </div>
 </div>
@@ -614,15 +611,15 @@ project makes it easier to run your code on other machines.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomrsettlageSTAT5014Fall2022treec957dab3030025bc63221c2eddba163a692e4177targetblankc957daba">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomrsettlageSTAT5014Fall2022treeb1a5865658c7d754f9822a42c152342186f525a1targetblankb1a5865a">
 <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span> <strong>Repository version:</strong>
-<a href="https://github.com/rsettlage/STAT5014_Fall2022/tree/c957dab3030025bc63221c2eddba163a692e4177" target="_blank">c957dab</a>
+<a href="https://github.com/rsettlage/STAT5014_Fall2022/tree/b1a5865658c7d754f9822a42c152342186f525a1" target="_blank">b1a5865</a>
 </a>
 </p>
 </div>
 <div
-id="strongRepositoryversionstrongahrefhttpsgithubcomrsettlageSTAT5014Fall2022treec957dab3030025bc63221c2eddba163a692e4177targetblankc957daba"
+id="strongRepositoryversionstrongahrefhttpsgithubcomrsettlageSTAT5014Fall2022treeb1a5865658c7d754f9822a42c152342186f525a1targetblankb1a5865a"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -632,7 +629,7 @@ reproducibility.
 </p>
 <p>
 The results in this page were generated with repository version
-<a href="https://github.com/rsettlage/STAT5014_Fall2022/tree/c957dab3030025bc63221c2eddba163a692e4177" target="_blank">c957dab</a>.
+<a href="https://github.com/rsettlage/STAT5014_Fall2022/tree/b1a5865658c7d754f9822a42c152342186f525a1" target="_blank">b1a5865</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -650,7 +647,6 @@ Ignored files:
     Ignored:    .DS_Store
     Ignored:    .Rhistory
     Ignored:    .Rproj.user/
-    Ignored:    analysis/figure/
 
 Untracked files:
     Untracked:  STAT5014_Fall2022_website.Rproj
@@ -659,9 +655,6 @@ Untracked files:
     Untracked:  data/
     Untracked:  output/
     Untracked:  staging/
-
-Unstaged changes:
-    Modified:   analysis/Week_1_Introductions_Reproducible_Research_R.Rmd
 
 </code></pre>
 <p>
@@ -709,6 +702,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/rsettlage/STAT5014_Fall2022/blob/b1a5865658c7d754f9822a42c152342186f525a1/analysis/Week_1_Introductions_Reproducible_Research_R.Rmd" target="_blank">b1a5865</a>
+</td>
+<td>
+rsettlag
+</td>
+<td>
+2022-08-31
+</td>
+<td>
+week 1, fix links
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/rsettlage/STAT5014_Fall2022/b1a5865658c7d754f9822a42c152342186f525a1/docs/Week_1_Introductions_Reproducible_Research_R.html" target="_blank">b1a5865</a>
+</td>
+<td>
+rsettlag
+</td>
+<td>
+2022-08-31
+</td>
+<td>
+week 1, fix links
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -914,7 +941,7 @@ yet<br />
 commit snapshot</li>
 </ul>
 <div class="figure">
-<img src="figure/git_file_lifecycle.png" alt="" />
+<img src="./figure/git_file_lifecycle.png" alt="" />
 <p class="caption">Git file lifecycle</p>
 </div>
 </div>
@@ -923,7 +950,7 @@ commit snapshot</li>
 <p>Nice visual from Git-flow <a
 href="https://jeffkreeftmeijer.com/git-flow/"
 class="uri">https://jeffkreeftmeijer.com/git-flow/</a></p>
-<p><img src="figure/Git_flow.png" width="369" height="40%" style="display: block; margin: auto;" /></p>
+<p><img src="./figure/Git_flow.png" height="40%" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-Git_flow">
 Past versions of Git_flow.png
@@ -966,13 +993,13 @@ rsettlag
 <h2>Reproducible Research Analysis</h2>
 <p>From Hadley Wickham &amp; Garrett Grolemund’s R for Data Science <a
 href="http://r4ds.had.co.nz" class="uri">http://r4ds.had.co.nz</a><br />
-<img src="figure/data-science-pipeline.png"
+<img src="./figure/data-science-pipeline.png"
 alt="R data science" /></p>
 </div>
 <div id="reproducible-research-pipeline" class="section level2">
 <h2>Reproducible Research Pipeline</h2>
 <p>Further illustrated by Peng and Eckel (2008)<br />
-<img src="figure/Peng_Eckel_2008.png" width="600px" style="display: block; margin: auto;" /></p>
+<img src="./figure/Peng_Eckel_2008.png" width="600px" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-Peng_Eckel_2008">
 Past versions of Peng_Eckel_2008.png
@@ -1156,17 +1183,17 @@ attached base packages:
 [1] stats     graphics  grDevices utils     datasets  methods   base     
 
 loaded via a namespace (and not attached):
- [1] Rcpp_1.0.8.3     pillar_1.7.0     compiler_4.2.1   bslib_0.3.1     
- [5] later_1.3.0      jquerylib_0.1.4  git2r_0.30.1     highr_0.9       
- [9] workflowr_1.7.0  tools_4.2.1      digest_0.6.29    jsonlite_1.8.0  
-[13] evaluate_0.15    lifecycle_1.0.1  tibble_3.1.6     pkgconfig_2.0.3 
-[17] png_0.1-7        rlang_1.0.2      cli_3.2.0        rstudioapi_0.13 
-[21] yaml_2.3.5       xfun_0.30        fastmap_1.1.0    stringr_1.4.0   
-[25] knitr_1.38       fs_1.5.2         vctrs_0.4.0      sass_0.4.1      
-[29] rprojroot_2.0.3  glue_1.6.2       R6_2.5.1         fansi_1.0.3     
-[33] rmarkdown_2.13   magrittr_2.0.3   whisker_0.4      promises_1.2.0.1
-[37] ellipsis_0.3.2   htmltools_0.5.2  httpuv_1.6.5     utf8_1.2.2      
-[41] stringi_1.7.6    crayon_1.5.1    </code></pre>
+ [1] Rcpp_1.0.8.3     rstudioapi_0.13  whisker_0.4      knitr_1.38      
+ [5] magrittr_2.0.3   workflowr_1.7.0  R6_2.5.1         rlang_1.0.2     
+ [9] fastmap_1.1.0    fansi_1.0.3      highr_0.9        stringr_1.4.0   
+[13] tools_4.2.1      xfun_0.30        utf8_1.2.2       cli_3.2.0       
+[17] git2r_0.30.1     jquerylib_0.1.4  htmltools_0.5.2  ellipsis_0.3.2  
+[21] rprojroot_2.0.3  yaml_2.3.5       digest_0.6.29    tibble_3.1.6    
+[25] lifecycle_1.0.1  crayon_1.5.1     later_1.3.0      sass_0.4.1      
+[29] vctrs_0.4.0      promises_1.2.0.1 fs_1.5.2         glue_1.6.2      
+[33] evaluate_0.15    rmarkdown_2.13   stringi_1.7.6    bslib_0.3.1     
+[37] compiler_4.2.1   pillar_1.7.0     jsonlite_1.8.0   httpuv_1.6.5    
+[41] pkgconfig_2.0.3 </code></pre>
 </div>
 </div>
 
