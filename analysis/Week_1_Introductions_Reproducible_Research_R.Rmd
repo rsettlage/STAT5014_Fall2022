@@ -29,7 +29,7 @@ header-includes: \setlength\parindent{24pt} \usepackage{MnSymbol} \usepackage{ma
 ## Tentative Course Lecture Schedule  
 
 Due dates are solid, however, feel free to race ahead.  
-https://rsettlage.github.io/STAT5104_Fall2021/schedule.html
+https://rsettlage.github.io/STAT5104_Fall2022/schedule.html
 
 ## Passing the course  
 
@@ -115,27 +115,27 @@ More instructions in the homework.
 - Modified - file is changed but not committed it to your database yet  
 - Staged - a modified file in its current version will go in next commit snapshot
 
-![Git file lifecycle](../figure/git_file_lifecycle.png)
+![Git file lifecycle](./figure/git_file_lifecycle.png)
 
 ## Git workflow
 
 Nice visual from Git-flow <https://jeffkreeftmeijer.com/git-flow/>
 
 ```{r out.height="40%",echo=F,include=T}
-knitr::include_graphics("../figure/Git_flow.png")
+knitr::include_graphics("./figure/Git_flow.png")
 ```
 
 ## Reproducible Research Analysis
  
 From Hadley Wickham & Garrett Grolemund's R for Data Science 
 <http://r4ds.had.co.nz>  
-![R data science](../figure/data-science-pipeline.png)  
+![R data science](./figure/data-science-pipeline.png)  
 
 ## Reproducible Research Pipeline 
 
 Further illustrated by Peng and Eckel (2008)  
 ```{r,out.width = "600px", echo=F}
-    knitr::include_graphics("../figure/Peng_Eckel_2008.png",auto_pdf=F)
+    knitr::include_graphics("./figure/Peng_Eckel_2008.png",auto_pdf=F)
 ```
 
 ## R and Rstudio
