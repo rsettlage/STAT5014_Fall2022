@@ -9,11 +9,11 @@
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 
-<meta name="author" content="Bob Settlage" />
+<meta name="author" content="Robert Settlage" />
 
-<meta name="date" content="2022-08-17" />
+<meta name="date" content="2021-09-06" />
 
-<title>Sample homework</title>
+<title>Reproducible Research, (some) Git, Good Programming Practices, go through Sample Homework</title>
 
 <script src="site_libs/header-attrs-2.13/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
@@ -449,9 +449,10 @@ div.tocify {
 
 
 
-<h1 class="title toc-ignore">Sample homework</h1>
-<h4 class="author">Bob Settlage</h4>
-<h4 class="date">2022-08-17</h4>
+<h1 class="title toc-ignore">Reproducible Research, (some) Git, Good
+Programming Practices, go through Sample Homework</h1>
+<h4 class="author">Robert Settlage</h4>
+<h4 class="date">2021-09-06</h4>
 
 </div>
 
@@ -484,9 +485,9 @@ aria-hidden="true"></span> </a>
 </p>
 <p>
 <strong>Checks:</strong> <span
-class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6
+class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 5
 <span class="glyphicon glyphicon-exclamation-sign text-danger"
-aria-hidden="true"></span> 1
+aria-hidden="true"></span> 2
 </p>
 <p>
 <strong>Knit directory:</strong> <code>STAT5014_Fall2022_website/</code>
@@ -518,10 +519,10 @@ changes </a>
 <div id="strongRMarkdownfilestronguncommittedchanges"
 class="panel-collapse collapse">
 <div class="panel-body">
-<p>The R Markdown file has unstaged changes. To know which version of
-the R Markdown file created these results, you’ll want to first commit
-it to the Git repo. If you’re still working on the analysis, you can
-ignore this warning. When you’re finished, you can run
+<p>The R Markdown is untracked by Git. To know which version of the R
+Markdown file created these results, you’ll want to first commit it to
+the Git repo. If you’re still working on the analysis, you can ignore
+this warning. When you’re finished, you can run
 <code>wflow_publish</code> to commit the R Markdown file and build the
 HTML.</p>
 </div>
@@ -583,16 +584,25 @@ versions is critical for reproducibility.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongCachestrongnone">
-<span class="glyphicon glyphicon-ok text-success"
-aria-hidden="true"></span> <strong>Cache:</strong> none </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongCachestrongdetected">
+<span class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span> <strong>Cache:</strong> detected </a>
 </p>
 </div>
-<div id="strongCachestrongnone" class="panel-collapse collapse">
+<div id="strongCachestrongdetected" class="panel-collapse collapse">
 <div class="panel-body">
-<p>Nice! There were no cached chunks for this analysis, so you can be
-confident that you successfully produced the results during this
-run.</p>
+The following chunks had caches available:
+<ul>
+<li>
+unnamed-chunk-3
+</li>
+</ul>
+<p>To ensure reproducibility of the results, delete the cache directory
+<code>Week_2_Reproducible_research_Git_Good_Programming_Practices_cache</code>
+and re-run the analysis. To have workflowr automatically delete the
+cache directory prior to building the file, set <code>delete_cache =
+TRUE</code> when running <code>wflow_build()</code> or
+<code>wflow_publish()</code>.</p>
 </div>
 </div>
 </div>
@@ -662,7 +672,6 @@ Untracked files:
     Untracked:  staging/
 
 Unstaged changes:
-    Modified:   analysis/SampleHomework.Rmd
     Modified:   analysis/_site.yml
     Modified:   analysis/schedule.Rmd
 
@@ -679,409 +688,444 @@ have uncommitted changes.
 <hr>
 </div>
 <div id="versions" class="tab-pane fade">
-
 <p>
-These are the previous versions of the repository in which changes were
-made to the R Markdown (<code>analysis/SampleHomework.Rmd</code>) and
-HTML (<code>docs/SampleHomework.html</code>) files. If you’ve configured
-a remote Git repository (see <code>?wflow_git_remote</code>), click on
-the hyperlinks in the table below to view the files as they were in that
-past version.
+There are no past versions. Publish this analysis with
+<code>wflow_publish()</code> to start tracking its development.
 </p>
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-File
-</th>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-<th>
-Message
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/rsettlage/STAT5014_Fall2022/575cdd238aada5938a4e40d4ab8f366b9c5f6d64/docs/SampleHomework.html" target="_blank">575cdd2</a>
-</td>
-<td>
-rsettlag
-</td>
-<td>
-2022-08-17
-</td>
-<td>
-initial build
-</td>
-</tr>
-<tr>
-<td>
-Rmd
-</td>
-<td>
-<a href="https://github.com/rsettlage/STAT5014_Fall2022/blob/c8ad238c8033b371be14ae8e1b23b35d2c57477c/analysis/SampleHomework.Rmd" target="_blank">c8ad238</a>
-</td>
-<td>
-rsettlag
-</td>
-<td>
-2022-08-17
-</td>
-<td>
-logistics files
-</td>
-</tr>
-</tbody>
-</table>
-</div>
 <hr>
 </div>
 </div>
 </div>
-<p>This is a sample of how I would like the homework to look when turned
-in. <em>It will look a bit better imo, because you will knit to pdf
-rather than html as shown here.</em></p>
-<div id="homework-1" class="section level1">
-<h1>Homework 1</h1>
+<div id="todays-agenda" class="section level2">
+<h2>Today’s Agenda</h2>
+<ul>
+<li>Review the concepts of Reproducible Research<br />
+</li>
+<li>Review Git<br />
+</li>
+<li>Good Programming Practices<br />
+</li>
+<li>Go through Sample Homework</li>
+</ul>
 </div>
-<div id="your-name" class="section level1">
-<h1>Your Name</h1>
+<div id="reproducible-research---review" class="section level2">
+<h2>Reproducible Research - Review</h2>
+<p>This IS (always) the scenario:<br />
+You had worked 6 months to analyze a data set. Someone else analyzes the
+data and comes to <em>different</em> conclusions. How good are your
+notes???</p>
+<p>Answer: <strong><em>Awesome, because you annotated your code with
+text to create a RR compendium</em></strong></p>
 </div>
-<div id="date" class="section level1">
-<h1>Date</h1>
-<div id="problem-1" class="section level2">
-<h2>Problem 1</h2>
-<p>This is an R Markdown document. Markdown is a simple formatting
-syntax for authoring HTML, PDF, and MS Word documents. For more details
-on using R Markdown see <a href="http://rmarkdown.rstudio.com"
-class="uri">http://rmarkdown.rstudio.com</a>.</p>
-<p>You can embed an R code chunk like this, note that <code>kable</code>
-makes REALLY nice tables with ZERO effort as seen in Table 1. Don’t just
-print output to consol, use kable!! In my opinion, including code to
-create tables in-line is a detraction, this is simply to show you how
-easy it is to do it. Code that is relevant to the problem should be
-included, code that is for display or as a summary, should be omitted
-in-line and it is up to you on if it should be included in an
-Appendix.</p>
-<pre class="r"><code>##### 
-##### 
-##### Problem 1: Data summary #####
-##### output using kable
-##### 
-##### 
-kable(summary(cars), caption = &quot;Table 1: Quick summary of car data.&quot;)</code></pre>
-<table>
-<caption>Table 1: Quick summary of car data.</caption>
-<thead>
-<tr class="header">
-<th align="left"></th>
-<th align="left">speed</th>
-<th align="left">dist</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td align="left"></td>
-<td align="left">Min. : 4.0</td>
-<td align="left">Min. : 2.00</td>
-</tr>
-<tr class="even">
-<td align="left"></td>
-<td align="left">1st Qu.:12.0</td>
-<td align="left">1st Qu.: 26.00</td>
-</tr>
-<tr class="odd">
-<td align="left"></td>
-<td align="left">Median :15.0</td>
-<td align="left">Median : 36.00</td>
-</tr>
-<tr class="even">
-<td align="left"></td>
-<td align="left">Mean :15.4</td>
-<td align="left">Mean : 42.98</td>
-</tr>
-<tr class="odd">
-<td align="left"></td>
-<td align="left">3rd Qu.:19.0</td>
-<td align="left">3rd Qu.: 56.00</td>
-</tr>
-<tr class="even">
-<td align="left"></td>
-<td align="left">Max. :25.0</td>
-<td align="left">Max. :120.00</td>
-</tr>
-</tbody>
-</table>
-<p>Likewise, <code>stargazer</code> simplifies making tables of linear
-model output. See Table 2 below. See how simple?? Note that you don’t
-need to set the type AND it will look better when knit to pdf.</p>
-<pre class="r"><code>##### 
-##### 
-##### Problem 1: Quick lm #####
-##### output using Stargazer
-##### 
-##### 
-fit &lt;- lm(dist ~ speed, data = cars)
-stargazer(fit,header = F,type = &quot;html&quot;, title=&quot;Table 2: Output of dist~speed for cars data linear model&quot;)</code></pre>
-<table style="text-align:center">
-<caption>
-<strong>Table 2: Output of dist~speed for cars data linear
-model</strong>
-</caption>
-<tr>
-<td colspan="2" style="border-bottom: 1px solid black">
-</td>
-</tr>
-<tr>
-<td style="text-align:left">
-</td>
-<td>
-<em>Dependent variable:</em>
-</td>
-</tr>
-<tr>
-<td>
-</td>
-<td colspan="1" style="border-bottom: 1px solid black">
-</td>
-</tr>
-<tr>
-<td style="text-align:left">
-</td>
-<td>
-dist
-</td>
-</tr>
-<tr>
-<td colspan="2" style="border-bottom: 1px solid black">
-</td>
-</tr>
-<tr>
-<td style="text-align:left">
-speed
-</td>
-<td>
-3.932<sup>***</sup>
-</td>
-</tr>
-<tr>
-<td style="text-align:left">
-</td>
-<td>
-(0.416)
-</td>
-</tr>
-<tr>
-<td style="text-align:left">
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td style="text-align:left">
-Constant
-</td>
-<td>
--17.579<sup>**</sup>
-</td>
-</tr>
-<tr>
-<td style="text-align:left">
-</td>
-<td>
-(6.758)
-</td>
-</tr>
-<tr>
-<td style="text-align:left">
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td colspan="2" style="border-bottom: 1px solid black">
-</td>
-</tr>
-<tr>
-<td style="text-align:left">
-Observations
-</td>
-<td>
-50
-</td>
-</tr>
-<tr>
-<td style="text-align:left">
-R<sup>2</sup>
-</td>
-<td>
-0.651
-</td>
-</tr>
-<tr>
-<td style="text-align:left">
-Adjusted R<sup>2</sup>
-</td>
-<td>
-0.644
-</td>
-</tr>
-<tr>
-<td style="text-align:left">
-Residual Std. Error
-</td>
-<td>
-15.380 (df = 48)
-</td>
-</tr>
-<tr>
-<td style="text-align:left">
-F Statistic
-</td>
-<td>
-89.567<sup>***</sup> (df = 1; 48)
-</td>
-</tr>
-<tr>
-<td colspan="2" style="border-bottom: 1px solid black">
-</td>
-</tr>
-<tr>
-<td style="text-align:left">
-<em>Note:</em>
-</td>
-<td style="text-align:right">
-<sup><em></sup>p&lt;0.1; <sup><strong></sup>p&lt;0.05;
-<sup></strong></em></sup>p&lt;0.01
-</td>
-</tr>
-</table>
+<div id="reproducible-research---concepts" class="section level2">
+<h2>Reproducible Research - Concepts</h2>
+<p><strong><em>Basically just switching the role of code and comments in
+writing software</em></strong></p>
+<p>Guide to this topic here: <a
+href="http://ropensci.github.io/reproducibility-guide/"
+class="uri">http://ropensci.github.io/reproducibility-guide/</a></p>
+<p>In general, we should <strong>weave</strong> code and text into a
+complete reference of our work. The document should:</p>
+<ul>
+<li>download or otherwise load/generate data</li>
+<li>reproduce steps to munge data</li>
+<li>recreate analysis steps</li>
+<li>create figures and tables</li>
+<li>explain any and all steps along the way</li>
+<li>end with conclusions drawn</li>
+<li>optionally add suggestions for future experiments</li>
+</ul>
 </div>
-<div id="problem-2" class="section level2">
-<h2>Problem 2</h2>
-<p>You can also embed plots. As far as I can tell, unless you are using
-Bookdown (or perhaps knitting to pdf), referencing the figure with
-automatically numbered figures is not possible. Perhaps someone in class
-knows differently??</p>
-<pre class="r"><code>##### 
-##### 
-##### Problem 2: plot #####
-##### making a pie chart
-##### 
-#####  
-par(mar = c(0, 1, 0, 1))
-pie(
-  c(280, 60, 20),
-  c(&#39;Sky&#39;, &#39;Sunny side of pyramid&#39;, &#39;Shady side of pyramid&#39;),
-  col = c(&#39;#0292D8&#39;, &#39;#F7EA39&#39;, &#39;#C4B632&#39;),
-  init.angle = -50, border = NA
-)</code></pre>
-<div class="figure" style="text-align: center">
-<img src="figure/SampleHomework.Rmd/Problem2a-1.png" alt="Figure 1: A fancy pie chart." width="672" />
-<p class="caption">
-Figure 1: A fancy pie chart.
-</p>
+<div id="check-out-sample-homework" class="section level2">
+<h2>Check out Sample Homework</h2>
+<p><a
+href="https://rsettlage.github.io/STAT5014_Fall2022/SampleHomework.html"
+class="uri">https://rsettlage.github.io/STAT5014_Fall2022/SampleHomework.html</a></p>
 </div>
+<div id="version-control" class="section level2">
+<h2>Version Control</h2>
+<p>What is version control - a system for storing data and tracking
+changes.</p>
+<ul>
+<li>Why should I use version control?<br />
+<a
+href="http://stackoverflow.com/questions/1408450/why-should-i-use-version-control"
+class="uri">http://stackoverflow.com/questions/1408450/why-should-i-use-version-control</a></li>
+<li>R and version control for the solo data analyst<br />
+<a
+href="http://stackoverflow.com/questions/2712421/r-and-version-control-for-the-solo-data-analyst"
+class="uri">http://stackoverflow.com/questions/2712421/r-and-version-control-for-the-solo-data-analyst</a></li>
+</ul>
+<p>Thoughts or comments??</p>
+<div id="version-control-and-git" class="section level3">
+<h3>Version Control and Git</h3>
+<p>Git is essentially a database of snapshots of the project directory
+tree. You decide when and what to take snapshots of and if you using
+GitHub (or similar) when to push a copy to a remote repository.</p>
+<p>The basic workflow is:</p>
+<ol style="list-style-type: decimal">
+<li>git <strong>pull</strong><br />
+</li>
+<li><strong>do work</strong><br />
+</li>
+<li>git <strong>pull</strong> to make sure you have latest files</li>
+<li>git <strong>add</strong> <em>&lt;your changed file&gt;</em> tells
+git what change you care about<br />
+</li>
+<li>git <strong>commit</strong> -m “some INFORMATIVE message about the
+changes”<br />
+</li>
+<li>git <strong>push</strong> to the repository (local or remote)<br />
+</li>
+<li>repeat</li>
+</ol>
+<p>When in doubt, try git <strong>status</strong> to get, well, the
+local repo status</p>
+</div>
+<div id="git-file-states" class="section level3">
+<h3>Git file states</h3>
+<ul>
+<li>Untracked - files that have not been added to the database</li>
+<li>Committed - data is safely stored in your local database<br />
+</li>
+<li>Modified - file is changed but not committed it to your database
+yet<br />
+</li>
+<li>Staged - a modified file in its current version will go in next
+commit snapshot</li>
+</ul>
+<div class="figure">
+<img src="../figure/git_file_lifecycle.png" alt="" />
+<p class="caption">Git file lifecycle</p>
+</div>
+</div>
+<div id="back-to-reproducible-research-analysis" class="section level3">
+<h3>Back to Reproducible Research Analysis</h3>
+<p>From Hadley Wickham &amp; Garrett Grolemund’s R for Data
+Science<br />
+<a href="http://r4ds.had.co.nz"
+class="uri">http://r4ds.had.co.nz</a><br />
+<img src="../figure/data-science-pipeline.png"
+alt="Data Science Pipeline" /></p>
+</div>
+</div>
+<div id="good-programming-practices" class="section level2">
+<h2>Good Programming Practices</h2>
+<p>Most analysis will require some amount of programming (scripting). As
+we program, we should strive to create readable and reusable code. The
+art of creating good code is captured in the broad and opinionated topic
+of Good Programming Practices. You will devolop your own style, but it
+would be good to start with some guidance from some experts.</p>
+<p>Google’s R Style Guide <a
+href="https://google.github.io/styleguide/Rguide.xml"
+class="uri">https://google.github.io/styleguide/Rguide.xml</a><br />
+Hadley Wickam’s Style Guide: <a
+href="http://r-pkgs.had.co.nz/style.html"
+class="uri">http://r-pkgs.had.co.nz/style.html</a></p>
+</div>
+<div id="good-programming-practices-cont" class="section level2">
+<h2>Good Programming Practices cont</h2>
+<p>Remember: ultimate goal is Reproducible Research.<br />
+To enable this, we need well documented (annotated)
+<em><strong>readable</strong></em> code.</p>
+<ol style="list-style-type: decimal">
+<li>variable/object names
+<ul>
+<li>nouns describing what the object holds, e.g. originaData instead of
+d<br />
+</li>
+<li>DO NOT use existing variables or functions, e.g. T&lt;-1000</li>
+</ul></li>
+<li>function formation
+<ul>
+<li>function names should be verb associated with the function
+purpose<br />
+</li>
+<li>comment both function purpose and required arguments<br />
+</li>
+<li>arguments should have defaults (my personal preference)</li>
+<li>my preference is to explicitly return a value<br />
+</li>
+</ul></li>
+<li>commenting rules
+<ul>
+<li>comment your code!! ’nough said?<br />
+</li>
+</ul></li>
+<li>indent within logical blocks of code !!
+<ul>
+<li>indenting improves the readability of the code by orders of
+magnitude!</li>
+</ul></li>
+</ol>
+</div>
+<div id="functions" class="section level2">
+<h2>Functions</h2>
+<p>A function is an <em><strong>object</strong></em> that takes some
+input objects (args) and produces some output objects.
+<em><strong>All</strong></em> work in R is done in functions.
+‘[&lt;-’(animals,4,“duck”)</p>
+<pre class="r"><code>    dataA&lt;-1;dataB&lt;-2
+
+    BAD&lt;-function(x){
+    mean(c(x,dataA))
+    }
+    
+    computeMeanGOOD&lt;-function(x=3,y=5){
+        # quick function to compute the geometric mean of two numbers, x and y
+        # returns geometric mean
+        if (!is.numeric(x) || !is.numeric(y)) stop(&quot;both x and y must be numeric&quot;)
+        return((x+y)/2)
+    }
+    
+    BAD(x=dataB)
+    computeMeanGOOD(x=dataA,y=dataB)</code></pre>
+<p>GOOD functions include passing in ALL necessary data. If we do not do
+this, we can have MAJOR issues with variable scope that is often
+difficult to troubleshoot. Ideally our code also includes error
+checking.</p>
+</div>
+<div id="variable-scope" class="section level2">
+<h2>Variable scope</h2>
+<p>R uses Lexical scoping rules. What tha?</p>
+<p><a
+href="https://darrenjw.wordpress.com/2011/11/23/lexical-scope-and-function-closures-in-r/"
+class="uri">https://darrenjw.wordpress.com/2011/11/23/lexical-scope-and-function-closures-in-r/</a><br />
+Totally recommend subscribing to Darren’s blog AND reading all his past
+posts.</p>
+<p><a
+href="http://andrewgelman.com/2014/01/29/stupid-r-tricks-random-scope/"
+class="uri">http://andrewgelman.com/2014/01/29/stupid-r-tricks-random-scope/</a><br />
+Another good site. Also has a few great stats books.</p>
+<p>While we are at it, r-bloggers has many useful tidbits. <a
+href="https://www.r-bloggers.com"
+class="uri">https://www.r-bloggers.com</a></p>
+<pre class="r"><code>    z &lt;- 1; a &lt;- 1
+    m &lt;- function(){a &lt;- 2; return(c(a,z)) }
+    m(); a
+    
+    a &lt;- 1; b &lt;- 2
+    f&lt;-function(x){ a*x + b }
+    ## what about this one??
+    g&lt;-function(x){ a &lt;&lt;- 2; b &lt;- 1; print(objects()); f(x) }
+    g(2)</code></pre>
+</div>
+<div id="for-statement" class="section level2">
+<h2>FOR statement</h2>
+<p>Often, we want to loop through a set number of items or do a task a
+predetermined length of time. Can add additional controls via
+<strong>break</strong> and <strong>next</strong>. To get help on
+functions type ?“for”</p>
+<pre class="r"><code>    Iter &lt;- 5
+    cumIndex &lt;- 0
+    for(i in 1:Iter){
+        #if(i %% 2==1) next
+        cumIndex &lt;- cumIndex + 1
+        #if(cumIndex&gt;3) break
+    }
+    print(cumIndex)</code></pre>
+<pre><code>[1] 5</code></pre>
+<div class="alert alert-warning">
 <p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-Problem2a-1">
-Past versions of Problem2a-1.png
-</button>
+<strong>Warning:</strong> The above code chunk cached its results, but
+it won’t be re-run if previous chunks it depends on are updated. If you
+need to use caching, it is highly recommended to also set
+<code>knitr::opts_chunk$set(autodep = TRUE)</code> at the top of the
+file (in a chunk that is not cached). Alternatively, you can customize
+the option <code>dependson</code> for each individual chunk that is
+cached. Using either <code>autodep</code> or <code>dependson</code> will
+remove this warning. See the
+<a href="https://yihui.name/knitr/options/#cache"
+>knitr cache options</a> for more details.
 </p>
-<div id="fig-Problem2a-1" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/rsettlage/STAT5014_Fall2022/blob/575cdd238aada5938a4e40d4ab8f366b9c5f6d64/docs/figure/SampleHomework.Rmd/Problem2a-1.png" target="_blank">575cdd2</a>
-</td>
-<td>
-rsettlag
-</td>
-<td>
-2022-08-17
-</td>
-</tr>
-</tbody>
-</table>
 </div>
 </div>
-<hr />
+<div id="if-else-statement" class="section level2">
+<h2>If ELSE statement</h2>
+<p>A powerful addition to any program is the ability to change the
+course of the program as conditions change. In R, one such flow change
+statement is the if else statement.</p>
+<pre class="r"><code>    Iter &lt;- 20
+    cumSumODDS &lt;- 0
+    cumSumEVENS &lt;- 0
+    for(i in 1:Iter){
+        if(i %% 2 == 1){
+            print(paste0(&quot;i=&quot;,i,&quot; is odd&quot;))
+            cumSumODDS = cumSumODDS + i
+        }else{
+            print(paste0(&quot;i=&quot;,i,&quot; is even&quot;))
+            cumSumEVENS = cumSumEVENS + i
+        }
+    }</code></pre>
+<pre><code>[1] &quot;i=1 is odd&quot;
+[1] &quot;i=2 is even&quot;
+[1] &quot;i=3 is odd&quot;
+[1] &quot;i=4 is even&quot;
+[1] &quot;i=5 is odd&quot;
+[1] &quot;i=6 is even&quot;
+[1] &quot;i=7 is odd&quot;
+[1] &quot;i=8 is even&quot;
+[1] &quot;i=9 is odd&quot;
+[1] &quot;i=10 is even&quot;
+[1] &quot;i=11 is odd&quot;
+[1] &quot;i=12 is even&quot;
+[1] &quot;i=13 is odd&quot;
+[1] &quot;i=14 is even&quot;
+[1] &quot;i=15 is odd&quot;
+[1] &quot;i=16 is even&quot;
+[1] &quot;i=17 is odd&quot;
+[1] &quot;i=18 is even&quot;
+[1] &quot;i=19 is odd&quot;
+[1] &quot;i=20 is even&quot;</code></pre>
+<pre class="r"><code>    cumSumEVENS</code></pre>
+<pre><code>[1] 110</code></pre>
+<pre class="r"><code>    cumSumODDS</code></pre>
+<pre><code>[1] 100</code></pre>
 </div>
+<div id="while-loop" class="section level2">
+<h2>While loop</h2>
+<p>A while loop can be thought of as a combination of a for loop and an
+if statement. Do until condition is true. In any iterative function, it
+is a good idea to a) have a progress indicator and b) have a fail
+safe.</p>
+<pre class="r"><code>    dummyVar &lt;- 0
+    iter &lt;- 0
+    while(dummyVar&lt;100){
+        dummyVar = dummyVar + 1
+        ## PROGRESS
+        if(dummyVar %% 5 == 0){
+            print(paste0(&quot;loop step=&quot;,dummyVar))
+        }
+        ## FAIL SAFE
+        if(iter&gt;50){
+            break
+        }else{
+            iter=iter+1
+        }
+    }</code></pre>
+<pre><code>[1] &quot;loop step=5&quot;
+[1] &quot;loop step=10&quot;
+[1] &quot;loop step=15&quot;
+[1] &quot;loop step=20&quot;
+[1] &quot;loop step=25&quot;
+[1] &quot;loop step=30&quot;
+[1] &quot;loop step=35&quot;
+[1] &quot;loop step=40&quot;
+[1] &quot;loop step=45&quot;
+[1] &quot;loop step=50&quot;</code></pre>
 </div>
-<div id="appendix-1-r-code" class="section level1">
-<h1>Appendix 1: R code</h1>
-<p>If you name the code chucks, it is easy to include code not really
-important to the main text but necessary as an Appendix. As you will see
-below, this is why I was overly “commenty” in my code. To do so, create
-a code chunk that starts like this:</p>
-<pre><code>{r Appendix, ref.label=c(&quot;setup&quot;,&quot;Problem1a&quot;,&quot;Problem1b&quot;,&quot;Problem2a&quot;), echo=TRUE, eval=FALSE, tidy=FALSE, include=T}</code></pre>
-<p>For instance:</p>
-<pre class="r"><code>##### 
-##### 
-##### Project setup #####
-##### 
-##### 
-##### 
-knitr::opts_chunk$set(collapse = TRUE)
-library(stargazer)
-library(knitr)
-##### 
-##### 
-##### 
-##### 
-##### Problem 1: Data summary #####
-##### output using kable
-##### 
-##### 
-kable(summary(cars), caption = &quot;Table 1: Quick summary of car data.&quot;)
-##### 
-##### 
-##### Problem 1: Quick lm #####
-##### output using Stargazer
-##### 
-##### 
-fit &lt;- lm(dist ~ speed, data = cars)
-stargazer(fit,header = F,type = &quot;html&quot;, title=&quot;Table 2: Output of dist~speed for cars data linear model&quot;)
-##### 
-##### 
-##### Problem 2: plot #####
-##### making a pie chart
-##### 
-#####  
-par(mar = c(0, 1, 0, 1))
-pie(
-  c(280, 60, 20),
-  c(&#39;Sky&#39;, &#39;Sunny side of pyramid&#39;, &#39;Shady side of pyramid&#39;),
-  col = c(&#39;#0292D8&#39;, &#39;#F7EA39&#39;, &#39;#C4B632&#39;),
-  init.angle = -50, border = NA
-)</code></pre>
+<div id="timing" class="section level2">
+<h2>Timing</h2>
+<p>As you start to make functions, it is a good idea to think about how
+long things take.</p>
+<p>Really good blog on this here: <a
+href="https://www.r-bloggers.com/5-ways-to-measure-running-time-of-r-code/"
+class="uri">https://www.r-bloggers.com/5-ways-to-measure-running-time-of-r-code/</a></p>
+<p>Consider the following code and timings:</p>
+<pre class="r"><code>    library(&quot;microbenchmark&quot;)
+    ##takes a vector and a value, determines if the elements of the vector are to the right/left
+    left_right1&lt;-function(x = c(0.1,0.9), bar = 0.5){
+        temp&lt;-NULL
+        for(i in seq_along(x)){
+            temp[i] &lt;- (x[i]&gt;bar)*1
+        }
+        return(temp)
+    }
+    left_right2 &lt;- function(x = c(0.1,0.9), bar = 0.5){
+        ifelse(x&gt;bar,1,0)
+    }
+    x1&lt;-rnorm(n = 50000,mean=0.5)
+    times&lt;-microbenchmark(result1&lt;-left_right1(x=x1),result2&lt;-left_right2(x=x1),times = 100, unit = &quot;ms&quot;,control=list(warmup=0))</code></pre>
+<pre><code>Warning in microbenchmark(result1 &lt;- left_right1(x = x1), result2 &lt;-
+left_right2(x = x1), : Could not measure overhead. Your clock might lack
+precision.</code></pre>
+</div>
+<div id="timings-plot" class="section level2">
+<h2>Timings plot</h2>
+<pre><code>Coordinate system already present. Adding new coordinate system, which will replace the existing one.</code></pre>
+<p><img src="figure/Week_2_Reproducible_research_Git_Good_Programming_Practices.Rmd/unnamed-chunk-7-1.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div id="bit-more-on-functions-in-r" class="section level2">
+<h2>Bit more on functions in R</h2>
+<p><a href="https://csgillespie.github.io/efficientR/programming.html"
+class="uri">https://csgillespie.github.io/efficientR/programming.html</a></p>
+<p>Everything in R is essentially a function call. Generally, this means
+at some point the function call will make a call to the underlying
+C/Fortran code.</p>
+<p>“A golden rule in R programming is to access the underlying C/Fortran
+routines as quickly as possible; the fewer functions calls required to
+achieve this, the better. For example, suppose <code>x</code> is a
+standard vector of length <code>n</code>. Then:”</p>
+</div>
+<div id="example" class="section level2">
+<h2>Example</h2>
+<pre class="r"><code>x = x + 1</code></pre>
+<p><em>has a single call to the <code>+</code></em> function,
+whereas:</p>
+<pre class="r"><code>for(i in seq_len(n)) 
+  x[i] = x[i] + 1</code></pre>
+<p>has:</p>
+<ul>
+<li><em>n</em> function calls to <em>+</em>;<br />
+</li>
+<li><em>n</em> function calls to the <em>[</em> function;<br />
+</li>
+<li><em>n</em> function calls to the <em>[&lt;-</em> function;<br />
+</li>
+<li>one call to the <em>for</em> function;<br />
+</li>
+<li>one call the the <em>seq_along</em> function.</li>
+</ul>
+<p>We will check this out in a bit.</p>
+</div>
+<div id="memory-allocation-method-1" class="section level2">
+<h2>Memory allocation – Method 1</h2>
+<p>Memory management is the Achilles’ heel of many programming
+languages. If we are careful in our programming, we can alleviate many
+of the issues.</p>
+<p>Consider the following examples given in Gillespie’s R Book:</p>
+<p>Method 1: create empty vector, grow vector to final size</p>
+<pre class="r"><code>method1 = function(n) {
+  vec = NULL # Or vec = c()
+  for(i in seq_len(n))
+    vec = c(vec, i)
+  vec
+}</code></pre>
+</div>
+<div id="memory-allocation-method-2" class="section level2">
+<h2>Memory allocation – Method 2</h2>
+<p>Method 2: create vector of final length and change values via
+subscripting</p>
+<pre class="r"><code>method2 = function(n) {
+  vec = numeric(n)
+  for(i in seq_len(n))
+    vec[i] = i
+  vec
+}</code></pre>
+</div>
+<div id="memory-allocation-method-3" class="section level2">
+<h2>Memory allocation – Method 3</h2>
+<p>Method 3: create final object directly</p>
+<pre class="r"><code>method3 = function(n) seq_len(n)</code></pre>
+<p>Thoughts on the 3 methods??</p>
+</div>
+<div id="memory-and-functions" class="section level2">
+<h2>Memory and functions</h2>
+<p>This topic is really intertwined with lexical scoping. The basic idea
+is that R manages objects by creating environments. Each environment is
+essentially a bag of names pointing to thier associated memory space.
+Creating a function, creates a new environment. The environment lives as
+long as the function is active.</p>
+<p><a href="http://adv-r.had.co.nz/Functions.html#lexical-scoping"
+class="uri">http://adv-r.had.co.nz/Functions.html#lexical-scoping</a><br />
+<a href="http://adv-r.had.co.nz/Environments.html"
+class="uri">http://adv-r.had.co.nz/Environments.html</a></p>
+<p>As you program in R more, you will want to pay special attention to
+memory management and function calls.</p>
+<p>– memory used<br />
+– speed issues</p>
+<p>look at memory size of objects look at memory use of R look at memory
+use of R during a function call with large object</p>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
@@ -1090,8 +1134,8 @@ Session information
 </button>
 </p>
 <div id="workflowr-sessioninfo" class="collapse">
-<pre class="r"><code>sessionInfo()
-R version 4.2.1 (2022-06-23)
+<pre class="r"><code>sessionInfo()</code></pre>
+<pre><code>R version 4.2.1 (2022-06-23)
 Platform: x86_64-apple-darwin17.0 (64-bit)
 Running under: macOS Big Sur ... 10.16
 
@@ -1106,19 +1150,23 @@ attached base packages:
 [1] stats     graphics  grDevices utils     datasets  methods   base     
 
 other attached packages:
-[1] knitr_1.38      stargazer_5.2.3
+[1] microbenchmark_1.4.9
 
 loaded via a namespace (and not attached):
- [1] Rcpp_1.0.8.3     pillar_1.7.0     compiler_4.2.1   bslib_0.3.1     
- [5] later_1.3.0      jquerylib_0.1.4  git2r_0.30.1     highr_0.9       
- [9] workflowr_1.7.0  tools_4.2.1      digest_0.6.29    jsonlite_1.8.0  
-[13] evaluate_0.15    lifecycle_1.0.1  tibble_3.1.6     pkgconfig_2.0.3 
-[17] rlang_1.0.2      cli_3.2.0        rstudioapi_0.13  yaml_2.3.5      
-[21] xfun_0.30        fastmap_1.1.0    stringr_1.4.0    fs_1.5.2        
-[25] vctrs_0.4.0      sass_0.4.1       rprojroot_2.0.3  glue_1.6.2      
-[29] R6_2.5.1         fansi_1.0.3      rmarkdown_2.13   magrittr_2.0.3  
-[33] whisker_0.4      promises_1.2.0.1 ellipsis_0.3.2   htmltools_0.5.2 
-[37] httpuv_1.6.5     utf8_1.2.2       stringi_1.7.6    crayon_1.5.1    </code></pre>
+ [1] Rcpp_1.0.8.3     highr_0.9        pillar_1.7.0     compiler_4.2.1  
+ [5] bslib_0.3.1      later_1.3.0      jquerylib_0.1.4  git2r_0.30.1    
+ [9] workflowr_1.7.0  tools_4.2.1      digest_0.6.29    gtable_0.3.0    
+[13] jsonlite_1.8.0   evaluate_0.15    lifecycle_1.0.1  tibble_3.1.6    
+[17] pkgconfig_2.0.3  rlang_1.0.2      DBI_1.1.2        cli_3.2.0       
+[21] rstudioapi_0.13  yaml_2.3.5       xfun_0.30        fastmap_1.1.0   
+[25] dplyr_1.0.8      stringr_1.4.0    knitr_1.38       generics_0.1.2  
+[29] fs_1.5.2         vctrs_0.4.0      sass_0.4.1       tidyselect_1.1.2
+[33] rprojroot_2.0.3  grid_4.2.1       glue_1.6.2       R6_2.5.1        
+[37] fansi_1.0.3      rmarkdown_2.13   farver_2.1.0     purrr_0.3.4     
+[41] ggplot2_3.3.5    magrittr_2.0.3   scales_1.1.1     promises_1.2.0.1
+[45] ellipsis_0.3.2   htmltools_0.5.2  assertthat_0.2.1 colorspace_2.0-3
+[49] httpuv_1.6.5     utf8_1.2.2       stringi_1.7.6    munsell_0.5.0   
+[53] crayon_1.5.1    </code></pre>
 </div>
 </div>
 
