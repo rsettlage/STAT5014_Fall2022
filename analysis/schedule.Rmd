@@ -38,7 +38,8 @@ WIP -- topics to consider --
 math and matrix ops in both languages base/matrix vs base/numpy/pandas  
 object oriented python  
 graphics - base-ggplot2-plotly-matplotlib-seaborn-plotnine-plotly  
-Data munging -- dplyr/tidyverse vs plydata/suiba/tidypandas/tidypolars/datar    
+Data import -- excel, json, plain text, yaml, webscraping  
+Data munging -- dplyr/tidyverse vs plydata/suiba/tidypandas/tidypolars/datar   -- what about SQL    
 text munging -- tidytext (https://analyticsindiamag.com/top-10-r-packages-for-natural-language-processing-nlp/) vs textblob,torch text,PySpark and Sparklinlp    
 Dashboards -- Shiny/Flexdashboard vs Dash  
 
