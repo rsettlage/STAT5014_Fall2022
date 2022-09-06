@@ -28,28 +28,44 @@ Suggested schedule, you can speed ahead.
 
 |Lecture | Date      | Topic
 |--------|:---------:|------------------------------------------------------------------ 
-|        |           | **MODULE 1 -- R Bootcamp for Reproducible Research**  
+|        |           | **MODULE 1 -- Reproducible Research, Good Programming Practices, Git and building a website**  
 |-       | 24-Aug    | No class  
-|1       | 31-Aug    | Introductions, R, Rstudio, Rmarkdown, LaTeX, Git and Reproducible Research
-|2	     |  7-Sep    | Data structures, plotting basics, Reproducible Research and (some) Git
-|3	     | 14-Sep*   | Base graphics, multi panel plots, and ggplot2  
+|1       | 31-Aug    | Introductions, R, Rstudio, Rmarkdown, LaTeX, Git and Reproducible Research  
+|2	     |  7-Sep    | Reproducible Research, Good Programming Practices, (some) Git, go through Sample Homework  
+|3	     | 14-Sep    | Building a website hosted on GitHub in Rstudio  
+
+WIP -- topics to consider -- 
+math and matrix ops in both languages base/matrix vs base/numpy/pandas  
+object oriented python  
+graphics - base-ggplot2-plotly-matplotlib-seaborn-plotnine-plotly  
+Data munging -- dplyr/tidyverse vs plydata/suiba/tidypandas/tidypolars/datar    
+text munging -- tidytext (https://analyticsindiamag.com/top-10-r-packages-for-natural-language-processing-nlp/) vs textblob,torch text,PySpark and Sparklinlp    
+Dashboards -- Shiny/Flexdashboard vs Dash  
+
+automation  
+ML in both languages -- Keras vs PyTorch (SciKitLearn?  mle4? others?)  
+TBD -- project choices  
+
+
+|Lecture | Date      | Topic  
+|--------|:---------:|------------------------------------------------------------------  
 |4	     | 21-Sep    | Formula interface and multi panel plots in ggplot2  
 |        |           | **MODULE 2 -- Munging and wrangling**
-|5	     | 28-Sep*   | Loading, munging, summarizing data using tidyverse 
+|5	     | 28-Sep    | Loading, munging, summarizing data using tidyverse 
 |6	     |  5-Oct    | R functions, logic, good programming practices
-|7	     | 12-Oct*   | R Vector/matrix manipulations and math, speed considerations
+|7	     | 12-Oct    | R Vector/matrix manipulations and math, speed considerations
 |        | 19-Oct    | No class  
 |8	     | 26-Oct    | R's Apply family of functions
-|9	     |  2-Nov*   | Parallel computing in R, parXapply, foreach and dopar
+|9	     |  2-Nov    | Parallel computing in R, parXapply, foreach and dopar
 |        |           | **MODULE 3 -- Working with others in R**  
 |10	     |  9-Nov    | Interactive Visualizations, FlexDashboards and Automation
-|11	     | 10-Nov*   | Automation, Shiny, and GUIs for working with collaborators  
+|11	     | 10-Nov    | Automation, Shiny, and GUIs for working with collaborators  
 |        |           | **MODULE 4 -- Deep Learning and some Python**  
 |- 	     | 16-Nov    | No class  
 |12	     | 23-Nov    | Deep Learning using Keras in R 
 |-	     | 30-Nov    | No class -- Thanksgiving  
-|13	     |  7-Dec*   | Python and Jupyter Notebooks  
-|14	     | 14-Dec*   | More Python (Final projects due)  
+|13	     |  7-Dec    | Python and Jupyter Notebooks  
+|14	     | 14-Dec    | More Python (Final projects due)  
 |-       | ------    | Final -- none  
 
 

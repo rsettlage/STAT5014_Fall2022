@@ -31,7 +31,7 @@ library(knitr)
 
 This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
 
-You can embed an R code chunk like this, note that `kable` makes REALLY nice tables with ZERO effort as seen in Table 1.  Don't just print output to consol, use kable!!  In my opinion, including code to create tables in-line is a detraction, this is simple to show you how easy it is to do it.  Code that is relevant to the problem should be included, code that is for display or as a summary, should be omitted in-line and it is up to you on if it should be included in an Appendix.
+You can embed an R code chunk like this, note that `kable` makes REALLY nice tables with ZERO effort as seen in Table 1.  Don't just print output to consol, use kable!!  In my opinion, including code to create tables in-line is a detraction, this is simply to show you how easy it is to do it.  Code that is relevant to the problem should be included, code that is for display or as a summary, should be omitted in-line and it is up to you on if it should be included in an Appendix.
 
 ```{r Problem1a}
 ##### 
@@ -81,7 +81,13 @@ pie(
 
 # Appendix 1: R code
 
-If you name the code chucks, it is easy to include code not really important to the main text but necessary as an Appendix.  As you will see below, this is why I was overly "commenty" in my code.  For instance:
+If you name the code chucks, it is easy to include code not really important to the main text but necessary as an Appendix.  As you will see below, this is why I was overly "commenty" in my code.  To do so, create a code chunk that starts like this:
+
+```
+{r Appendix, ref.label=c("setup","Problem1a","Problem1b","Problem2a"), echo=TRUE, eval=FALSE, tidy=FALSE, include=T}
+```
+
+For instance:
 
 ```{r Appendix, ref.label=c("setup","Problem1a","Problem1b","Problem2a"), echo=TRUE, eval=FALSE, tidy=FALSE, include=T}
   

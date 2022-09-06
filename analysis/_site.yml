@@ -14,7 +14,7 @@ navbar:
       - text: "Week 1"
         href: Week_1_Introductions_Reproducible_Research_R.html
       - text: "Week 2"
-        href: Week_2_Data_structures_Reproducible_research_Git.html
+        href: Week_2_Reproducible_research_Git_Good_Programming_Practices.html
       - text: "Week 3"
         href: Week_3_Base_graphics_Mulitpanel_plots_GGplot2.html
       - text: "Week 4"
