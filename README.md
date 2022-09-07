@@ -7,3 +7,4 @@ A [workflowr][] project.
 [Stat5014]: https://rsettlage.github.io/STAT5014_Fall2022/
 [workflowr]: https://github.com/jdblischak/workflowr
 # STAT5014_Fall2022 
+as an example
