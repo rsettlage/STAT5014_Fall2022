@@ -1,0 +1,174 @@
+---
+title:  'Reproducible Research, (some) Git, Good Programming Practices, go through Sample Homework'
+author: "Robert Settlage"
+date: "2021-09-12"
+output: workflowr::wflow_html
+editor_options:
+  chunk_output_type: console
+header-includes: \setlength\parindent{24pt} \usepackage{MnSymbol} \usepackage{mathrsfs}
+---
+
+## Today's Agenda
+
+- Review the concepts of Reproducible Research  
+- Review Good Programming Practices  
+- Go through Sample Homework 
+- Review Git  
+ 
+  
+## Reproducible Research - Review
+
+This IS (always) the scenario:  
+You had worked 6 months to analyze a data set.  Someone else analyzes the data and comes to *different* conclusions.  How good are your notes???
+
+Answer: **_Awesome, because you annotated your code with text to create a RR compendium_**
+
+## Reproducible Research - Concepts
+**_Basically just switching the role of code and comments in writing software_**
+
+Guide to this topic here: 
+<http://ropensci.github.io/reproducibility-guide/>
+
+In general, we should **weave** code and text into a complete reference of our work.  The document should:
+
+- download or otherwise load/generate data
+- reproduce steps to munge data
+- recreate analysis steps
+- create figures and tables
+- explain any and all steps along the way
+- end with conclusions drawn
+- optionally add suggestions for future experiments  
+
+## Check out Sample Homework  
+
+<https://rsettlage.github.io/STAT5014_Fall2022/SampleHomework.html>  
+
+
+## Back to Reproducible Research Analysis
+
+From Hadley Wickham & Garrett Grolemund's R for Data Science  
+<http://r4ds.had.co.nz>  
+![Data Science Pipeline](./figure/data-science-pipeline.png)  
+
+## Good Programming Practices
+
+Most analysis will require some amount of programming (scripting).  As we program, we should strive to create readable and reusable code.  The art of creating good code is captured in the broad and opinionated topic of Good Programming Practices.  You will devolop your own style, but it would be good to start with some guidance from some experts.  
+
+Google's R Style Guide <https://google.github.io/styleguide/Rguide.xml>  
+Hadley Wickam's Style Guide: <http://adv-r.had.co.nz/Style.html>  
+
+## Good Programming Practices cont
+
+Remember: ultimate goal is Reproducible Research.  
+To enable this, we need well documented (annotated) _**readable**_ code.
+
+1. variable/object names  
+    + nouns describing what the object holds, e.g. originaData instead of d  
+    + DO NOT use existing variables or functions, e.g. T<-1000
+2. function formation  
+    + function names should be verb associated with the function purpose  
+    + comment both function purpose and required arguments    
+    + arguments should have defaults (my personal preference)
+    + my preference is to explicitly return a value  
+3. commenting rules  
+    + comment your code!!  'nough said?  
+4. indent within logical blocks of code !!
+    + indenting improves the readability of the code by orders of magnitude!  
+
+## Version Control  
+
+What is version control - a system for storing data and tracking changes.   
+
+- Why should I use version control?  
+<http://stackoverflow.com/questions/1408450/why-should-i-use-version-control>
+- R and version control for the solo data analyst  
+<http://stackoverflow.com/questions/2712421/r-and-version-control-for-the-solo-data-analyst>
+
+Thoughts or comments??
+
+## Version Control and Git
+
+Git is essentially a database of snapshots of the project directory tree.  You decide when and what to take snapshots of and if you using GitHub (or similar) when to push a copy to a remote repository.
+
+The basic workflow is:  
+
+1. git **pull**  
+2. **do work**  
+3. git **pull** to make sure you have latest files
+4. git **add** *\<your changed file\>* tells git what change you care about  
+5. git **commit** -m "some INFORMATIVE message about the changes"  
+6. git **push** to the repository (local or remote)  
+7. repeat  
+
+When in doubt, try git **status** to get, well, the local repo status  
+
+
+## Websites in (R)Markdown
+
+Here, we will build a personal website using R/Rmarkdown.
+
+Some packages:
+
++ blogdown  
++ distillr  
++ workflowr  
++ portfoliodown  
++ quarto  
+
+## blogdown
+
+https://bookdown.org/yihui/blogdown/
+
+## workflowr  
+
+https://workflowr.github.io/workflowr/index.html
+https://stephens999.github.io/fiveMinuteStats/
+
+
+## portfoliodown
+https://business-science.github.io/portfoliodown/articles/getting-started-portfoliodown.html
+
+## distillr
+
+https://rstudio.github.io/distill/
+https://rstudio.github.io/distill/website.html
+blog or website?
+
+## Quarto
+
+https://www.apreshill.com/blog/2022-04-we-dont-talk-about-quarto/
+https://blog.djnavarro.net/posts/2022-04-20_porting-to-quarto/#deploying-the-site
+
+https://quarto.org/docs/websites/
+https://quarto.org/docs/publishing/github-pages.html
+   
+
+## Step 1  
+
+We are going to host on GitHub, so start by making a new repo on GitHub.  We want this to be our personal website, so we need to name it special in order for GitHub to publish it correctly.
+
+On Github, new repo and name it using your GitHub user name like so:  
+YOUR_USERNAME.github.io
+
+For me, that is `rsettlage.github.io`
+
+Go ahead and add a README.md with a title and text in it.  
+
+Also, we need to add a file called `.nojekyll` to the base of the repo so that GitHub doesn't re-render our website.  Go ahead and do that from the GitHub interface.  NOTE: yes, it starts with a "." dot.
+
+## Step 2
+
+Within the repo, you need to tell GitHub to publish the page.
+
++ Go to settings for the repo  
++ left hand side, choose `Pages`  
++ Source should be changed to "Deploy from a branch"  
++ then choose master and docs (may be main instead of master)  
+
+
+
+
+
+
+
+
