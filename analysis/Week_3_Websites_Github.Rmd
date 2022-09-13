@@ -117,46 +117,56 @@ Some packages:
 
 ## blogdown
 
-https://bookdown.org/yihui/blogdown/
+https://bookdown.org/yihui/blogdown/  
 
 ## workflowr  
 
-https://workflowr.github.io/workflowr/index.html
-https://stephens999.github.io/fiveMinuteStats/
+https://workflowr.github.io/workflowr/index.html  
+https://stephens999.github.io/fiveMinuteStats/  
 
 
 ## portfoliodown
-https://business-science.github.io/portfoliodown/articles/getting-started-portfoliodown.html
+https://business-science.github.io/portfoliodown/articles/getting-started-portfoliodown.html  
 
 ## distillr
 
-https://rstudio.github.io/distill/
-https://rstudio.github.io/distill/website.html
+https://rstudio.github.io/distill/  
+https://rstudio.github.io/distill/website.html  
+
 blog or website?
+
+Basically the same with a blog building a set of post cards from a directory of blog posts.  
 
 ## Quarto
 
-https://www.apreshill.com/blog/2022-04-we-dont-talk-about-quarto/
-https://blog.djnavarro.net/posts/2022-04-20_porting-to-quarto/#deploying-the-site
+https://www.apreshill.com/blog/2022-04-we-dont-talk-about-quarto/  
+https://blog.djnavarro.net/posts/2022-04-20_porting-to-quarto/#deploying-the-site   
 
-https://quarto.org/docs/websites/
-https://quarto.org/docs/publishing/github-pages.html
+https://quarto.org/docs/websites/  
+https://quarto.org/docs/publishing/github-pages.html  
    
 
-## Step 1  
+## Step 1 - create repo with README and .nojekyll   
 
-We are going to host on GitHub, so start by making a new repo on GitHub.  We want this to be our personal website, so we need to name it special in order for GitHub to publish it correctly.
+We are going to host our static site on GitHub, so start by making a new repo on GitHub.  We want this to be our personal website, so we need to name it special in order for GitHub to publish it correctly.
 
-On Github, new repo and name it using your GitHub user name like so:  
++ On Github, new repo and name it using your GitHub user name like so:  
 YOUR_USERNAME.github.io
 
 For me, that is `rsettlage.github.io`
 
-Go ahead and add a README.md with a title and text in it.  
++ Go ahead and add a README.md and add a link to the future website, for me, for instance:  
+[rsettlage.github.io](https://rsettlage.github.io)
 
-Also, we need to add a file called `.nojekyll` to the base of the repo so that GitHub doesn't re-render our website.  Go ahead and do that from the GitHub interface.  NOTE: yes, it starts with a "." dot.
++ Also, we need to add a file called `.nojekyll` to the base of the repo so that GitHub doesn't re-render our website.  Go ahead and do that from the GitHub interface.  NOTE: yes, it starts with a "." dot.  
 
-## Step 2
++ finally, add a `.gitignore` with the following lines:
+```
+/.quarto/
+/_site/
+```
+
+## Step 2 - configure repo to publish 
 
 Within the repo, you need to tell GitHub to publish the page.
 
@@ -164,11 +174,92 @@ Within the repo, you need to tell GitHub to publish the page.
 + left hand side, choose `Pages`  
 + Source should be changed to "Deploy from a branch"  
 + then choose master and docs (may be main instead of master)  
++ note, we have set GitHub to publish from within the `docs` folder, so that is where our rendered html should land.  
 
+![Source](./figure/Deploy_choice.png)  
 
+![Branch](./figure/Branch.png)
 
+## Step 3  - clone repo to local computer  
 
+In the terminal:  
+```
+git clone git@github.com:rsettlage/rsettlage.github.io.git
+```
 
+## Step 4 - choose a R package to do the dev in
 
+I am going to use Quarto.  Two reasons:
 
+1. I haven't used it before, so should be an interesting test  
+2. It is supposedly language agnostic, ie, you can render in R or Python and others  
+(3. unverified, but looks like you can embed dynamic widgets, so super cool...)
 
+https://quarto.org/docs/get-started/  
+
+Steps:
+a. download and install  
+b. choose Rstudio  
+c. download the `hello.qmd`  
+d. click render and enjoy success  
+
+## Step 5 - start your Quarto website  
+
+In the terminal:  
+
+```
+cd rsettlage.github.io
+quarto create-project ./ --type website
+```
+
+## Step 6 - Edit '_quarto.yml'
+
+We need to at least tell Quarto we want the rendered site to go into the `docs` folder so that it is compatible with GitHub.  To do so, edit the `_quarto.yml` file.
+
+Add the third line to the project section as below:  
+
+```
+project:
+  type: website
+  output-dir: docs
+```
+
+Note, this is a `yml` file.  They are super readable and VERY picky.  The alignment of the options is critical and needs to be spaces, NOT tabs.  PITA, but, be happy it isn't json.
+
+## Step 7 - Preview site  
+
+This is a live preview and change, pretty awesome actually.
+
+In terminal, type:  
+```
+quarto preview ./
+```
+
+Open up the `about.qmd` file, change something and save it.
+
+## Step 8 - Render the site, then push to GitHub
+
+```
+quarto render ./
+git add .
+git commit -m "going live"
+git push
+```
+
+Now go to your site (could take a min or two) as in the readme.
+
+https://rsettlage.github.io  
+
+There are a whole bunch of options for render/publishing, for now, I am listing them as super cool sounding but I don't yet have as experience, see the docs:
+https://quarto.org/docs/publishing/github-pages.html  
+
+## Next steps:
+
++ choose a theme  
++ add links to your stuff: LinkedIn, GitHub, GoogleScholar, ...  
++ choose a way to highlight your projects, looks like a "listing" is how they handle blogs  
++ add more pages
+
+https://quarto.org/docs/output-formats/html-themes.html  
+https://quarto.org/docs/reference/projects/websites.html   
+https://quarto.org/docs/websites/website-navigation.html   
