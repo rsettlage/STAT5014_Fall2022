@@ -209,7 +209,7 @@ In the terminal:
 
 ```
 cd rsettlage.github.io
-quarto create-project ./ --type website
+quarto create-project ./ --type website:blog
 ```
 
 ## Step 6 - Edit '_quarto.yml'
