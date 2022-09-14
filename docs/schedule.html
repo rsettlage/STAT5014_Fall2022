@@ -459,7 +459,7 @@ div.tocify {
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
 <span class="glyphicon glyphicon-list" aria-hidden="true"></span>
-workflowr <span class="glyphicon glyphicon-ok text-success"
+workflowr <span class="glyphicon glyphicon-exclamation-sign text-danger"
 aria-hidden="true"></span>
 </button>
 </p>
@@ -470,8 +470,8 @@ aria-hidden="true"></span>
 </li>
 <li>
 <a data-toggle="tab" href="#checks"> Checks <span
-class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
-</a>
+class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span> </a>
 </li>
 <li>
 <a data-toggle="tab" href="#versions">Past versions</a>
@@ -480,13 +480,13 @@ class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2022-09-07
+<strong>Last updated:</strong> 2022-09-14
 </p>
 <p>
 <strong>Checks:</strong> <span
-class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 2
+class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 1
 <span class="glyphicon glyphicon-exclamation-sign text-danger"
-aria-hidden="true"></span> 0
+aria-hidden="true"></span> 1
 </p>
 <p>
 <strong>Knit directory:</strong> <code>STAT5014_Fall2022_website/</code>
@@ -509,33 +509,36 @@ versions</em> tab lists the development history.
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguptodate">
-<span class="glyphicon glyphicon-ok text-success"
-aria-hidden="true"></span> <strong>R Markdown file:</strong> up-to-date
-</a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguncommittedchanges">
+<span class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span> <strong>R Markdown file:</strong> uncommitted
+changes </a>
 </p>
 </div>
-<div id="strongRMarkdownfilestronguptodate"
+<div id="strongRMarkdownfilestronguncommittedchanges"
 class="panel-collapse collapse">
 <div class="panel-body">
-<p>Great! Since the R Markdown file has been committed to the Git
-repository, you know the exact version of the code that produced these
-results.</p>
+<p>The R Markdown file has unstaged changes. To know which version of
+the R Markdown file created these results, you’ll want to first commit
+it to the Git repo. If you’re still working on the analysis, you can
+ignore this warning. When you’re finished, you can run
+<code>wflow_publish</code> to commit the R Markdown file and build the
+HTML.</p>
 </div>
 </div>
 </div>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomrsettlageSTAT5014Fall2022tree2c228db8d40c2312a303fe4c0d4028d3e590acaetargetblank2c228dba">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomrsettlageSTAT5014Fall2022tree8597a74fe381df401f59053ae2a4f4b7f5d995bbtargetblank8597a74a">
 <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span> <strong>Repository version:</strong>
-<a href="https://github.com/rsettlage/STAT5014_Fall2022/tree/2c228db8d40c2312a303fe4c0d4028d3e590acae" target="_blank">2c228db</a>
+<a href="https://github.com/rsettlage/STAT5014_Fall2022/tree/8597a74fe381df401f59053ae2a4f4b7f5d995bb" target="_blank">8597a74</a>
 </a>
 </p>
 </div>
 <div
-id="strongRepositoryversionstrongahrefhttpsgithubcomrsettlageSTAT5014Fall2022tree2c228db8d40c2312a303fe4c0d4028d3e590acaetargetblank2c228dba"
+id="strongRepositoryversionstrongahrefhttpsgithubcomrsettlageSTAT5014Fall2022tree8597a74fe381df401f59053ae2a4f4b7f5d995bbtargetblank8597a74a"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -545,7 +548,7 @@ reproducibility.
 </p>
 <p>
 The results in this page were generated with repository version
-<a href="https://github.com/rsettlage/STAT5014_Fall2022/tree/2c228db8d40c2312a303fe4c0d4028d3e590acae" target="_blank">2c228db</a>.
+<a href="https://github.com/rsettlage/STAT5014_Fall2022/tree/8597a74fe381df401f59053ae2a4f4b7f5d995bb" target="_blank">8597a74</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -572,6 +575,9 @@ Untracked files:
     Untracked:  data/
     Untracked:  output/
     Untracked:  staging/
+
+Unstaged changes:
+    Modified:   analysis/schedule.Rmd
 
 </code></pre>
 <p>
@@ -617,6 +623,23 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/rsettlage/STAT5014_Fall2022/61261f531ea265eea57bb7e7046a1c0be1fd18da/docs/schedule.html" target="_blank">61261f5</a>
+</td>
+<td>
+rsettlag
+</td>
+<td>
+2022-09-07
+</td>
+<td>
+schedule update
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -843,97 +866,70 @@ through Sample Homework</td>
 <td align="center">14-Sep</td>
 <td>Building a website hosted on GitHub in Rstudio</td>
 </tr>
-</tbody>
-</table>
-<p>WIP – topics to consider – math and matrix ops in both languages
-base/matrix vs base/numpy/pandas<br />
-object oriented python<br />
-graphics - base-ggplot2-plotly-matplotlib-seaborn-plotnine-plotly<br />
-Data import – (my)sql, excel, json, plain text, yaml, web scraping<br />
-Data munging – dplyr/tidyverse vs
-plydata/suiba/tidypandas/tidypolars/datar – what about SQL<br />
-text munging – tidytext (<a
-href="https://analyticsindiamag.com/top-10-r-packages-for-natural-language-processing-nlp/"
-class="uri">https://analyticsindiamag.com/top-10-r-packages-for-natural-language-processing-nlp/</a>)
-vs textblob,torch text,PySpark and Sparklinlp<br />
-Dashboards – Shiny/Flexdashboard vs Dash</p>
-<p>automation<br />
-ML in both languages – Keras vs PyTorch (SciKitLearn? mle4?
-others?)<br />
-TBD – project choices</p>
-<table>
-<colgroup>
-<col width="9%" />
-<col width="12%" />
-<col width="77%" />
-</colgroup>
-<thead>
-<tr class="header">
-<th>Lecture</th>
-<th align="center">Date</th>
-<th>Topic</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>4</td>
-<td align="center">21-Sep</td>
-<td>Formula interface and multi panel plots in ggplot2</td>
-</tr>
 <tr class="even">
 <td></td>
 <td align="center"></td>
-<td><strong>MODULE 2 – Munging and wrangling</strong></td>
+<td><strong>MODULE 2 – Basics, munging, wrangling, factors, graphics and
+scaling</strong></td>
 </tr>
 <tr class="odd">
+<td>4</td>
+<td align="center">21-Sep</td>
+<td>graphics -
+base-ggplot2-plotly-matplotlib-seaborn-plotnine-plotly</td>
+</tr>
+<tr class="even">
 <td>5</td>
 <td align="center">28-Sep</td>
-<td>Loading, munging, summarizing data using tidyverse</td>
-</tr>
-<tr class="even">
-<td>6</td>
-<td align="center">5-Oct</td>
-<td>R functions, logic, good programming practices</td>
+<td>Data import – (my)sql, excel, json, plain text, yaml, web
+scraping</td>
 </tr>
 <tr class="odd">
-<td>7</td>
-<td align="center">12-Oct</td>
-<td>R Vector/matrix manipulations and math, speed considerations</td>
+<td>6</td>
+<td align="center">5-Oct</td>
+<td>math and matrix ops in both languages base/matrix vs
+base/numpy/pandas</td>
 </tr>
 <tr class="even">
+<td>7</td>
+<td align="center">12-Oct</td>
+<td>Data munging – dplyr/tidyverse vs
+plydata/suiba/tidypandas/tidypolars/datar</td>
+</tr>
+<tr class="odd">
 <td></td>
 <td align="center">19-Oct</td>
 <td>No class</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td>8</td>
 <td align="center">26-Oct</td>
-<td>R’s Apply family of functions</td>
+<td>factors (forcats)</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td>9</td>
 <td align="center">2-Nov</td>
-<td>Parallel computing in R, parXapply, foreach and dopar</td>
-</tr>
-<tr class="odd">
-<td></td>
-<td align="center"></td>
-<td><strong>MODULE 3 – Working with others in R</strong></td>
+<td>R’s Apply family of functions and Parallel computing in R,
+parXapply, foreach and dopar</td>
 </tr>
 <tr class="even">
+<td></td>
+<td align="center"></td>
+<td><strong>MODULE 3 – Fun with text, ML and automation</strong></td>
+</tr>
+<tr class="odd">
 <td>10</td>
 <td align="center">9-Nov</td>
-<td>Interactive Visualizations, FlexDashboards and Automation</td>
-</tr>
-<tr class="odd">
-<td>11</td>
-<td align="center">10-Nov</td>
-<td>Automation, Shiny, and GUIs for working with collaborators</td>
+<td>ML in both languages – Keras vs PyTorch (SciKitLearn? mle4?
+others?)</td>
 </tr>
 <tr class="even">
-<td></td>
-<td align="center"></td>
-<td><strong>MODULE 4 – Deep Learning and some Python</strong></td>
+<td>11</td>
+<td align="center">10-Nov</td>
+<td>text munging – tidytext (<a
+href="https://analyticsindiamag.com/top-10-r-packages-for-natural-language-processing-nlp/"
+class="uri">https://analyticsindiamag.com/top-10-r-packages-for-natural-language-processing-nlp/</a>)
+vs textblob,torch text,PySpark and Sparklinlp</td>
 </tr>
 <tr class="odd">
 <td>-</td>
@@ -941,26 +937,31 @@ TBD – project choices</p>
 <td>No class</td>
 </tr>
 <tr class="even">
+<td></td>
+<td align="center"></td>
+<td><strong>MODULE 4 – Automation, Shiny and SQL</strong></td>
+</tr>
+<tr class="odd">
 <td>12</td>
 <td align="center">23-Nov</td>
-<td>Deep Learning using Keras in R</td>
+<td>Automation, Shiny, and GUIs for working with collaborators</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td>-</td>
-<td align="center">30-Nov</td>
+<td align="center">30-Nov*</td>
 <td>No class – Thanksgiving</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td>13</td>
 <td align="center">7-Dec</td>
-<td>Python and Jupyter Notebooks</td>
-</tr>
-<tr class="odd">
-<td>14</td>
-<td align="center">14-Dec</td>
-<td>More Python (Final projects due)</td>
+<td>SQL basics</td>
 </tr>
 <tr class="even">
+<td>14</td>
+<td align="center">14-Dec*</td>
+<td>SQL intermediate</td>
+</tr>
+<tr class="odd">
 <td>-</td>
 <td align="center">——</td>
 <td>Final – none</td>
