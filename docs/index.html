@@ -13,7 +13,7 @@
 
 <title>Home</title>
 
-<script src="site_libs/header-attrs-2.13/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.16/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
@@ -153,11 +153,15 @@ $(document).ready(function () {
     href = "index.html";
   var menuAnchor = $('a[href="' + href + '"]');
 
-  // mark it active
-  menuAnchor.tab('show');
-
-  // if it's got a parent navbar menu mark it active as well
-  menuAnchor.closest('li.dropdown').addClass('active');
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
 
   // Navbar adjustments
   var navHeight = $(".navbar").first().height() + 15;
@@ -280,7 +284,7 @@ $(document).ready(function () {
       <a href="Week_2_Reproducible_research_Git_Good_Programming_Practices.html">Week 2</a>
     </li>
     <li>
-      <a href="Week_3_Base_graphics_Mulitpanel_plots_GGplot2.html">Week 3</a>
+      <a href="Week_3_Websites_Github.html">Week 3</a>
     </li>
     <li>
       <a href="Week_4_formula_interface_multipanel_ggplot2_plots.html">Week 4</a>
@@ -400,7 +404,7 @@ class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2022-09-06
+<strong>Last updated:</strong> 2022-09-14
 </p>
 <p>
 <strong>Checks:</strong> <span
@@ -409,8 +413,9 @@ class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 2
 aria-hidden="true"></span> 0
 </p>
 <p>
-<strong>Knit directory:</strong> <code>STAT5014_Fall2022_website/</code>
-<span class="glyphicon glyphicon-question-sign" aria-hidden="true"
+<strong>Knit directory:</strong>
+<code>~/Projects/STAT5014_Fall2022/</code> <span
+class="glyphicon glyphicon-question-sign" aria-hidden="true"
 title="This is the local directory in which the code in this file was executed.">
 </span>
 </p>
@@ -447,15 +452,15 @@ results.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomrsettlageSTAT5014Fall2022treeca0b32a0daf8ce5d44b003fb465cd8c705e03fd3targetblankca0b32aa">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomrsettlageSTAT5014Fall2022treeb4e25f4fb9b0150853d2f51d36e39d5d8b66c3d5targetblankb4e25f4a">
 <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span> <strong>Repository version:</strong>
-<a href="https://github.com/rsettlage/STAT5014_Fall2022/tree/ca0b32a0daf8ce5d44b003fb465cd8c705e03fd3" target="_blank">ca0b32a</a>
+<a href="https://github.com/rsettlage/STAT5014_Fall2022/tree/b4e25f4fb9b0150853d2f51d36e39d5d8b66c3d5" target="_blank">b4e25f4</a>
 </a>
 </p>
 </div>
 <div
-id="strongRepositoryversionstrongahrefhttpsgithubcomrsettlageSTAT5014Fall2022treeca0b32a0daf8ce5d44b003fb465cd8c705e03fd3targetblankca0b32aa"
+id="strongRepositoryversionstrongahrefhttpsgithubcomrsettlageSTAT5014Fall2022treeb4e25f4fb9b0150853d2f51d36e39d5d8b66c3d5targetblankb4e25f4a"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -465,7 +470,7 @@ reproducibility.
 </p>
 <p>
 The results in this page were generated with repository version
-<a href="https://github.com/rsettlage/STAT5014_Fall2022/tree/ca0b32a0daf8ce5d44b003fb465cd8c705e03fd3" target="_blank">ca0b32a</a>.
+<a href="https://github.com/rsettlage/STAT5014_Fall2022/tree/b4e25f4fb9b0150853d2f51d36e39d5d8b66c3d5" target="_blank">b4e25f4</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -480,23 +485,13 @@ were generated:
 </p>
 <pre><code>
 Ignored files:
-    Ignored:    .DS_Store
-    Ignored:    .Rhistory
-    Ignored:    .Rproj.user/
     Ignored:    analysis/Week_2_Reproducible_research_Git_Good_Programming_Practices_cache/
 
-Untracked files:
-    Untracked:  STAT5014_Fall2022_website.Rproj
-    Untracked:  Syllabus.pdf
-    Untracked:  code/
-    Untracked:  data/
-    Untracked:  output/
-    Untracked:  staging/
-
 Unstaged changes:
-    Modified:   analysis/SampleHomework.Rmd
+    Modified:   analysis/Week_2_Reproducible_research_Git_Good_Programming_Practices.Rmd
+
+Staged changes:
     Modified:   analysis/_site.yml
-    Modified:   analysis/schedule.Rmd
 
 </code></pre>
 <p>
@@ -541,6 +536,23 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/rsettlage/STAT5014_Fall2022/c1d50a1ce8efb61e1478bc0e1e7de9fba1b472ee/docs/index.html" target="_blank">c1d50a1</a>
+</td>
+<td>
+rsettlag
+</td>
+<td>
+2022-09-06
+</td>
+<td>
+week 2d
+</td>
+</tr>
 <tr>
 <td>
 html

@@ -15,7 +15,7 @@
 
 <title>Reproducible Research, (some) Git, Good Programming Practices, go through Sample Homework</title>
 
-<script src="site_libs/header-attrs-2.13/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.16/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
@@ -158,11 +158,15 @@ $(document).ready(function () {
     href = "index.html";
   var menuAnchor = $('a[href="' + href + '"]');
 
-  // mark it active
-  menuAnchor.tab('show');
-
-  // if it's got a parent navbar menu mark it active as well
-  menuAnchor.closest('li.dropdown').addClass('active');
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
 
   // Navbar adjustments
   var navHeight = $(".navbar").first().height() + 15;
@@ -358,7 +362,7 @@ div.tocify {
       <a href="Week_2_Reproducible_research_Git_Good_Programming_Practices.html">Week 2</a>
     </li>
     <li>
-      <a href="Week_3_Base_graphics_Mulitpanel_plots_GGplot2.html">Week 3</a>
+      <a href="Week_3_Websites_Github.html">Week 3</a>
     </li>
     <li>
       <a href="Week_4_formula_interface_multipanel_ggplot2_plots.html">Week 4</a>
@@ -481,17 +485,18 @@ aria-hidden="true"></span> </a>
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2022-09-06
+<strong>Last updated:</strong> 2022-09-12
 </p>
 <p>
 <strong>Checks:</strong> <span
-class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 5
+class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6
 <span class="glyphicon glyphicon-exclamation-sign text-danger"
-aria-hidden="true"></span> 2
+aria-hidden="true"></span> 1
 </p>
 <p>
-<strong>Knit directory:</strong> <code>STAT5014_Fall2022_website/</code>
-<span class="glyphicon glyphicon-question-sign" aria-hidden="true"
+<strong>Knit directory:</strong>
+<code>~/Projects/STAT5014_Fall2022/</code> <span
+class="glyphicon glyphicon-question-sign" aria-hidden="true"
 title="This is the local directory in which the code in this file was executed.">
 </span>
 </p>
@@ -519,10 +524,10 @@ changes </a>
 <div id="strongRMarkdownfilestronguncommittedchanges"
 class="panel-collapse collapse">
 <div class="panel-body">
-<p>The R Markdown is untracked by Git. To know which version of the R
-Markdown file created these results, you’ll want to first commit it to
-the Git repo. If you’re still working on the analysis, you can ignore
-this warning. When you’re finished, you can run
+<p>The R Markdown file has unstaged changes. To know which version of
+the R Markdown file created these results, you’ll want to first commit
+it to the Git repo. If you’re still working on the analysis, you can
+ignore this warning. When you’re finished, you can run
 <code>wflow_publish</code> to commit the R Markdown file and build the
 HTML.</p>
 </div>
@@ -584,25 +589,16 @@ versions is critical for reproducibility.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongCachestrongdetected">
-<span class="glyphicon glyphicon-exclamation-sign text-danger"
-aria-hidden="true"></span> <strong>Cache:</strong> detected </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongCachestrongnone">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Cache:</strong> none </a>
 </p>
 </div>
-<div id="strongCachestrongdetected" class="panel-collapse collapse">
+<div id="strongCachestrongnone" class="panel-collapse collapse">
 <div class="panel-body">
-The following chunks had caches available:
-<ul>
-<li>
-unnamed-chunk-3
-</li>
-</ul>
-<p>To ensure reproducibility of the results, delete the cache directory
-<code>Week_2_Reproducible_research_Git_Good_Programming_Practices_cache</code>
-and re-run the analysis. To have workflowr automatically delete the
-cache directory prior to building the file, set <code>delete_cache =
-TRUE</code> when running <code>wflow_build()</code> or
-<code>wflow_publish()</code>.</p>
+<p>Nice! There were no cached chunks for this analysis, so you can be
+confident that you successfully produced the results during this
+run.</p>
 </div>
 </div>
 </div>
@@ -624,15 +620,15 @@ project makes it easier to run your code on other machines.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomrsettlageSTAT5014Fall2022tree9402cd63e0b6bfd193a86fc835ae699060ee3b75targetblank9402cd6a">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomrsettlageSTAT5014Fall2022tree24268448bb6b15e26334a9dec65adf808725dc4ctargetblank2426844a">
 <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span> <strong>Repository version:</strong>
-<a href="https://github.com/rsettlage/STAT5014_Fall2022/tree/9402cd63e0b6bfd193a86fc835ae699060ee3b75" target="_blank">9402cd6</a>
+<a href="https://github.com/rsettlage/STAT5014_Fall2022/tree/24268448bb6b15e26334a9dec65adf808725dc4c" target="_blank">2426844</a>
 </a>
 </p>
 </div>
 <div
-id="strongRepositoryversionstrongahrefhttpsgithubcomrsettlageSTAT5014Fall2022tree9402cd63e0b6bfd193a86fc835ae699060ee3b75targetblank9402cd6a"
+id="strongRepositoryversionstrongahrefhttpsgithubcomrsettlageSTAT5014Fall2022tree24268448bb6b15e26334a9dec65adf808725dc4ctargetblank2426844a"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -642,7 +638,7 @@ reproducibility.
 </p>
 <p>
 The results in this page were generated with repository version
-<a href="https://github.com/rsettlage/STAT5014_Fall2022/tree/9402cd63e0b6bfd193a86fc835ae699060ee3b75" target="_blank">9402cd6</a>.
+<a href="https://github.com/rsettlage/STAT5014_Fall2022/tree/24268448bb6b15e26334a9dec65adf808725dc4c" target="_blank">2426844</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -656,24 +652,12 @@ depends on. Below is the status of the Git repository when the results
 were generated:
 </p>
 <pre><code>
-Ignored files:
-    Ignored:    .DS_Store
-    Ignored:    .Rhistory
-    Ignored:    .Rproj.user/
-    Ignored:    analysis/Week_2_Reproducible_research_Git_Good_Programming_Practices_cache/
-
 Untracked files:
-    Untracked:  STAT5014_Fall2022_website.Rproj
-    Untracked:  Syllabus.pdf
-    Untracked:  analysis/Week_2_Reproducible_research_Git_Good_Programming_Practices.Rmd
-    Untracked:  code/
-    Untracked:  data/
-    Untracked:  output/
-    Untracked:  staging/
+    Untracked:  analysis/Week_3_Websites_Github.Rmd
 
 Unstaged changes:
+    Modified:   analysis/Week_2_Reproducible_research_Git_Good_Programming_Practices.Rmd
     Modified:   analysis/_site.yml
-    Modified:   analysis/schedule.Rmd
 
 </code></pre>
 <p>
@@ -688,10 +672,76 @@ have uncommitted changes.
 <hr>
 </div>
 <div id="versions" class="tab-pane fade">
+
 <p>
-There are no past versions. Publish this analysis with
-<code>wflow_publish()</code> to start tracking its development.
+These are the previous versions of the repository in which changes were
+made to the R Markdown
+(<code>analysis/Week_2_Reproducible_research_Git_Good_Programming_Practices.Rmd</code>)
+and HTML
+(<code>docs/Week_2_Reproducible_research_Git_Good_Programming_Practices.html</code>)
+files. If you’ve configured a remote Git repository (see
+<code>?wflow_git_remote</code>), click on the hyperlinks in the table
+below to view the files as they were in that past version.
 </p>
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+File
+</th>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+<th>
+Message
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/rsettlage/STAT5014_Fall2022/blob/ca0b32a0daf8ce5d44b003fb465cd8c705e03fd3/analysis/Week_2_Reproducible_research_Git_Good_Programming_Practices.Rmd" target="_blank">ca0b32a</a>
+</td>
+<td>
+rsettlag
+</td>
+<td>
+2022-09-06
+</td>
+<td>
+adding week 2
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/rsettlage/STAT5014_Fall2022/ca0b32a0daf8ce5d44b003fb465cd8c705e03fd3/docs/Week_2_Reproducible_research_Git_Good_Programming_Practices.html" target="_blank">ca0b32a</a>
+</td>
+<td>
+rsettlag
+</td>
+<td>
+2022-09-06
+</td>
+<td>
+adding week 2
+</td>
+</tr>
+</tbody>
+</table>
+</div>
 <hr>
 </div>
 </div>
@@ -795,7 +845,7 @@ yet<br />
 commit snapshot</li>
 </ul>
 <div class="figure">
-<img src="../figure/git_file_lifecycle.png" alt="" />
+<img src="./figure/git_file_lifecycle.png" alt="" />
 <p class="caption">Git file lifecycle</p>
 </div>
 </div>
@@ -805,7 +855,7 @@ commit snapshot</li>
 Science<br />
 <a href="http://r4ds.had.co.nz"
 class="uri">http://r4ds.had.co.nz</a><br />
-<img src="../figure/data-science-pipeline.png"
+<img src="./figure/data-science-pipeline.png"
 alt="Data Science Pipeline" /></p>
 </div>
 </div>
@@ -819,9 +869,8 @@ would be good to start with some guidance from some experts.</p>
 <p>Google’s R Style Guide <a
 href="https://google.github.io/styleguide/Rguide.xml"
 class="uri">https://google.github.io/styleguide/Rguide.xml</a><br />
-Hadley Wickam’s Style Guide: <a
-href="http://r-pkgs.had.co.nz/style.html"
-class="uri">http://r-pkgs.had.co.nz/style.html</a></p>
+Hadley Wickam’s Style Guide: <a href="http://adv-r.had.co.nz/Style.html"
+class="uri">http://adv-r.had.co.nz/Style.html</a></p>
 </div>
 <div id="good-programming-practices-cont" class="section level2">
 <h2>Good Programming Practices cont</h2>
@@ -1039,11 +1088,51 @@ class="uri">https://www.r-bloggers.com/5-ways-to-measure-running-time-of-r-code/
 <pre><code>Warning in microbenchmark(result1 &lt;- left_right1(x = x1), result2 &lt;-
 left_right2(x = x1), : Could not measure overhead. Your clock might lack
 precision.</code></pre>
+<pre><code>Warning in microbenchmark(result1 &lt;- left_right1(x = x1), result2 &lt;-
+left_right2(x = x1), : less accurate nanosecond times to avoid potential integer
+overflows</code></pre>
 </div>
 <div id="timings-plot" class="section level2">
 <h2>Timings plot</h2>
 <pre><code>Coordinate system already present. Adding new coordinate system, which will replace the existing one.</code></pre>
 <p><img src="figure/Week_2_Reproducible_research_Git_Good_Programming_Practices.Rmd/unnamed-chunk-7-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-7-1">
+Past versions of unnamed-chunk-7-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-7-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/rsettlage/STAT5014_Fall2022/blob/ca0b32a0daf8ce5d44b003fb465cd8c705e03fd3/docs/figure/Week_2_Reproducible_research_Git_Good_Programming_Practices.Rmd/unnamed-chunk-7-1.png" target="_blank">ca0b32a</a>
+</td>
+<td>
+rsettlag
+</td>
+<td>
+2022-09-06
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="bit-more-on-functions-in-r" class="section level2">
 <h2>Bit more on functions in R</h2>
@@ -1136,12 +1225,12 @@ Session information
 <div id="workflowr-sessioninfo" class="collapse">
 <pre class="r"><code>sessionInfo()</code></pre>
 <pre><code>R version 4.2.1 (2022-06-23)
-Platform: x86_64-apple-darwin17.0 (64-bit)
-Running under: macOS Big Sur ... 10.16
+Platform: aarch64-apple-darwin20 (64-bit)
+Running under: macOS Monterey 12.4
 
 Matrix products: default
-BLAS:   /Library/Frameworks/R.framework/Versions/4.2/Resources/lib/libRblas.0.dylib
-LAPACK: /Library/Frameworks/R.framework/Versions/4.2/Resources/lib/libRlapack.dylib
+BLAS:   /Library/Frameworks/R.framework/Versions/4.2-arm64/Resources/lib/libRblas.0.dylib
+LAPACK: /Library/Frameworks/R.framework/Versions/4.2-arm64/Resources/lib/libRlapack.dylib
 
 locale:
 [1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
@@ -1153,20 +1242,20 @@ other attached packages:
 [1] microbenchmark_1.4.9
 
 loaded via a namespace (and not attached):
- [1] Rcpp_1.0.8.3     highr_0.9        pillar_1.7.0     compiler_4.2.1  
- [5] bslib_0.3.1      later_1.3.0      jquerylib_0.1.4  git2r_0.30.1    
- [9] workflowr_1.7.0  tools_4.2.1      digest_0.6.29    gtable_0.3.0    
-[13] jsonlite_1.8.0   evaluate_0.15    lifecycle_1.0.1  tibble_3.1.6    
-[17] pkgconfig_2.0.3  rlang_1.0.2      DBI_1.1.2        cli_3.2.0       
-[21] rstudioapi_0.13  yaml_2.3.5       xfun_0.30        fastmap_1.1.0   
-[25] dplyr_1.0.8      stringr_1.4.0    knitr_1.38       generics_0.1.2  
-[29] fs_1.5.2         vctrs_0.4.0      sass_0.4.1       tidyselect_1.1.2
-[33] rprojroot_2.0.3  grid_4.2.1       glue_1.6.2       R6_2.5.1        
-[37] fansi_1.0.3      rmarkdown_2.13   farver_2.1.0     purrr_0.3.4     
-[41] ggplot2_3.3.5    magrittr_2.0.3   scales_1.1.1     promises_1.2.0.1
-[45] ellipsis_0.3.2   htmltools_0.5.2  assertthat_0.2.1 colorspace_2.0-3
-[49] httpuv_1.6.5     utf8_1.2.2       stringi_1.7.6    munsell_0.5.0   
-[53] crayon_1.5.1    </code></pre>
+ [1] Rcpp_1.0.9       highr_0.9        pillar_1.8.1     compiler_4.2.1  
+ [5] bslib_0.4.0      later_1.3.0      jquerylib_0.1.4  git2r_0.30.1    
+ [9] workflowr_1.7.0  tools_4.2.1      digest_0.6.29    gtable_0.3.1    
+[13] jsonlite_1.8.0   evaluate_0.16    lifecycle_1.0.1  tibble_3.1.8    
+[17] pkgconfig_2.0.3  rlang_1.0.5      DBI_1.1.3        cli_3.4.0       
+[21] rstudioapi_0.14  yaml_2.3.5       xfun_0.32        fastmap_1.1.0   
+[25] dplyr_1.0.10     stringr_1.4.1    knitr_1.40       generics_0.1.3  
+[29] fs_1.5.2         vctrs_0.4.1      sass_0.4.2       tidyselect_1.1.2
+[33] grid_4.2.1       rprojroot_2.0.3  glue_1.6.2       R6_2.5.1        
+[37] fansi_1.0.3      rmarkdown_2.16   farver_2.1.1     purrr_0.3.4     
+[41] ggplot2_3.3.6    magrittr_2.0.3   whisker_0.4      scales_1.2.1    
+[45] promises_1.2.0.1 codetools_0.2-18 htmltools_0.5.3  assertthat_0.2.1
+[49] colorspace_2.0-3 httpuv_1.6.5     utf8_1.2.2       stringi_1.7.8   
+[53] munsell_0.5.0    cachem_1.0.6    </code></pre>
 </div>
 </div>
 

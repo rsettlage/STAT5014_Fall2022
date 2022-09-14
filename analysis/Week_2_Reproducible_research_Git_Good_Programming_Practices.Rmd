@@ -76,20 +76,20 @@ When in doubt, try git **status** to get, well, the local repo status
 - Modified - file is changed but not committed it to your database yet  
 - Staged - a modified file in its current version will go in next commit snapshot
 
-![Git file lifecycle](../figure/git_file_lifecycle.png)
+![Git file lifecycle](./figure/git_file_lifecycle.png)
 
 ### Back to Reproducible Research Analysis
 
 From Hadley Wickham & Garrett Grolemund's R for Data Science  
 <http://r4ds.had.co.nz>  
-![Data Science Pipeline](../figure/data-science-pipeline.png)  
+![Data Science Pipeline](./figure/data-science-pipeline.png)  
 
 ## Good Programming Practices
 
 Most analysis will require some amount of programming (scripting).  As we program, we should strive to create readable and reusable code.  The art of creating good code is captured in the broad and opinionated topic of Good Programming Practices.  You will devolop your own style, but it would be good to start with some guidance from some experts.  
 
 Google's R Style Guide <https://google.github.io/styleguide/Rguide.xml>  
-Hadley Wickam's Style Guide: <http://r-pkgs.had.co.nz/style.html>  
+Hadley Wickam's Style Guide: <http://adv-r.had.co.nz/Style.html>  
 
 ## Good Programming Practices cont
 

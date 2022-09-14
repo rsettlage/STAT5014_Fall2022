@@ -16,7 +16,7 @@ navbar:
       - text: "Week 2"
         href: Week_2_Reproducible_research_Git_Good_Programming_Practices.html
       - text: "Week 3"
-        href: Week_3_Base_graphics_Mulitpanel_plots_GGplot2.html
+        href: Week_3_Websites_Github.html
       - text: "Week 4"
         href: Week_4_formula_interface_multipanel_ggplot2_plots.html
       - text: "Week 5"
