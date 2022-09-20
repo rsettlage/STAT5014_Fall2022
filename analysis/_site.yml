@@ -18,7 +18,7 @@ navbar:
       - text: "Week 3"
         href: Week_3_Websites_Github.html
       - text: "Week 4"
-        href: Week_4_formula_interface_multipanel_ggplot2_plots.html
+        href: Week_4_Plots_using_ggplot2_plotly_more.html
       - text: "Week 5"
         href: Week_5_wrangling_munging_tidying.html
       - text: "Week 6"

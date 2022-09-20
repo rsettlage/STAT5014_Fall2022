@@ -23,7 +23,7 @@ You had worked 6 months to analyze a data set.  Someone else analyzes the data a
 
 Answer: **_Awesome, because you annotated your code with text to create a RR compendium_**
 
-## Reproducible Research - Concepts
+### Reproducible Research - Concepts
 **_Basically just switching the role of code and comments in writing software_**
 
 Guide to this topic here: 

@@ -1,0 +1,575 @@
+---
+title:  'Plotting using ggplot2 and plotly in R (Python = matplotlib, seaborn, plotnine, plotly)'
+author: "Robert Settlage"
+date: "2022-09-20"
+output: workflowr::wflow_html
+editor_options:
+  chunk_output_type: console
+header-includes: \setlength\parindent{24pt} \usepackage{MnSymbol} \usepackage{mathrsfs}
+---
+
+## Today's Agenda
+
+- Review and extend Git by adding branch, pull origin main
+- ggplot2  
+- plotly
+- Python variants matplotlib, seaborn, plotnine, plotly
+
+## Extending Git by using git branch
+
+Git is essentially a database of snapshots of the project directory tree.  
+
+The basic workflow is:  
+
+1. git **pull**  
+2. **do work**  
+3. git **pull** to make sure you have latest files
+4. git **add** *\<your changed file\>* tells git what change you care about  
+5. git **commit** -m "some INFORMATIVE message about the changes"  
+6. git **push** to the repository (local or remote)  
+7. repeat  
+
+### Now lets add a branch.
+
+```
+git branch mynewstuff  
+echo "\nadd a new line or two\n" >>README.md
+cat README.md
+git switch mynewstuff  
+cat README.md
+```
+
+What happened?  How do we fix it?
+
+### git pull
+
+```
+git pull
+git pull origin main
+cat README.md
+```
+
+Why is this cool?
+
+
+
+
+## Data wrangling
+
+Data wrangling or munging is the process of going from raw to useful data.  This is often ~80% of the time spent on a project.  Steps may include any or all of the following:
+
++----------+-------------------------+
+| Step     | Examples                |
++==========+=========================+
+| Import   | - read.table(html,json) |
++----------+-------------------------+
+| Clean    | - filter and subset     |
+|          | - standardize           |
+|          | - renaming              |
+|          | - type conversions      |
++----------+-------------------------+
+| Reformat | - merging               |
+|          | - reshaping             |
+|          | - aggregating           |
++----------+-------------------------+
+
+
+### Data wrangling -- getting data 
+
+- load internal dataset 
+```{r echo=T, eval=F}
+    library(help = "datasets")
+    ?PlantGrowth
+```
+- copy and paste  
+- load file  
+    + local  
+    + web  
+```{r echo=T, eval=F}
+    ?read.table; ?read.csv
+    url<-"http://www2.isye.gatech.edu/~jeffwu/wuhamadabook/data/onewaymuzzle.dat"
+    chp2_muzzle<-read.table(url,header=T)
+    #google "how to get data into R"
+```
+- generate data
+```{r echo=T, eval=F}
+    set.seed(123456)
+    coin_flips<-rbinom(n = 1000,size = 1, prob = .501)
+```
+
+### Data importing -- good practices
+
+If you are getting data from the internet, it is a good idea to protect against:
+
+1. data source being down  
+2. data source being changed  
+3. other unknown issues  
+
+I generally pull the data down, then save the data to an .Rds file.  My project includes:  
+
+1. commented code used to pull data down  
+2. commented code used to save data  
+3. code to read data into R from the saved file  
+4. AND often project image files as mid-stream checkpoints
+
+
+### Data wrangling - cleaning  
+
+Getting data into R is *__usually__* not the problem, often the fun starts when we start to actually look at what we were given.  Common issues:  
+
+issue | examples
+:-----|:-------
+missing values | recorded as "-", "NA","0"
+jagged arrays | missing fields  
+inconsistent data coding | 2017-01-22 vs 01-22-2017 vs Jan 22, 2017
+line termination | platform inconsistencies
+field delimiter issues | csv has data values that use commas  
+  
+
+And pretty much any other issue you might imagine.
+
+### Data wrangling - summarizing and tables
+
+A quick way to see if there are issues with the data is to create a summary of the data. There are many useful metrics to capture, BUT, at a high level, here we really are most concerned with metrics associated with the data structure, i.e. number of observations, missing values, data types etc.  R has a function for that...  :)  
+
+```{r echo=T,eval=F}
+    ?str
+    ?summary
+    str(iris)
+    summary(iris)
+```
+
+
+### Data wrangling - reformatting/standardizing
+
+Now that we have the data in R, we need to get it into a useable format.  One idea for a set of standards for structuring a data set is to create a so called "tidy" data set.
+
+<http://vita.had.co.nz/papers/tidy-data.html>
+
+Essentially, we need to reformat the data such that:  
+
+1. Each variable forms a column.  
+2. Each observation forms a row.  
+3. Each type of observational unit forms a table.  
+
+Any other structure to the data is considered messy.  Sound easy?  
+
+### Data wrangling - reformatting 
+
+OK, what is wrong with this? 
+```{r, echo=F, eval=T}
+    messy_data1_df<-data.frame(treatmenta=c("NA",16,3),treatmentb=c(2,11,1),row.names=c("John Smith","Jane Doe","Mary Johnson"),stringsAsFactors=F)
+    knitr::kable(messy_data1_df,format = "markdown", caption="Messy Data")
+```
+  
+What we want is something more akin to a model:  
+
+$$
+y_i = \beta_1 x_{i1} + \beta_2 x_{i2} ...
+$$
+
+*Going to give this topic more time when we talk though using the tidyverse and pipes*
+
+To print the table in a document, we have several options.  My current favorites are kable and stargazer.  Other community tools include **Pander** and **xtable**.
+
+### Data wrangling -- other wrangling tasks
+
+dplyr is another package by Hadley Wickam.  As a practicing data scientist, he has a good feel for what functions we would like to see.
+
+A few data processing goals enabled in dplyr
+
+1. data summarizing  
+2. subsetting by observation  
+3. subsetting variables  
+4. creating new variables  
+5. grouping data  
+6. combining data  
+
+*look at Data Wrangling Cheatsheet*
+
+### Data wrangling -- quick plot summaries
+
+Sometimes, a picture really is worth a 1000 words.
+
+```{r boxexample, echo=F, include=T, eval=T, fig.width=6, fig.height=4}
+    library(beeswarm)
+    sex <- (runif(1000)>0.5)*1
+    drug_duration <- sex*0.1 + rnorm(1000, 0, 0.1) + 5
+    drug_info <- data.frame(cbind(drug_duration,sex))
+    drug_info$id <- ifelse(drug_info$sex==0,"M","F")
+    par(mfcol=c(1,2))
+    boxplot(drug_info$drug_duration)
+    beeswarm(drug_duration,add=T, pch=20, cex=0.3)
+    boxplot(drug_duration~id,drug_info)
+    beeswarm(drug_duration~id,drug_info, add=T, pch=20, cex=0.3)
+```
+
+### Data wrangling -- another quick plot
+
+```{r lcng_implementation, echo=F,eval=T,results='asis', fig.width=6, fig.height=4}
+    library(scatterplot3d)
+    new_lcng_number<-function(last,current_mult,
+                              current_increment,current_modulus){
+        temp<-(current_mult*last+current_increment) %% current_modulus
+        return(temp)
+    }
+
+    par(mfcol=c(1,2),mai=c(0.1,0.1,0.1,0.1))
+    a<-1.9;c<-1;m<-3;x2_0<-5  ## with a pattern in 3D
+    t_obsevs=3*1000+2
+    lcng2a<-data.frame(matrix(x2_0,nrow=t_obsevs,ncol=2))
+    for(i in 3:t_obsevs){
+        lcng2a[i,1]<-new_lcng_number(lcng2a[i-1,1],a,c,m)
+        lcng2a[i,2]<-i%%3
+    }
+    lcng2a<-lcng2a[-c(1:2),]
+    scatterplot3d(x=lcng2a[lcng2a$X2==0,1],y=lcng2a[lcng2a$X2==1,1],z=lcng2a[lcng2a$X2==2,1],pch=20,axis = F)
+    a<-11.9;c<-1;m<-3;x2_0<-5 ## no OBVIOUS pattern in 3D
+    t_obsevs=3*1000+2
+    lcng2a<-data.frame(matrix(x2_0,nrow=t_obsevs,ncol=2))
+    for(i in 3:t_obsevs){
+        lcng2a[i,1]<-new_lcng_number(lcng2a[i-1,1],a,c,m)
+        lcng2a[i,2]<-i%%3
+    }
+    lcng2a<-lcng2a[-c(1:2),]
+    scatterplot3d(x=lcng2a[lcng2a$X2==0,1],y=lcng2a[lcng2a$X2==1,1],z=lcng2a[lcng2a$X2==2,1],pch=20, axis=F)
+    
+
+```
+
+## Data wranging -- common plots
+
+1. histogram
+2. box plot vs violin plot
+3. scatter plot
+4. pie chart, ...
+
+*don't forget color and shape as dimensions*
+
+## Exploratory Data Analysis (EDA)
+
+Data exploration is the process of learning your data.
+
+Free book (in Rbookdown with pay options): <https://leanpub.com/exdata>
+
+In my experience, plots are crucial in learning about your data.  I make A LOT of plots when I get a dataset.  Plots can also be very helpful in assumption checking.  The more factors you have, the more difficult it is to come up with a single (meaningful) plot that gives you a useful view into the data.
+
+Free course:
+<https://www.udacity.com/course/data-analysis-with-r--ud651>
+
+"Exploratory data analysis is an approach for summarizing and visualizing the important characteristics of a data set. Promoted by *John Tukey*, exploratory data analysis focuses on exploring data to understand the data’s underlying structure and variables, to develop intuition about the data set, to consider how that data set came into existence, and to decide how it can be investigated with more formal statistical methods."
+
+Velleman, Paul and Hoaglin, David (1981), The ABC's of EDA: Applications, Basics, and Computing of Exploratory Data Analysis, Duxbury.
+
+### NIST and EDA
+
+<http://www.itl.nist.gov/div898/handbook/eda/eda.htm>
+
+1. what is typical value  
+2. what is uncertainty for typical value  
+3. what is a good distribution for the set of numbers  
+4. what is the relationship between factors  
+5. what are the most important factors  
+6. is there a structure to the data  
+7. are there outliers  
+
+### NIST comments on assumptions for measurement processes
+
+1. random drawings  
+2. fixed distribution  
+3. distribution has fixed location  
+4. distribution has fixed variation  
+
+Univariate or single response variable leads to this model:  
+`response = constant + error`
+
+Which then gives this set of assumptions
+
++ data are uncorrelated 
++ random component has a fixed distribution  
++ deterministic component is a constant  
++ random component has a fixed variation  
+
+### Useful functions and tools to explore data
+
+1. dim()  
+2. str()  
+3. summary()  
+4. mean, sd, is.na, complete.cases, range
+5. summaryBY (aggregate)
+6. scatter plot, hist (plus rug), barplot, boxplot, violin plots, pie
+7. qqplot, qplot, ggplot2, pairs
+8. ordination and PCA plots
+9. hive, circular, network plots
+10. dendrograms, heatmaps, etc etc
+
+### EDA on a single variable
+
+Generally, on a single variable, we would be interested in:
+
+1. basic summary statistics (count, mean, sd, etc)  
+2. data issues (missing data, formatting errors, outliers)  
+3. distribution of data
+
+histograms, boxplots, transformations, word clouds
+
+### EDA on two variables
+
+When we get to two variables, we add to our single variable list, learning about any relationships between the variables.
+
+scatter plots, correlations, conditional means
+
+### EDA on multiple variables
+
+Again, all the above, but now we need more tools to visualize in higher dimension or dimensional reduction techniques.
+
+color, shape, PCA, ordination, network graphs
+
+### Example EDA
+
+This blog is a little commercial for my taste, BUT, he does a great job at EDA imo:
+
+<http://sharpsightlabs.com/blog/line-chart-ggplot2-amzn/?utm_source=ssl_email_primary&utm_medium=email&utm_campaign=newsletter>
+
+
+## Plot inspiration
+
+<http://www.r-graph-gallery.com>
+
+<https://flowingdata.com/2016/03/22/comparing-ggplot2-and-r-base-graphics/>  
+<https://simplystatistics.org/2016/02/11/why-i-dont-use-ggplot2/>  
+<http://varianceexplained.org/r/why-I-use-ggplot2/>  
+
+*Julia*  
+<http://docs.juliaplots.org/latest/>
+
+## Multipanel plots
+
+I personally find these the most rewarding, but most time consuming plots.  I often end up doing them in base R because -I- find the layout easier for me to understand.   
+
+Consider a Base R 3 panel plot showing density of a scatter plot in the margins.
+
+```{r multipanel_plot, echo=F, eval=T, include=T, out.height=290, out.width=290, fig.align="center"}
+    knitr::include_graphics("./figure/base_multipanel.png")
+
+```
+
+### Multipanel base plot
+
+How do we get to the above?  -- We manipulate the canvas.
+
+This site has everything needed to make fantastic plots using base functions:
+
+<https://www.statmethods.net/advgraphs/layout.html>
+
+### Multipanel base plot example
+
+<https://r-charts.com/base-r/combining-plots/>
+
+```{r multipanel_example, echo=T, eval=T, include=T}
+# Data
+set.seed(6)
+x <- rexp(50)
+
+layout(matrix(c(2, 0, 1, 3), nrow = 2, ncol = 2, byrow = TRUE),
+       widths = c(3, 1),
+       heights  = c(1, 3), respect = TRUE)
+
+# Top and right margin of the main plot
+par(mar = c(5.1, 4.1, 0, 0))
+plot(x, cex=2, pch=20)
+
+# Left margin of the histogram
+par(mar = c(0, 4.1, 0, 0))
+hist(x, main = "", bty = "n", axes = FALSE, ylab = "")
+
+# Bottom margin of the boxplot
+par(mar = c(5.1, 0, 0, 0))
+
+# Boxplot without plot region box
+par(bty = "n")
+
+# Boxplot without axes
+boxplot(x, axes = FALSE)
+```
+
+### Margins are the key
+
+https://www.r-graph-gallery.com/74-margin-and-oma-cheatsheet.html
+
+```{r margins, echo=TRUE, include=TRUE, eval=TRUE}
+# Margins area
+par(oma=c(3,3,3,3)) # all sides have 3 lines of space
+par(mar=c(5,4,4,2) + 0.1)
+
+# Plot
+plot(0:10, 0:10, type="n", xlab="X", ylab="Y") # type="n" hides the points
+
+# Place text in the plot and color everything plot-related red
+text(5,5, "Plot", col="red", cex=2)
+box(col="red")
+
+# Place text in the margins and label the margins, all in forestgreen  
+mtext("Margins", side=3, line=2, cex=2, col="forestgreen")  
+mtext("par(mar=c(b,l,t,r))", side=3, line=1, cex=1, col="forestgreen")  
+mtext("Line 0", side=3, line=0, adj=1.0, cex=1, col="forestgreen")  
+mtext("Line 1", side=3, line=1, adj=1.0, cex=1, col="forestgreen")  
+mtext("Line 2", side=3, line=2, adj=1.0, cex=1, col="forestgreen")  
+mtext("Line 3", side=3, line=3, adj=1.0, cex=1, col="forestgreen")  
+box("figure", col="forestgreen")  
+ 
+# Label the outer margin area and color it blue  
+# Note the 'outer=TRUE' command moves us from the figure margins to the outer margins.  
+mtext("Outer Margin Area", side=1, line=1, cex=2, col="blue", outer=TRUE)  
+mtext("par(oma=c(b,l,t,r))", side=1, line=2, cex=1, col="blue", outer=TRUE)  
+mtext("Line 0", side=1, line=0, adj=0.0, cex=1, col="blue", outer=TRUE)  
+mtext("Line 1", side=1, line=1, adj=0.0, cex=1, col="blue", outer=TRUE)  
+mtext("Line 2", side=1, line=2, adj=0.0, cex=1, col="blue", outer=TRUE)  
+box("outer", col="blue") 
+```
+
+### Elements of a good figure | EDA stage
+
+1. simple to create  
+2. shows only what you need it to
+3. doesn't take a lot of explaination  
+4. YOU are the primary audience (at first)  
+5. has enough detail to give insight
+
+### Elements of a good figure | Publication stage
+
+1. ok, wow factor  
+2. shows only what you need it to  
+3. draws the reader in  
+4. invokes inquiry  
+5. is fully self contained with legend AND caption 
+6. simple is GENERALLY better (meaning less factors in play)  
+7. all these rules are out the window for art
+
+General good advice:  
+<http://jaoa.org/article.aspx?articleid=2094515>  
+Figure caption specifics:  
+<https://www.physics.ohio-state.edu/~wilkins/writing/Handouts/fig-captions.html>  
+How to lie with charts:  
+<https://flowingdata.com/2017/02/09/how-to-spot-visualization-lies/>
+
+### Elements of a good figure | specifics
+
+<https://flowingdata.com/2010/07/22/7-basic-rules-for-making-charts-and-graphs/>
+
+1. EDA stage, stay simple and investigate oddities
+    + outliers, typos, interesting features   
+2. make a legend if needed (ie you used colors, shapes, etc for a factor) 
+3. label axes
+4. include units  
+5. keep geometry in check  
+    + area of circle or square, size of bubble
+6. always include sources  
+7. keep your audience in mind  
+
+"To put it simply: tell your story clearly and communicate the data accurately."
+
+![Reading order](./figure/reading_order.png)
+
+## Remember -- Good practices note
+
+If you are getting data from the internet, it is a good idea to protect against:
+
+1. data source being down  
+2. data source being changed  
+3. other unknown issues  
+
+I generally pull the data down, then save the data to a .Rds file.  My project includes:  
+
+1. commented code used to pull data down  
+2. commented code used to save data  
+3. code to read data into R from the saved file  
+4. AND often project image files as mid-stream checkpoints
+
+## Basic R data structures
+
+- vector
+- matrices (and arrays)
+- data frame
+- list
+
+## Vectors
+
+Vectors are data structures containing 1 or more elements of the same type.  R knows about **logical, numeric (integer and double), character**, complex and raw.  For instance:
+
+```{r eval=F, include=T, echo=T}
+v<-1  
+v<-c(1,2)  
+v<-c("a","b")
+```
+
+Note 1: a scalar is a vector  
+Note 2: v<-c("a",1) may not do what you want.  
+
+try: typeof(v), str(v), or class(v)  
+
+## Matrices
+
+Matrices are the two dimensional version of vectors.  All elements are of the same type.  Arrays are the multi-dimensional equivalent to matrices, but are actually vectors.
+
+```{r eval=F, include=T, echo=T}
+y<-matrix(LETTERS,nrow = 13)
+rnames<-c(1:13)
+cnames<-c("odds","evens")
+y<-matrix(LETTERS,nrow = 13,byrow = T, dimnames=list(rnames,cnames))
+z<-array(1:12,c(3,2,2))
+str(z)
+```
+
+## Data Frames (and data tables)
+
+Data frames are generic matrices meaning they can hold data of different types (by column).
+
+```{r eval=F, include=T, echo=T}
+# ?data.frame
+L3 <- LETTERS[1:3]
+fac <- sample(L3, 10, replace = TRUE)
+(d <- data.frame(x = 1, y = 1:10, fac = fac))
+```
+
+## Lists
+
+Often, we need to have collections of mixed object types.
+
+Lists are unordered collections of objects.  These can be useful in creating complex data types.
+
+```{r eval=F, include=T, echo=T}
+name<-c("jack","jill","joe","jenny")
+ages<-c(6,7,8,9)
+people<-list(name=name,ages=ages)
+people<-list()
+people[["jack"]]<-data.frame(age=6,married="T",spouse="jill")
+people[["jill"]]<-data.frame(age=6,married="T",spouse="jack")
+people[["joe"]]<-data.frame(age=6,married="F")
+```
+
+## ggplot2
+
+Another Hadley Wickam creation.  Lot's of love/hate for it.  I mostly like it.  I find a few types of plots are SUPER simple via ggplot2 that might be very time consuming in base graphics.  I also find that I spend more time in customizing away the ggplot look if I am trying to make a figure for a pub.
+
+<https://www.sharpsightlabs.com/blog/geom_line/?utm_source=ssl_email_primary&utm_medium=email&utm_campaign=newsletter>
+
+The basic idea is that creating figures is a step wise process of building a plot.  
+
+1. you need data  
+2. you need a mapping of data to the plot features  
+3. you need a graphical object  
+
+You mix these and wallah!!
+
+## Example
+
+```{r ggplot_mtcars, echo=TRUE, eval=TRUE, include=TRUE}
+library(ggplot2)
+ggplot(data=mtcars, aes(x=mpg, y=disp)) + geom_line()
+```
+
+## Next up
+
++ formula interface    
++ Homework 3
