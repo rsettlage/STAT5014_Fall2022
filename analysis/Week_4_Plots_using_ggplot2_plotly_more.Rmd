@@ -9,6 +9,7 @@ header-includes: \setlength\parindent{24pt} \usepackage{MnSymbol} \usepackage{ma
 ---
 
 ```{r echo=TRUE, include=FALSE}
+knitr::opts_knit$set(root.dir = "/Users/rsettlag/Projects/STAT5014_Fall2022")
 library(palmerpenguins)
 library(tidyverse)
 library(ggplot2)
@@ -37,7 +38,7 @@ The basic workflow is:
 6. git **push** to the repository (local or remote)  
 7. repeat  
 
-### Now lets add a branch -- DONT do this at home
+### Now lets add a branch -- DONT change the main branch readme at home
 
 ```
 git branch mynewstuff  
@@ -288,6 +289,13 @@ fig
 
 ## Python time
 
+IMO, there are really two ways to use python in Rstudio, both using the Reticulate package.  We can:  
+
+1. jump into a Python kernel and do what we want using native Python commands  
+2. stay in R and use Python **through** R
+
+Setup Reticulate, Python and Conda env:  
+
 ```{r}
 # install.packages("reticulate")
 ## from terminal -- could do this via reticulate functions as in:
@@ -304,26 +312,68 @@ plt <- import('matplotlib.pyplot')
 pd <- import('pandas')
 ```
 
-```{r include=TRUE}
+```{python}
+import matplotlib.pyplot as plt
+import pandas as pd
+from palmerpenguins import load_penguins
+penguins = load_penguins()
+plt.figure(figsize=(17,10))
+plt.scatter(penguins['bill_length_mm'], penguins['bill_depth_mm'], c=penguins['body_mass_g'],alpha=0.7,cmap = 'gnuplot2')
+#plt.title('Weight vs Height with color gradient representing Brozek',fontsize=25)
+#plt.xlabel('Weight', fontsize=20)
+#plt.ylabel('Height', fontsize=20)
+plt.grid(True)
+cb= plt.colorbar()
+cb.set_label('bodymass', fontsize=20)
+#plt.show()
+plt.savefig('./docs/figure/matplotlib_test.jpg')
+```
+![matplotlib](./figure/matplotlib_test.jpg)
+
+```{r seaborn_plt, include=TRUE, eval=TRUE}
 #building a seaborn pairplot using pairplot()
-sns$pairplot(r_to_py(penguins), hue = 'species')
+s <- sns$pairplot(r_to_py(penguins), hue = 'species')
 #display the plot
+#plt$show()
+plt$savefig('./docs/figure/seaborn_pairplot.jpg')
+```
+
+![pairplot](./figure/seaborn_pairplot.jpg)
+
+Plotnine giving me problems atm, fix later.
+
+```{r eval=FALSE}
+# https://stackoverflow.com/questions/65487862/creating-plot-using-plotnine-of-python-from-r-through-reticulate
+pd = import('pandas',convert=F)
+p9 = import('plotnine')
+# new imports
+patsy = import('patsy')
+  # import to be able to show in RStudio (see issue here: https://github.com/rstudio/rstudio/issues/4978)
+matplotlib = import('matplotlib')
+matplotlib$use('tkAgg')
+plt = import('matplotlib.pyplot')
+
+peng_py <- r_to_py(penguins,convert=FALSE)
+peng_pd <- pd$DataFrame(data=peng_py)
+
+plot_py = p9$ggplot(mpg_pd,p9$aes(x='displ',y='cty'),
+                    # new code (-1 was the only value that didn't throw an error)
+          environment = patsy$EvalEnvironment$capture(eval_env=as.integer(-1)))
+print(class(plot_py)) # "plotnine.ggplot.ggplot" "python.builtin.object"
+
+# Actually show the plot
+plot_py
 plt$show()
 ```
 
-```{r get_data, eval=FALSE}
-#pip install palmerpenguins
+##### will adapt later
+
+```{r test_chunk, eval=FALSE}
 import seaborn as sns
 import pandas as pd
 from palmerpenguins import load_penguins
 penguins = load_penguins()
 penguins.head()
-```
-
-
-
-```{r seaborn_test, eval=FALSE}
-import seaborn as sns
 g = sns.lmplot(x="flipper_length_mm",
                y="body_mass_g",
                hue="species",
@@ -332,14 +382,7 @@ g = sns.lmplot(x="flipper_length_mm",
                palette=['#FF8C00','#159090','#A034F0'])
 g.set_xlabels('Flipper Length')
 g.set_ylabels('Body Mass')
-g
-##plot.show()
+plot.show()
 ```
 
 
-
-
-## Next up
-
-+ formula interface    
-+ Homework 3
