@@ -1,0 +1,308 @@
+---
+title:  'Lecture 6 - Data wrangling, munging and creating tidy datasets'
+author: "Robert Settlage"
+date: "2022-10-04"
+output: workflowr::wflow_html
+editor_options:
+  chunk_output_type: console
+header-includes: \setlength\parindent{24pt} \usepackage{MnSymbol} \usepackage{mathrsfs}
+---
+
+# Quick aside on YAML Rmarkdown options, Knitr options and library loading
+
+## YAML Rmarkdown option
+
+```
+---
+title: "RMarkdown for reports"
+author: "Robert Settlage"
+date: "05 Oct 2022"
+output:
+  html_document:
+    code_folding: none
+    df_print: paged
+    highlight: tango
+    number_sections: yes
+    theme: flatly
+    toc: yes
+    toc_depth: 2
+  pdf_document:
+    toc: yes
+    toc_depth: '2'
+---
+```
+
+## Knitr opts
+
+Have a code chunk devoted to Knitr or other formatting options.  This has no bearing on the analysis, so don't need to include it in an appendix.  
+
+```{r setup, echo=TRUE, eval=TRUE, warning=FALSE, message=FALSE}
+## good place to setup you standard Rmarkdown/Knitr options
+knitr::opts_chunk$set(
+  echo      = FALSE,
+  eval      = TRUE,
+  message   = FALSE,
+  warning   = FALSE,
+  dpi       = 300,
+  fig.align = "center"
+)
+
+```
+
+## Necessary library loads
+Have another code chunk devoted to library loads.  These are important in the analysis, may want to show...
+
+```{r load_libraries, echo=TRUE}
+library(knitr)
+library(data.table)
+library(tidyverse)
+```
+
+## Job search optimization with R
+<https://aureliencallens.github.io/2022/09/21/web-scraping-indeed-with-r/>
+
+# Today's Agenda
+
+- Cleaning and munging data
+- Creating tidy datasets
+- Using the tidyverse
+
+## Data wrangling
+
+Data wrangling or munging is the process of going from raw to useful data.  This can be 60-80% of the time spent on a project.  *Data Wrangling Cheatsheet*  Steps may include any or all of the following:
+
++----------+-------------------------+
+| Step     | Examples                |
++==========+=========================+
+| Import   | - read.table(html,json) |
++----------+-------------------------+
+| Clean    | - filter and subset     |
+|          | - standardize           |
+|          | - renaming              |
+|          | - type conversions      |
++----------+-------------------------+
+| Reformat | - merging               |
+|          | - reshaping             |
+|          | - aggregating           |
++----------+-------------------------+
+
+<https://www.rstudio.com/resources/cheatsheets/>
+
+
+## Data importing -- good practices
+
+We will cover different input formats next week, just some advice this week:  
+
+```{r getdata, echo=T, eval=T, tidy=F, tidy.opts=list(width.cutoff=60)}
+    #google "how to get data into R"
+    url<-"http://www2.isye.gatech.edu/~jeffwu/wuhamadabook/data/Sensory.dat"
+    sensory_raw<-read.table(url, header=F, skip=1, fill=T, stringsAsFactors = F)
+    # read.table is ok, I prefer fread (in data.table package)
+    saveRDS(sensory_raw,file="sensory_raw.RDS")
+    sensory_raw <- readRDS("sensory_raw.RDS")
+```
+
+If you are getting data from the internet, it is a good idea to protect against:
+
+1. data source being down  
+2. data source being changed  
+3. other unknown issues  
+
+I generally pull the data down, then save the data to an .Rds file.  My project includes:  
+
+1. commented code used to pull data down  
+2. commented code used to save data  
+3. code to read data into R from the saved file  
+4. AND often project image files as mid-stream checkpoints
+
+## Data wrangling -- summaries
+
+?str, ?summary, group_by and dplyr, should mention doBy package  
+Sometimes, a picture really is worth a 1000 words.
+
+```{r boxexample, echo=T, include=T, eval=T, fig.width=6, fig.height=4}
+    library(beeswarm)
+    sex <- (runif(1000)>0.5)*1
+    drug_duration <- sex*0.1 + rnorm(1000, 0, 0.1) + 5
+    drug_info <- data.frame(cbind(drug_duration,sex))
+    drug_info$id <- ifelse(drug_info$sex==0,"M","F")
+```
+
+## box example
+```{r boxexample2, echo=F, include=T,fig.width=6, fig.height=4}
+    par(mfcol=c(1,2))
+    boxplot(drug_info$drug_duration)
+    beeswarm(drug_duration,add=T, pch=20, cex=0.3)
+    boxplot(drug_duration~id,drug_info)
+    beeswarm(drug_duration~id,drug_info, add=T, pch=20, cex=0.3)
+```
+
+## x vs y example
+
+```{r datasaurus_summary, echo=FALSE, include=TRUE}
+library(datasauRus)
+  datasaurus_dozen %>% 
+    group_by(dataset) %>% 
+    summarize(
+      mean_x    = mean(x),
+      mean_y    = mean(y),
+      std_dev_x = sd(x),
+      std_dev_y = sd(y),
+      corr_x_y  = cor(x, y)
+    ) %>%
+    ungroup() %>%
+    select(-dataset) %>%
+    mutate(dataset = str_glue("Dataset: {1:13}")) %>%
+    select(dataset, everything())
+```
+
+```{r datasaurus_pairs}
+datasaurus_dozen %>%
+  ggplot(aes(x=x, y=y)) +
+  geom_point() +
+  facet_wrap(~dataset) + 
+  tidyquant::theme_tq()
+```
+
+
+
+## Questions during import and cleaning steps  
+
+### summary functions
+1. what does the imported data look like?  Missing values, odd structures, column types? 
+2. What summaries, text or plots, might you make on the girder data as imported assuming 9 different girders? 
+
+###  dplyr
+1. Using dplyr functions, can you summarize the data? Mean by method, mean by girder?  Min? Max?
+
+
+## Girder data
+### Part a: 
+Import data from a girder strength experiment described in Wu and Hamada's Experiment Design book.  This data has shear strength data obtained by 10 different methods on 9 different girders.  
+
+```{r girder_import_data.table}
+    url <- "https://www2.isye.gatech.edu/~jeffwu/wuhamadabook/data/fullgirder.dat"
+    girder_raw<-read.table(url, header=F, skip=0, fill=T, stringsAsFactors = F)
+    # read.table is ok, I prefer fread (in data.table package)  
+    # actually, now I also prefer readr::read_delim
+    saveRDS(girder_raw,file="girder_raw.RDS")
+    girder_raw <- readRDS("girder_raw.RDS")
+```
+
+## Data wrangling - reformatting/standardizing
+
+Now that we have the data in R, we need to get it into a useable format.  One idea for a set of standards for structuring a data set is to create a so called "tidy" data set.
+
+<http://vita.had.co.nz/papers/tidy-data.html>
+
+Essentially, we need to reformat the data such that:  
+
+1. Each variable forms a column.  
+2. Each observation forms a row.  
+3. Each type of observational unit forms a table.  
+
+Any other structure to the data is considered messy.  Sound easy?  
+
+## Data wrangling - reformatting 
+
+OK, what is wrong with this? 
+```{r, echo=F, eval=T}
+    messy_data1_df<-data.frame(treatmenta=c("NA",16,3),treatmentb=c(2,11,1),row.names=c("John Smith","Jane Doe","Mary Johnson"),stringsAsFactors=F)
+    knitr::kable(messy_data1_df,format = "markdown", caption="Messy Data")
+```
+  
+What we want is something more akin to a model:  
+
+$$
+y_i = \beta_1 x_{i1} + \beta_2 x_{i2} ...
+$$
+
+## Data wrangling - base R  
+
+The point in data munging is efficiently transforming and cleaning data to bring it into a usable state.  In the example above, we saw functions from _plyr_ and _tidyr_ (look up _tidyverse_) used for to create a data "pipeline".  You may find other solutions that suit you better.
+
+```{r, echo=T, eval=F}
+    tidy_data1_df<-cbind(messy_data1_df,names=rownames(messy_data1_df))
+    tidy_data1_df<-rbind(tidy_data1_df,tidy_data1_df)
+    tidy_data1_df[4:6,1]<-tidy_data1_df[4:6,2]
+    tidy_data1_df$treatmentb<-rep(c("a","b"),each=3)
+    colnames(tidy_data1_df)<-c("value","treatment","names")
+    rownames(tidy_data1_df)<-NULL
+    tidy_data1_df<-tidy_data1_df[,c(3,2,1)]
+    tidy_data1_df$value<-as.numeric(tidy_data1_df$value)
+```
+
+## Data wrangling - tidy example
+
+```{r, echo=T, eval=T}
+    tidy_data1_df<-messy_data1_df %>%
+                    tibble::rownames_to_column() %>%
+                    gather("treatment","value",treatmenta:treatmentb) %>%
+                    mutate(treatment=str_replace(treatment,"treatment","")) %>%
+                    mutate(value=as.numeric(value))
+    knitr::kable(tidy_data1_df,format = "markdown", caption="Tidy Data")
+```
+
+<https://www.rstudio.com/wp-content/uploads/2015/02/data-wrangling-cheatsheet.pdf>
+
+## Data wrangling - messy data symptoms
+
+- Column headers are values, not variable names.
+- Multiple variables are stored in one column.
+- Variables are stored in both rows and columns.
+- Multiple types of observational units are stored in the same table.  
+- A single observational unit is stored in multiple tables.
+
+
+Ok, what about python?
+
+## Munging in python, tidyverse-like
+
++-------------+----------------+
+| R           | Python         |
++=============+================+
++-------------+----------------+
+| mutate      | - assign       |
+| select      | - filter       |
+| rename      | - rename       |
+| filter      | - query        |
+| arrage      | - sort_values  |
+| group_by    | - groupby      |
+| summarize   | - agg          |
++-------------+----------------+
+| Reformat    | - melt         |
+|             | - pivot        |
++-------------+----------------+
+
+Reshaping post:  
+<https://nikgrozev.com/2015/07/01/reshaping-in-pandas-pivot-pivot-table-stack-and-unstack-explained-with-pictures/>
+
+```{r python_setup}
+
+library(reticulate)
+conda_list()
+use_condaenv("r-reticulate")
+
+```
+
+
+```{python}
+import numpy as np
+import pandas as pd
+import seaborn as sns
+df = sns.load_dataset('diamonds')
+df.head()
+
+(df
+  .filter(['carat', 'color'])
+  .query('color in ["E", "G"]')
+  .groupby(['color'])
+  .agg(['mean'])
+  .sort_values(by=('carat', 'mean'), ascending=False)
+  )
+
+```
+
+## Next up
+
++ R functions, logic, good programming practices
