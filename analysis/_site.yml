@@ -20,7 +20,7 @@ navbar:
       - text: "Week 4"
         href: Week_4_Plots_using_ggplot2_plotly_more.html
       - text: "Week 5"
-        href: Week_5_wrangling_munging_tidying.html
+        href: Week_5_matrix_vector_math.html
       - text: "Week 6"
         href: Week_6_R_functions_logic_good_programming_practices.html
       - text: "Week 7"

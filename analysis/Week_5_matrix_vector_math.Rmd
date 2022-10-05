@@ -48,8 +48,6 @@ cat README.md
 The reason this is cool is you can have several versions of a project active and available at the same time.  In the same place, and the exact version is changable via a `git switch`
 
 
-
-
 ## R and useful matrix stuff
 
 1. matrix mult %*%
@@ -184,7 +182,7 @@ Should point on the cool cheat sheet on this:
 
 <https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=&ved=2ahUKEwiJjbnJ7rX6AhWsFlkFHchNDQwQFnoECAcQAQ&url=https%3A%2F%2Fraw.githubusercontent.com%2Frstudio%2Fcheatsheets%2Fmain%2Freticulate.pdf&usg=AOvVaw3zphxsBi9OZLtBiNaUO6I7>
 
-In Python, base python doesnt have great support for matraces, dataframes etc, so you need to use a package, generally numpy or pandas.
+In Python, base python doesnt have great support for matrices, dataframes etc, so you need to use a package, generally numpy or pandas.
 
 ```{r python_setup, eval=TRUE, echo=TRUE}
 
@@ -278,7 +276,7 @@ df['Name']
 df.iloc[:,1]
 type(df)
 #dir(pd)
-#dir(df)
+dir(df)
 
 from palmerpenguins import load_penguins
 penguins = load_penguins()
