@@ -35,9 +35,9 @@ Suggested schedule, you can speed ahead.
 |3	     | 14-Sep    | Building a website hosted on GitHub in Rstudio  
 |        |           | **MODULE 2 -- Basics, munging, wrangling, factors, graphics and scaling**
 |4	     | 21-Sep    | graphics - base-ggplot2-plotly-matplotlib-seaborn-plotnine-plotly 
-|5	     | 28-Sep    | Data import -- (my)sql, excel, json, plain text, yaml, web scraping 
-|6	     |  5-Oct    | math and matrix ops in both languages base/matrix vs base/numpy/pandas
-|7	     | 12-Oct    | Data munging -- dplyr/tidyverse vs plydata/suiba/tidypandas/tidypolars/datar
+|5	     | 28-Sep    | Math and matrix ops in both languages base/matrix vs base/numpy/pandas  
+|6	     |  5-Oct    | Data munging -- dplyr/tidyverse vs plydata/suiba/tidypandas/tidypolars/datar  
+|7	     | 12-Oct    | Data import -- (my)sql, excel, json, plain text, yaml, web scraping
 |        | 19-Oct    | No class  
 |8	     | 26-Oct    | factors (forcats)  
 |9	     |  2-Nov    | R's Apply family of functions and Parallel computing in R, parXapply, foreach and dopar
