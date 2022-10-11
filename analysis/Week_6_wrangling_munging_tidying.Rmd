@@ -180,7 +180,7 @@ datasaurus_dozen %>%
 ### Part a: 
 Import data from a girder strength experiment described in Wu and Hamada's Experiment Design book.  This data has shear strength data obtained by 10 different methods on 9 different girders.  
 
-```{r girder_import_data.table}
+```{r girder_import_data.table, echo=TRUE}
     url <- "https://www2.isye.gatech.edu/~jeffwu/wuhamadabook/data/fullgirder.dat"
     girder_raw<-read.table(url, header=F, skip=0, fill=T, stringsAsFactors = F)
     # read.table is ok, I prefer fread (in data.table package)  
