@@ -1,0 +1,1141 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="Robert Settlage" />
+
+<meta name="date" content="2022-10-11" />
+
+<title>Lecture 7 - importing data</title>
+
+<script src="site_libs/header-attrs-2.13/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+
+<link rel="icon" href="https://github.com/workflowr/workflowr-assets/raw/main/img/reproducible.png">
+<!-- Add a small amount of space between sections. -->
+<style type="text/css">
+div.section {
+  padding-top: 12px;
+}
+</style>
+
+
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.tab('show');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">STAT5014 Fall2022 website</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="syllabus.html">Syllabus</a>
+</li>
+<li>
+  <a href="schedule.html">Schedule</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Lectures
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="Week_1_Introductions_Reproducible_Research_R.html">Week 1</a>
+    </li>
+    <li>
+      <a href="Week_2_Reproducible_research_Git_Good_Programming_Practices.html">Week 2</a>
+    </li>
+    <li>
+      <a href="Week_3_Websites_Github.html">Week 3</a>
+    </li>
+    <li>
+      <a href="Week_4_Plots_using_ggplot2_plotly_more.html">Week 4</a>
+    </li>
+    <li>
+      <a href="Week_5_matrix_vector_math.html">Week 5</a>
+    </li>
+    <li>
+      <a href="Week_6_R_functions_logic_good_programming_practices.html">Week 6</a>
+    </li>
+    <li>
+      <a href="Week_7_matrix_vector_math.html">Week 7</a>
+    </li>
+    <li>
+      <a href="Week_8_apply_family.html">Week 8</a>
+    </li>
+    <li>
+      <a href="Week_9_going_parallel.html">Week 9</a>
+    </li>
+    <li>
+      <a href="Week_10_dashboards_reports_automation.html">Week 10</a>
+    </li>
+    <li>
+      <a href="Week_11_AI_ML.html">Week 11</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Homework
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="Week_1_homework_1.html">Homework 1</a>
+    </li>
+    <li>
+      <a href="Week_2_homework_2.html">Homework 2</a>
+    </li>
+    <li>
+      <a href="Week_4_homework_3.html">Homework 3</a>
+    </li>
+    <li>
+      <a href="Week_6_homework_4.html">Homework 4</a>
+    </li>
+    <li>
+      <a href="Week_9_homework_5.html">Homework 5</a>
+    </li>
+    <li>
+      <a href="Week_11_homework_6.html">Homework 6</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Setup
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="submittinghomework.html">Submitting Homework</a>
+    </li>
+    <li>
+      <a href="SampleHomework.html">Sample Homework</a>
+    </li>
+    <li>
+      <a href="gitconf.html">Git Config</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://github.com/rsettlage/STAT5014_Fall2022">
+    <span class="fa fa-github"></span>
+     
+    Source code
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">Lecture 7 - importing data</h1>
+<h4 class="author">Robert Settlage</h4>
+<h4 class="date">2022-10-11</h4>
+
+</div>
+
+
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
+<span class="glyphicon glyphicon-list" aria-hidden="true"></span>
+workflowr <span class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span>
+</button>
+</p>
+<div id="workflowr-report" class="collapse">
+<ul class="nav nav-tabs">
+<li class="active">
+<a data-toggle="tab" href="#summary">Summary</a>
+</li>
+<li>
+<a data-toggle="tab" href="#checks"> Checks <span
+class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span> </a>
+</li>
+<li>
+<a data-toggle="tab" href="#versions">Past versions</a>
+</li>
+</ul>
+<div class="tab-content">
+<div id="summary" class="tab-pane fade in active">
+<p>
+<strong>Last updated:</strong> 2022-10-11
+</p>
+<p>
+<strong>Checks:</strong> <span
+class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6
+<span class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span> 1
+</p>
+<p>
+<strong>Knit directory:</strong> <code>STAT5014_Fall2022_website/</code>
+<span class="glyphicon glyphicon-question-sign" aria-hidden="true"
+title="This is the local directory in which the code in this file was executed.">
+</span>
+</p>
+<p>
+This reproducible <a href="https://rmarkdown.rstudio.com">R Markdown</a>
+analysis was created with <a
+  href="https://github.com/workflowr/workflowr">workflowr</a> (version
+1.7.0). The <em>Checks</em> tab describes the reproducibility checks
+that were applied when the results were created. The <em>Past
+versions</em> tab lists the development history.
+</p>
+<hr>
+</div>
+<div id="checks" class="tab-pane fade">
+<div id="workflowr-checks" class="panel-group">
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguncommittedchanges">
+<span class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span> <strong>R Markdown file:</strong> uncommitted
+changes </a>
+</p>
+</div>
+<div id="strongRMarkdownfilestronguncommittedchanges"
+class="panel-collapse collapse">
+<div class="panel-body">
+<p>The R Markdown is untracked by Git. To know which version of the R
+Markdown file created these results, you’ll want to first commit it to
+the Git repo. If you’re still working on the analysis, you can ignore
+this warning. When you’re finished, you can run
+<code>wflow_publish</code> to commit the R Markdown file and build the
+HTML.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongEnvironmentstrongempty">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Environment:</strong> empty </a>
+</p>
+</div>
+<div id="strongEnvironmentstrongempty" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! The global environment was empty. Objects defined in the
+global environment can affect the analysis in your R Markdown file in
+unknown ways. For reproduciblity it’s best to always run the code in an
+empty environment.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSeedstrongcodesetseed20210816code">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Seed:</strong>
+<code>set.seed(20210816)</code> </a>
+</p>
+</div>
+<div id="strongSeedstrongcodesetseed20210816code"
+class="panel-collapse collapse">
+<div class="panel-body">
+<p>The command <code>set.seed(20210816)</code> was run prior to running
+the code in the R Markdown file. Setting a seed ensures that any results
+that rely on randomness, e.g. subsampling or permutations, are
+reproducible.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSessioninformationstrongrecorded">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Session information:</strong>
+recorded </a>
+</p>
+</div>
+<div id="strongSessioninformationstrongrecorded"
+class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! Recording the operating system, R version, and package
+versions is critical for reproducibility.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongCachestrongnone">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Cache:</strong> none </a>
+</p>
+</div>
+<div id="strongCachestrongnone" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Nice! There were no cached chunks for this analysis, so you can be
+confident that you successfully produced the results during this
+run.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongFilepathsstrongrelative">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>File paths:</strong> relative </a>
+</p>
+</div>
+<div id="strongFilepathsstrongrelative" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! Using relative paths to the files within your workflowr
+project makes it easier to run your code on other machines.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomrsettlageSTAT5014Fall2022treee50583ac095e9d089e882714742f8151614905abtargetblanke50583aa">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Repository version:</strong>
+<a href="https://github.com/rsettlage/STAT5014_Fall2022/tree/e50583ac095e9d089e882714742f8151614905ab" target="_blank">e50583a</a>
+</a>
+</p>
+</div>
+<div
+id="strongRepositoryversionstrongahrefhttpsgithubcomrsettlageSTAT5014Fall2022treee50583ac095e9d089e882714742f8151614905abtargetblanke50583aa"
+class="panel-collapse collapse">
+<div class="panel-body">
+<p>
+Great! You are using Git for version control. Tracking code development
+and connecting the code version to the results is critical for
+reproducibility.
+</p>
+<p>
+The results in this page were generated with repository version
+<a href="https://github.com/rsettlage/STAT5014_Fall2022/tree/e50583ac095e9d089e882714742f8151614905ab" target="_blank">e50583a</a>.
+See the <em>Past versions</em> tab to see a history of the changes made
+to the R Markdown and HTML files.
+</p>
+<p>
+Note that you need to be careful to ensure that all relevant files for
+the analysis have been committed to Git prior to generating the results
+(you can use <code>wflow_publish</code> or
+<code>wflow_git_commit</code>). workflowr only checks the R Markdown
+file, but you know if there are other scripts or data files that it
+depends on. Below is the status of the Git repository when the results
+were generated:
+</p>
+<pre><code>
+Ignored files:
+    Ignored:    .DS_Store
+    Ignored:    .Rhistory
+    Ignored:    .Rproj.user/
+    Ignored:    analysis/.Rhistory
+    Ignored:    analysis/Week_2_Reproducible_research_Git_Good_Programming_Practices_cache/
+    Ignored:    analysis/girder_raw.RDS
+    Ignored:    analysis/sensory_raw.RDS
+    Ignored:    girder_raw.RDS
+    Ignored:    sensory_raw.RDS
+
+Untracked files:
+    Untracked:  STAT5014_Fall2022_website.Rproj
+    Untracked:  Syllabus.pdf
+    Untracked:  analysis/Week_7_importing_data.Rmd
+    Untracked:  code/
+    Untracked:  data/
+    Untracked:  output/
+    Untracked:  staging/
+    Untracked:  testing.Rmd
+    Untracked:  testing.html
+
+Unstaged changes:
+    Modified:   analysis/Week_6_wrangling_munging_tidying.Rmd
+
+</code></pre>
+<p>
+Note that any generated files, e.g. HTML, png, CSS, etc., are not
+included in this status report because it is ok for generated content to
+have uncommitted changes.
+</p>
+</div>
+</div>
+</div>
+</div>
+<hr>
+</div>
+<div id="versions" class="tab-pane fade">
+<p>
+There are no past versions. Publish this analysis with
+<code>wflow_publish()</code> to start tracking its development.
+</p>
+<hr>
+</div>
+</div>
+</div>
+<div id="last-time" class="section level1">
+<h1>Last time:</h1>
+<ol style="list-style-type: decimal">
+<li>YAML options in Rmarkdown docs<br />
+</li>
+<li>Options code chunk for session options (knitr, sig figs, image,
+etc)<br />
+</li>
+<li>Having a library import code chunk<br />
+</li>
+<li>messy vs tidy data</li>
+</ol>
+<div id="messy-vs-tidy-data" class="section level2">
+<h2>messy vs tidy data</h2>
+<p>Often, our data comes in with data in the body of the data table and
+variables encoded as column names:</p>
+<pre class="r"><code>    #google &quot;how to get data into R&quot;
+    url&lt;-&quot;http://www2.isye.gatech.edu/~jeffwu/wuhamadabook/data/Sensory.dat&quot;
+    sensory_raw&lt;-read.table(url, header=F, skip=0, fill=T, stringsAsFactors = F)
+    # read.table is ok, I prefer fread (in data.table package)
+    saveRDS(sensory_raw,file=&quot;sensory_raw.RDS&quot;)
+    sensory_raw &lt;- readRDS(&quot;sensory_raw.RDS&quot;)
+    sensory_raw %&gt;%
+      head()%&gt;%
+      knitr::kable()</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left">V1</th>
+<th align="right">V2</th>
+<th align="right">V3</th>
+<th align="right">V4</th>
+<th align="right">V5</th>
+<th align="right">V6</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Operator</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+</tr>
+<tr class="even">
+<td align="left">Item</td>
+<td align="right">1.0</td>
+<td align="right">2.0</td>
+<td align="right">3.0</td>
+<td align="right">4.0</td>
+<td align="right">5.0</td>
+</tr>
+<tr class="odd">
+<td align="left">1</td>
+<td align="right">4.3</td>
+<td align="right">4.9</td>
+<td align="right">3.3</td>
+<td align="right">5.3</td>
+<td align="right">4.4</td>
+</tr>
+<tr class="even">
+<td align="left">4.3</td>
+<td align="right">4.5</td>
+<td align="right">4.0</td>
+<td align="right">5.5</td>
+<td align="right">3.3</td>
+<td align="right">NA</td>
+</tr>
+<tr class="odd">
+<td align="left">4.1</td>
+<td align="right">5.3</td>
+<td align="right">3.4</td>
+<td align="right">5.7</td>
+<td align="right">4.7</td>
+<td align="right">NA</td>
+</tr>
+<tr class="even">
+<td align="left">2</td>
+<td align="right">6.0</td>
+<td align="right">5.3</td>
+<td align="right">4.5</td>
+<td align="right">5.9</td>
+<td align="right">4.7</td>
+</tr>
+</tbody>
+</table>
+<p>What we want is something akin to a model:</p>
+<p><span class="math display">\[
+y_i = \beta_1 x_{i1} + \beta_2 x_{i2} ...
+\]</span></p>
+</div>
+<div id="data-wrangling" class="section level2">
+<h2>Data wrangling</h2>
+<p>Data wrangling or munging is the process of going from raw to useful
+data. This can be 60-80% of the time spent on a project. <em>Data
+Wrangling Cheatsheet</em> Steps may include any or all of the
+following:</p>
+<table style="width:51%;">
+<colgroup>
+<col width="15%" />
+<col width="36%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Step</th>
+<th>Examples</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Import</td>
+<td><ul>
+<li>read.table(html,json)</li>
+</ul></td>
+</tr>
+<tr class="even">
+<td>Clean</td>
+<td><ul>
+<li>filter and subset</li>
+<li>standardize</li>
+<li>renaming</li>
+<li>type conversions</li>
+</ul></td>
+</tr>
+<tr class="odd">
+<td>Reformat</td>
+<td><ul>
+<li>merging</li>
+<li>reshaping</li>
+<li>aggregating</li>
+</ul></td>
+</tr>
+</tbody>
+</table>
+<p><a href="https://www.rstudio.com/resources/cheatsheets/"
+class="uri">https://www.rstudio.com/resources/cheatsheets/</a></p>
+</div>
+<div id="munging-in-python-tidyverse-like" class="section level2">
+<h2>Munging in python, tidyverse-like</h2>
+<table style="width:43%;">
+<colgroup>
+<col width="19%" />
+<col width="23%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>R</th>
+<th>Python</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>mutate select rename filter arrage group_by summarize</td>
+<td><ul>
+<li>assign</li>
+<li>filter</li>
+<li>rename</li>
+<li>query</li>
+<li>sort_values</li>
+<li>groupby</li>
+<li>agg</li>
+</ul></td>
+</tr>
+<tr class="even">
+<td>Reformat</td>
+<td><ul>
+<li>melt</li>
+<li>pivot</li>
+</ul></td>
+</tr>
+</tbody>
+</table>
+<p>Reshaping post:<br />
+<a
+href="https://nikgrozev.com/2015/07/01/reshaping-in-pandas-pivot-pivot-table-stack-and-unstack-explained-with-pictures/"
+class="uri">https://nikgrozev.com/2015/07/01/reshaping-in-pandas-pivot-pivot-table-stack-and-unstack-explained-with-pictures/</a></p>
+</div>
+<div id="job-search-optimization-with-r" class="section level2">
+<h2>Job search optimization with R</h2>
+<p><a
+href="https://aureliencallens.github.io/2022/09/21/web-scraping-indeed-with-r/"
+class="uri">https://aureliencallens.github.io/2022/09/21/web-scraping-indeed-with-r/</a></p>
+</div>
+</div>
+<div id="todays-agenda" class="section level1">
+<h1>Today’s Agenda</h1>
+<ul>
+<li>Importing data</li>
+</ul>
+<p>(my)sql, excel, json, plain text, yaml, web scraping</p>
+<p>As usual, there’s a library for that …</p>
+<p>The functions I typically use are:</p>
+<p>plain text, csv, tab, etc - fread (data.table)<br />
+rectangular – read_delim (readr)<br />
+excel - read_excel (readxl)<br />
+json - fromJSON (rjson)<br />
+yaml - read_yaml (yaml)<br />
+sql - bit more complicated, but ….<br />
+<a
+href="https://datacarpentry.org/R-ecology-lesson/05-r-and-databases.html"
+class="uri">https://datacarpentry.org/R-ecology-lesson/05-r-and-databases.html</a></p>
+<div id="plain-text" class="section level2">
+<h2>Plain text</h2>
+<p>These can be in many formats that may include single delimiters (eg
+csv, tsv, etc), multiple delimiters, a fixed with, garbled with a
+missing field/delimiter, or have incompatible line endings (Mac vs
+Windows).</p>
+<p>Why don’t I prefer read.csv/delim?</p>
+<ol style="list-style-type: decimal">
+<li>fread starts with a good guess at what my seperator is going to be
+“[,;:]”<br />
+</li>
+<li>read_delim/fread are very fast, they sample the file and then set
+the column types<br />
+</li>
+<li>fread allows me to add a bash command that is run inline with the
+reading<br />
+</li>
+<li>readr functions capture the errors and attach them to the returned
+object as problems<br />
+</li>
+<li>readr gives me a summary of what it found<br />
+</li>
+<li>fread/readr allows me to read directly from compressed files<br />
+</li>
+<li>fread/readr allow me to read from a remote file<br />
+</li>
+<li>both have a lot of other useful options: skip, comment, trim_ws,
+select, sep2, fill</li>
+</ol>
+<p>Examples:</p>
+<pre class="r"><code>library(dplyr)
+library(readr)
+library(data.table)
+
+# remote file
+read_csv(&quot;https://github.com/tidyverse/readr/raw/main/inst/extdata/mtcars.csv&quot;)
+
+# use inline bash commands
+# could do this operation with the select argument, but the idea translates into better stuff  
+readr_example(&quot;mtcars.csv&quot;)
+fread(&quot;awk -F&#39;,&#39; &#39;{print $1, $4}&#39; /Users/rsettlag/R/readr/extdata/mtcars.csv&quot;)
+
+
+# problems example:
+y &lt;- &quot;x\n1\n2\nb&quot; %&gt;% read_csv(col_types = list(col_double()))
+
+problems(y)</code></pre>
+<p>python:</p>
+<pre class="python"><code>import pandas as pd
+
+df = pd.read_csv (r&#39;/Users/rsettlag/R/readr/extdata/mtcars.csv&#39;)   
+print (df)</code></pre>
+</div>
+<div id="excel" class="section level2">
+<h2>Excel</h2>
+<p>R: readxl::read_excel Python: pandas.read_excel or if more
+functionality is needed, try Xlwings</p>
+<p>The work effectively the same. More functionality in the R
+version.</p>
+<pre class="r"><code>library(readxl)
+readxl_example(&quot;datasets.xlsx&quot;)
+
+readxl_example(&quot;datasets.xlsx&quot;) %&gt;% readxl::excel_sheets()
+
+readxl_example(&quot;datasets.xlsx&quot;) %&gt;% read_excel()
+
+readxl_example(&quot;datasets.xlsx&quot;) %&gt;% readxl::excel_sheets(&quot;quakes&quot;)</code></pre>
+</div>
+<div id="json-and-yaml" class="section level2">
+<h2>JSON and YAML</h2>
+<p>ok, yuk. But at least they are well formatted. Good tutorials
+here:</p>
+<p><a
+href="https://www.cloudbees.com/blog/yaml-tutorial-everything-you-need-get-started"
+class="uri">https://www.cloudbees.com/blog/yaml-tutorial-everything-you-need-get-started</a></p>
+<p><a href="https://www.tutorialspoint.com/r/r_json_files.htm"
+class="uri">https://www.tutorialspoint.com/r/r_json_files.htm</a></p>
+<pre class="r"><code>library(rjson)
+iris
+x &lt;- toJSON(iris)
+fromJSON(x)</code></pre>
+<p>Python version tutorials:</p>
+<p><a href="https://python.land/data-processing/python-yaml"
+class="uri">https://python.land/data-processing/python-yaml</a></p>
+<p><a href="https://www.geeksforgeeks.org/read-json-file-using-python/"
+class="uri">https://www.geeksforgeeks.org/read-json-file-using-python/</a></p>
+</div>
+<div id="sql" class="section level2">
+<h2>SQL</h2>
+<p>Importing SQL data is a bit more fun. Generally, we need to:</p>
+<ol style="list-style-type: decimal">
+<li>connect to the db<br />
+</li>
+<li>query the db</li>
+</ol>
+<p>Great tutorial here:<br />
+<a
+href="https://datacarpentry.org/R-ecology-lesson/05-r-and-databases.html"
+class="uri">https://datacarpentry.org/R-ecology-lesson/05-r-and-databases.html</a></p>
+<p>For python, look here:<br />
+<a href="https://datatofish.com/sql-to-pandas-dataframe/"
+class="uri">https://datatofish.com/sql-to-pandas-dataframe/</a></p>
+<p>We will talk about this more in an SQL session.</p>
+<br>
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
+<span class="glyphicon glyphicon-wrench" aria-hidden="true"></span>
+Session information
+</button>
+</p>
+<div id="workflowr-sessioninfo" class="collapse">
+<pre class="r"><code>sessionInfo()</code></pre>
+<pre><code>R version 4.2.1 (2022-06-23)
+Platform: x86_64-apple-darwin17.0 (64-bit)
+Running under: macOS Big Sur ... 10.16
+
+Matrix products: default
+BLAS:   /Library/Frameworks/R.framework/Versions/4.2/Resources/lib/libRblas.0.dylib
+LAPACK: /Library/Frameworks/R.framework/Versions/4.2/Resources/lib/libRlapack.dylib
+
+locale:
+[1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
+
+attached base packages:
+[1] stats     graphics  grDevices utils     datasets  methods   base     
+
+other attached packages:
+ [1] forcats_0.5.1     stringr_1.4.0     dplyr_1.0.8       purrr_0.3.4      
+ [5] readr_2.1.2       tidyr_1.2.0       tibble_3.1.6      ggplot2_3.3.5    
+ [9] tidyverse_1.3.1   data.table_1.14.2 knitr_1.38       
+
+loaded via a namespace (and not attached):
+ [1] Rcpp_1.0.8.3     lattice_0.20-45  lubridate_1.8.0  png_0.1-7       
+ [5] assertthat_0.2.1 rprojroot_2.0.3  digest_0.6.29    utf8_1.2.2      
+ [9] R6_2.5.1         cellranger_1.1.0 backports_1.4.1  reprex_2.0.1    
+[13] evaluate_0.15    highr_0.9        httr_1.4.2       pillar_1.7.0    
+[17] rlang_1.0.2      readxl_1.4.0     rstudioapi_0.13  jquerylib_0.1.4 
+[21] Matrix_1.4-1     reticulate_1.24  rmarkdown_2.13   munsell_0.5.0   
+[25] broom_0.7.12     compiler_4.2.1   httpuv_1.6.5     modelr_0.1.8    
+[29] xfun_0.30        pkgconfig_2.0.3  htmltools_0.5.2  tidyselect_1.1.2
+[33] workflowr_1.7.0  fansi_1.0.3      crayon_1.5.1     tzdb_0.3.0      
+[37] dbplyr_2.1.1     withr_2.5.0      later_1.3.0      grid_4.2.1      
+[41] jsonlite_1.8.0   gtable_0.3.0     lifecycle_1.0.1  DBI_1.1.2       
+[45] git2r_0.30.1     magrittr_2.0.3   scales_1.1.1     cli_3.2.0       
+[49] stringi_1.7.6    fs_1.5.2         promises_1.2.0.1 xml2_1.3.3      
+[53] bslib_0.3.1      ellipsis_0.3.2   generics_0.1.2   vctrs_0.4.0     
+[57] tools_4.2.1      glue_1.6.2       hms_1.1.1        fastmap_1.1.0   
+[61] yaml_2.3.5       colorspace_2.0-3 rvest_1.0.2      haven_2.4.3     
+[65] sass_0.4.1      </code></pre>
+</div>
+</div>
+</div>
+
+
+<!-- Adjust MathJax settings so that all math formulae are shown using
+TeX fonts only; see
+https://docs.mathjax.org/en/latest/web/configuration.html. This will make
+the presentation more consistent at the cost of the webpage sometimes
+taking slightly longer to load. Note that this only works because the
+footer is added to webpages before the MathJax javascript. -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    "HTML-CSS": { availableFonts: ["TeX"] }
+  });
+</script>
+
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

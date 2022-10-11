@@ -1,0 +1,220 @@
+---
+title:  'Lecture 7 - importing data'
+author: "Robert Settlage"
+date: "2022-10-11"
+output: workflowr::wflow_html
+editor_options:
+  chunk_output_type: console
+header-includes: \setlength\parindent{24pt} \usepackage{MnSymbol} \usepackage{mathrsfs}
+---
+
+```{r load_libraries, echo=TRUE, warning=FALSE, include=FALSE}
+library(knitr)
+library(data.table)
+library(tidyverse)
+```
+
+
+# Last time:
+
+1. YAML options in Rmarkdown docs  
+2. Options code chunk for session options (knitr, sig figs, image, etc)  
+3. Having a library import code chunk  
+4. messy vs tidy data  
+
+## messy vs tidy data
+
+Often, our data comes in with data in the body of the data table and variables encoded as column names:
+
+```{r getdata, echo=T, eval=T, tidy=F, tidy.opts=list(width.cutoff=60)}
+    #google "how to get data into R"
+    url<-"http://www2.isye.gatech.edu/~jeffwu/wuhamadabook/data/Sensory.dat"
+    sensory_raw<-read.table(url, header=F, skip=0, fill=T, stringsAsFactors = F)
+    # read.table is ok, I prefer fread (in data.table package)
+    saveRDS(sensory_raw,file="sensory_raw.RDS")
+    sensory_raw <- readRDS("sensory_raw.RDS")
+    sensory_raw %>%
+      head()%>%
+      knitr::kable()
+```
+
+What we want is something akin to a model:  
+
+$$
+y_i = \beta_1 x_{i1} + \beta_2 x_{i2} ...
+$$
+
+## Data wrangling
+
+Data wrangling or munging is the process of going from raw to useful data.  This can be 60-80% of the time spent on a project.  *Data Wrangling Cheatsheet*  Steps may include any or all of the following:  
+
+
++----------+-------------------------+  
+| Step     | Examples                |  
++==========+=========================+  
+| Import   | - read.table(html,json) |  
++----------+-------------------------+  
+| Clean    | - filter and subset     |  
+|          | - standardize           |  
+|          | - renaming              |  
+|          | - type conversions      |  
++----------+-------------------------+  
+| Reformat | - merging               |  
+|          | - reshaping             |  
+|          | - aggregating           |  
++----------+-------------------------+  
+
+
+
+<https://www.rstudio.com/resources/cheatsheets/>
+
+## Munging in python, tidyverse-like  
+
++-------------+----------------+  
+| R           | Python         |  
++=============+================+  
+| mutate      | - assign       |  
+| select      | - filter       |  
+| rename      | - rename       |  
+| filter      | - query        |  
+| arrage      | - sort_values  |  
+| group_by    | - groupby      |  
+| summarize   | - agg          |  
++-------------+----------------+  
+| Reformat    | - melt         |  
+|             | - pivot        |  
++-------------+----------------+  
+
+
+Reshaping post:  
+<https://nikgrozev.com/2015/07/01/reshaping-in-pandas-pivot-pivot-table-stack-and-unstack-explained-with-pictures/>
+
+
+## Job search optimization with R
+<https://aureliencallens.github.io/2022/09/21/web-scraping-indeed-with-r/>
+
+# Today's Agenda
+
+- Importing data  
+
+(my)sql, excel, json, plain text, yaml, web scraping
+
+As usual, there's a library for that ...
+
+The functions I typically use are:
+
+plain text, csv, tab, etc - fread (data.table)  
+rectangular -- read_delim (readr)  
+excel - read_excel (readxl)  
+json - fromJSON (rjson)  
+yaml - read_yaml (yaml)  
+sql - bit more complicated, but ....  
+<https://datacarpentry.org/R-ecology-lesson/05-r-and-databases.html>
+
+## Plain text  
+
+These can be in many formats that may include single delimiters (eg csv, tsv, etc), multiple delimiters, a fixed with, garbled with a missing field/delimiter, or have incompatible line endings (Mac vs Windows).  
+
+Why don't I prefer read.csv/delim?  
+
+1. fread starts with a good guess at what my seperator is going to be "[,\t |;:]"  
+2. read_delim/fread are very fast, they sample the file and then set the column types  
+3. fread allows me to add a bash command that is run inline with the reading  
+4. readr functions capture the errors and attach them to the returned object as problems  
+5. readr gives me a summary of what it found  
+6. fread/readr allows me to read directly from compressed files  
+7. fread/readr allow me to read from a remote file  
+8. both have a lot of other useful options: skip, comment, trim_ws, select, sep2, fill  
+
+
+
+Examples:
+
+```{r read_delims_examples, echo=TRUE, eval=FALSE}
+library(dplyr)
+library(readr)
+library(data.table)
+
+# remote file
+read_csv("https://github.com/tidyverse/readr/raw/main/inst/extdata/mtcars.csv")
+
+# use inline bash commands
+# could do this operation with the select argument, but the idea translates into better stuff  
+readr_example("mtcars.csv")
+fread("awk -F',' '{print $1, $4}' /Users/rsettlag/R/readr/extdata/mtcars.csv")
+
+
+# problems example:
+y <- "x\n1\n2\nb" %>% read_csv(col_types = list(col_double()))
+
+problems(y)
+```
+
+python:
+
+```{python pandas_example, eval=FALSE}
+import pandas as pd
+
+df = pd.read_csv (r'/Users/rsettlag/R/readr/extdata/mtcars.csv')   
+print (df)
+
+```
+
+## Excel
+
+R:
+readxl::read_excel
+Python:
+pandas.read_excel or if more functionality is needed, try Xlwings
+
+The work effectively the same.  More functionality in the R version.
+
+```{r read_xl_example, eval=FALSE, echo=TRUE}
+library(readxl)
+readxl_example("datasets.xlsx")
+
+readxl_example("datasets.xlsx") %>% readxl::excel_sheets()
+
+readxl_example("datasets.xlsx") %>% read_excel()
+
+readxl_example("datasets.xlsx") %>% readxl::excel_sheets("quakes")
+
+```
+
+## JSON and YAML
+
+ok, yuk.  But at least they are well formatted.  Good tutorials here:  
+
+<https://www.cloudbees.com/blog/yaml-tutorial-everything-you-need-get-started>  
+
+<https://www.tutorialspoint.com/r/r_json_files.htm>
+
+```{r json_import, eval=FALSE, echo=TRUE}
+library(rjson)
+iris
+x <- toJSON(iris)
+fromJSON(x)
+
+```
+
+Python version tutorials:  
+
+<https://python.land/data-processing/python-yaml>  
+
+<https://www.geeksforgeeks.org/read-json-file-using-python/>  
+
+## SQL
+
+Importing SQL data is a bit more fun.  Generally, we need to:
+
+1. connect to the db  
+2. query the db
+
+Great tutorial here:  
+<https://datacarpentry.org/R-ecology-lesson/05-r-and-databases.html>
+
+For python, look here:  
+<https://datatofish.com/sql-to-pandas-dataframe/>  
+
+We will talk about this more in an SQL session.  
+
