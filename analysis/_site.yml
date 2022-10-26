@@ -22,9 +22,9 @@ navbar:
       - text: "Week 5"
         href: Week_5_matrix_vector_math.html
       - text: "Week 6"
-        href: Week_6_R_functions_logic_good_programming_practices.html
+        href: Week_6_wrangling_munging_tidying.html
       - text: "Week 7"
-        href: Week_7_matrix_vector_math.html
+        href: Week_7_importing_data.html
       - text: "Week 8"
         href: Week_8_forcats_recipes.html
       - text: "Week 9"

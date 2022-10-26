@@ -1,5 +1,5 @@
 ---
-title:  'Week 7 - R Vector/matrix manipulations and math, speed considerations'
+title:  'Week 5 - R Vector/matrix manipulations and math, speed considerations'
 author: "Robert Settlage"
 date: "2021-10-12"
 output: workflowr::wflow_html
