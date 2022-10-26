@@ -26,7 +26,7 @@ navbar:
       - text: "Week 7"
         href: Week_7_matrix_vector_math.html
       - text: "Week 8"
-        href: Week_8_apply_family.html
+        href: Week_8_forcats_recipes.html
       - text: "Week 9"
         href: Week_9_going_parallel.html
       - text: "Week 10"
