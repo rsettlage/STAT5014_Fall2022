@@ -1,0 +1,366 @@
+---
+title:  'Lecture 9 - Apply, mutate, map and LIME'
+author: "Robert Settlage"
+date: "2022-10-26"
+output: workflowr::wflow_html
+editor_options:
+  chunk_output_type: console
+header-includes: \setlength\parindent{24pt} \usepackage{MnSymbol} \usepackage{mathrsfs}
+---
+
+```{r load_libraries, echo=TRUE, warning=FALSE, include=FALSE}
+knitr::opts_chunk$set(collapse = TRUE, eval = TRUE, include = TRUE, echo = TRUE)
+library(knitr)
+library(data.table)
+library(tidyverse)
+library(reticulate)
+library(palmerpenguins)
+library(skimr)
+library(recipes)
+library(rsample)
+library(purrr)
+library(h2o)
+library(lime)
+```
+
+
+# Last time:
+
+## Categorical data  
+
+Categorical data is best described as grouped data.  This data has no intrinsic place and order (or scale) on the number line.  Inclusive in this is nominal (no order) and ordinal (no scale) data.  For example:  
+
+-  yes/no  
+-  eye color   
+-  country  
+-  satisfaction rating from 1-5 (least to most)  
+-  income as high/med/low  
+
+### Converting continuous data into categorical  
+
+Sometimes, it is advantageous to lump continuous data into groups.  For instance, you may have a date variable but are only interested in year, or weight and only interested in a high/med/low summary.
+
+Let's play with the penguin data and see what we see:  
+
+```{r palmer_category, eval=TRUE, echo=TRUE, include=TRUE}
+
+penguins %>%
+  glimpse()
+
+penguins %>% 
+  filter(complete.cases(.)) %>%
+  mutate(bill_volume = bill_length_mm * bill_depth_mm^2) %>%
+  ggplot(aes(x=bill_volume, y=body_mass_g)) +
+  geom_point(aes(color=sex, shape=species)) + 
+  facet_grid(~island)
+
+penguins_new <- penguins %>%
+  filter(complete.cases(.)) %>%
+  mutate(bill_volume = bill_length_mm * bill_depth_mm^2) %>%
+  mutate(bill_volume_quartile = case_when(
+    bill_volume < quantile(bill_volume, prob=c(0.25, 0.5, 0.75))[1] ~ "small",
+    bill_volume < quantile(bill_volume, prob=c(0.25, 0.5, 0.75))[2] ~ "small-med",
+    bill_volume < quantile(bill_volume, prob=c(0.25, 0.5, 0.75))[3] ~ "med-large",
+    TRUE ~ "large"
+  )) 
+
+penguins_new %>%
+  ggplot(aes(x=sex, y=body_mass_g)) +
+  geom_violin(aes(color=species)) + 
+  facet_grid(cols=vars(bill_volume_quartile), rows=vars(island))
+
+skim(penguins_new)
+
+penguins_new <- penguins_new %>%
+  mutate(bill_volume_buckets = case_when(
+    bill_volume > quantile(bill_volume, prob=c(0.9, 0.8, 0.7, 0.6, 0.5, 0.4))[1] ~ "Q9",
+    bill_volume > quantile(bill_volume, prob=c(0.9, 0.8, 0.7, 0.6, 0.5, 0.4))[2] ~ "Q8",
+    bill_volume > quantile(bill_volume, prob=c(0.9, 0.8, 0.7, 0.6, 0.5, 0.4))[3] ~ "Q7",
+    bill_volume > quantile(bill_volume, prob=c(0.9, 0.8, 0.7, 0.6, 0.5, 0.4))[4] ~ "Q6",
+    bill_volume > quantile(bill_volume, prob=c(0.9, 0.8, 0.7, 0.6, 0.5, 0.4))[5] ~ "Q5",
+    TRUE ~ "other"
+  )) 
+
+penguins_new %>%
+  ggplot(aes(x=sex, y=body_mass_g)) +
+  geom_violin(aes(color=species)) + 
+  facet_grid(cols=vars(bill_volume_buckets), rows=vars(island))
+
+```
+
+
+### factors
+
+What ggplot is doing under the hood for the text based variables is using as.factor to convert from text to a factor.  We can test and change that.  A handy alternative to `as.factor` is `as_factor` tidyverse alternative from `forcats`.
+
+```{r factor_example, echo=TRUE, eval=TRUE, include=TRUE}
+# check out the factor assignments and levels
+as.factor(penguins_new$bill_volume_buckets)
+levels(as.factor(penguins_new$bill_volume_buckets))
+as.numeric(as.factor(penguins_new$bill_volume_buckets))
+
+# we can arrange by the variable, does it change the factor order?
+penguins_new <- penguins_new %>%
+  arrange(desc(bill_volume_buckets)) 
+as.factor(penguins_new$bill_volume_buckets)
+
+penguins_new %>%
+  ggplot(aes(x=sex, y=body_mass_g)) +
+  geom_violin(aes(color=species)) + 
+  facet_grid(cols=vars(bill_volume_buckets), rows=vars(island))
+
+# what does as_factor do differently?
+penguins_new <- penguins_new %>%
+  mutate(bill_volume_buckets_fct = bill_volume_buckets %>% as_factor())
+
+penguins_new %>%
+  ggplot(aes(x=sex, y=body_mass_g)) +
+  geom_violin(aes(color=species)) + 
+  facet_grid(cols=vars(bill_volume_buckets_fct), rows=vars(island))
+
+# to reverse the factor levels, use fct_rev
+penguins_new <- penguins_new %>%
+  mutate(bill_volume_buckets_fct2 = bill_volume_buckets_fct %>% as_factor() %>% fct_rev())
+
+# what if we want to re-order with a non sortable order?
+penguins_new <- penguins_new %>%
+  mutate(bill_volume_buckets_fct3 = bill_volume_buckets_fct %>% as_factor() %>% fct_relevel("other", after=Inf))
+
+penguins_new %>%
+  ggplot(aes(x=sex, y=body_mass_g)) +
+  geom_violin(aes(color=species)) + 
+  facet_grid(cols=vars(bill_volume_buckets_fct3), rows=vars(island))
+
+```
+
+
+### What about for a model?
+
+What you need for a model is a "one-hot" encoded variable. It creates a new column for each unique value of the categorical variable. Each of these columns are binary with values 1 or 0 depending on whether the value of the variable is equal to the unique value being encoded by this column.  The R function lm (through `model.matrix`) does this for us.
+
+
+```{r one_hot, eval=TRUE, echo=TRUE, include=TRUE}
+# in this, what is does the intercept represent?
+model.matrix(bill_length_mm~sex+bill_volume, penguins_new)
+# if we just wanted the sex and species encodings
+model.matrix(~sex+species+0, penguins_new)
+#model.matrix(~sex+species-1, penguins_new)
+penguins_new %>% 
+  group_by(sex) %>% 
+  summarise(means = mean(bill_volume))
+lm(bill_volume~sex+0, penguins_new)
+```
+
+### Recipes package
+
+The `recipes` package aims to make our data engineering steps reproducible and easier for new data.  The data engineering steps would come after data cleaning.  Suppose, for example, we wanted to predict the penguin sex based on species, island, and observable physical characteristics including `flipper_length_mm` plus `bill_volume`.  Using `recipes` and starting with the original dataset:
+
+```{r penguin_cooked, echo=TRUE, eval=TRUE, include=TRUE}
+
+set.seed(16234)
+# Put 80% of the data into the training set
+penguins_split <- initial_split(
+  penguins %>% filter(complete.cases(.)), prop = 0.8)
+# now do the split
+train_data <- training(penguins_split)
+test_data  <- testing(penguins_split)
+
+# start with the main ingredient
+pengiun_recipe <- recipe(sex~., data=train_data) %>%
+  # define any roles that need tweaking, I dont want year as predictor/outcome
+  update_role(year, new_role = "YEAR") %>%
+  # remove variables that have no variation
+  step_zv(all_predictors()) %>%
+  step_mutate_at(all_nominal_predictors(), fn = as.factor) %>%
+  step_mutate(bill_volume = bill_length_mm * bill_depth_mm^2) %>%
+  step_select(-bill_length_mm, -bill_depth_mm) %>%
+  step_center(all_numeric_predictors()) %>%
+  step_scale(all_numeric_predictors()) %>%
+  # expand the nominal variables as one-hot encoded variable
+  step_dummy(all_nominal_predictors()) %>%
+  step_mutate(sex = sex %>% as_factor())
+
+train_data_baked <- pengiun_recipe %>% 
+    prep() %>% 
+    bake(train_data) 
+
+test_data_baked <- pengiun_recipe %>% 
+    prep() %>% 
+    bake(test_data) 
+
+```
+
+Just for fun:
+
+```{r model_and_predict_h2o, eval=TRUE, echo=TRUE, include=TRUE, cache=TRUE}
+
+h2o.init()
+
+train_h2o <- as.h2o(train_data_baked)
+test_h2o  <- as.h2o(test_data_baked)
+
+y <- "sex"
+x <- setdiff(names(train_h2o), c(y, "year"))
+
+automl_models_h2o <- h2o.automl(
+    x = x,
+    y = y,
+    training_frame   = train_h2o,
+    max_runtime_secs = 300,
+    nfolds           = 10
+)
+
+automl_models_h2o@leaderboard
+
+# grab first model
+best_model <- automl_models_h2o@leaderboard %>% 
+  as_tibble() %>%
+  slice(1)
+
+best_model
+
+best_model_results <- h2o.getModel(paste0(best_model[1]))
+
+
+predictions <- h2o.predict(best_model_results, newdata = test_h2o) %>% 
+  as.tibble() %>% 
+  bind_cols(test_data_baked %>% select(flipper_length_mm, sex)) 
+
+predictions %>%
+  ggplot(aes(x=flipper_length_mm, y=predict)) +
+  geom_point(aes(color=as_factor(sex))) +
+  theme(legend.position = "bottom") 
+
+# quick confusion matrix
+#?yardstick
+predictions %>% yardstick::conf_mat(sex, predict) %>% autoplot(type="heatmap")
+
+# just curious what the model looks like on the training data
+predictions_train_data <- h2o.predict(best_model_results, newdata = train_h2o) %>% as.tibble() %>% bind_cols(train_data_baked %>% select(flipper_length_mm, sex)) 
+
+predictions_train_data %>%
+  ggplot(aes(x=flipper_length_mm, y=predict)) +
+  geom_point(aes(color=as_factor(sex))) +
+  theme(legend.position = "bottom") 
+
+```
+
+### Python
+
+Not to be left out, ports to python exist for forcats -- siuba, but not for the recipes package.  :(
+
+The functions are identically named.  The docs aren't great.  BUT, I found `datar` which looks very promising:
+
+<https://github.com/pwwang/datar>
+
+# Today's Agenda
+
+- Apply  
+- group_by, summarise  
+- map   
+- LIME
+
+## The apply family of functions
+
+(par)xxApply
+
+Group of functions differing in both input object type and returned object type.  "par" versions are parallelized versions offering in some cases speed improvements.
+
+```{r apply_family}
+x <- cbind(x1 = 3, x2 = c(4:1, 2:5))
+dimnames(x)[[1]] <- letters[1:8]
+# colmeans
+apply(x,2,mean)
+# rowmeans
+apply(x,2,mean)
+
+# apply to list elements
+y<-list(a = 1:10, beta = exp(-3:3), logic = c(TRUE,FALSE,FALSE,TRUE))
+
+lapply(y,mean)
+sapply(y,mean)
+
+```
+
+
+## group_by and summarize
+
+Summary functions also exist in the tidyverse.  For instance:
+
+```{r dplyr_functions}
+
+palmerpenguins::penguins %>%
+  summarise_if(is.numeric, mean, na.rm=TRUE)
+
+palmerpenguins::penguins %>% 
+  select(-year) %>%
+  filter(complete.cases(.)) %>%
+  group_by(species, island, sex) %>%
+  summarize(count=n())
+
+```
+
+
+## Map
+
+purrr::map is a function to iterate and operate on each element of a list.
+
+```{r map_function}
+  
+palmerpenguins::penguins %>% 
+  mutate(bill_volume=bill_length_mm*bill_depth_mm^2) %>%
+  select(-year, -bill_length_mm, -bill_depth_mm) %>%
+  filter(complete.cases(.)) %>%
+  nest(-species, -sex, -island) %>%
+  mutate(fit = map(data, ~ lm(body_mass_g~bill_volume+flipper_length_mm, data = .))) %>%
+  mutate(results = map(fit, broom::augment)) %>%
+  unnest(results) %>%
+  ggplot(aes(x = body_mass_g, y = .fitted)) +
+    geom_abline(intercept = 0, slope = 1, alpha = .2) +  # Line of perfect fit
+    geom_point(aes(color=sex), alpha=0.2) +
+    facet_grid(rows=vars(island), cols=vars(species), scales="free")
+
+```
+
+## LIME
+
+Local Interpretable Model-Agnostic Explanations
+
+Basically create a bunch of permutations of the data point of interest to get an idea of the importance of each variable affecting the outcome of interest.
+
+Need to create the explainer object and then the explaination.
+
+```{r lime_aide}
+
+predictions
+
+explainer <- lime::lime(
+  x = train_data  %>% select(-year, -sex),
+  model = best_model_results,
+  bin_continous = TRUE,
+  n_bins = 4,
+  quantile_bins = TRUE,
+)
+
+explanation <- lime::explain(
+  x = test_data %>% select(-year, -sex) %>% slice(6),
+  explainer = explainer,
+  n_labels = 1,
+  n_features = 8,
+  n_permutations = 5000,
+  kernel_width = 0.9
+)
+
+lime::plot_features(explanation)
+
+explanations <- lime::explain(
+  x = test_data %>% select(-year, -sex) %>% slice(1:20),
+  explainer = explainer,
+  n_labels = 1,
+  n_features = 8,
+  #n_permutations = 5000,
+  kernel_width = 0.9
+)
+lime::plot_explanations(explanations)
+
+```
