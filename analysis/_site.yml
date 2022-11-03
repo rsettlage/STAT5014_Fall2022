@@ -42,6 +42,8 @@ navbar:
         href: Project_1.html
       - text: "Project 2"
         href: Project_2.html
+      - text: "Project Skeleton"
+        href: Project-skeleton.Rmd
   - text: Setup
     menu:
       - text: "Submitting Homework"
