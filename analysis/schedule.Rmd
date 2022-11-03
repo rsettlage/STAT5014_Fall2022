@@ -40,7 +40,7 @@ Suggested schedule, you can speed ahead.
 |7	     | 12-Oct    | Data import -- (my)sql, excel, json, plain text, yaml, web scraping
 |-       | 19-Oct    | No class  
 |8	     | 26-Oct    | factors (forcats) and recipes  
-|9	     |  2-Nov    | R's Apply family of functions and Parallel computing in R, parXapply, foreach and dopar
+|9	     |  2-Nov    | R's Apply vs mutate + map  
 |        |           | **MODULE 3 -- Fun with text, ML and automation**  
 |10	     |  9-Nov    | ML in both languages -- Keras vs PyTorch (SciKitLearn?  mle4? others?) 
 |11	     | 10-Nov    | text munging -- tidytext (https://analyticsindiamag.com/top-10-r-packages-for-natural-language-processing-nlp/) vs textblob,torch text,PySpark and Sparklinlp   

@@ -1,0 +1,1778 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="Robert Settlage" />
+
+<meta name="date" content="2022-10-26" />
+
+<title>Lecture 9 - Apply, mutate, map and LIME</title>
+
+<script src="site_libs/header-attrs-2.16/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+
+<link rel="icon" href="https://github.com/workflowr/workflowr-assets/raw/main/img/reproducible.png">
+<!-- Add a small amount of space between sections. -->
+<style type="text/css">
+div.section {
+  padding-top: 12px;
+}
+</style>
+
+
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">STAT5014 Fall2022 website</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="syllabus.html">Syllabus</a>
+</li>
+<li>
+  <a href="schedule.html">Schedule</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Lectures
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="Week_1_Introductions_Reproducible_Research_R.html">Week 1</a>
+    </li>
+    <li>
+      <a href="Week_2_Reproducible_research_Git_Good_Programming_Practices.html">Week 2</a>
+    </li>
+    <li>
+      <a href="Week_3_Websites_Github.html">Week 3</a>
+    </li>
+    <li>
+      <a href="Week_4_Plots_using_ggplot2_plotly_more.html">Week 4</a>
+    </li>
+    <li>
+      <a href="Week_5_matrix_vector_math.html">Week 5</a>
+    </li>
+    <li>
+      <a href="Week_6_wrangling_munging_tidying.html">Week 6</a>
+    </li>
+    <li>
+      <a href="Week_7_importing_data.html">Week 7</a>
+    </li>
+    <li>
+      <a href="Week_8_forcats_recipes.html">Week 8</a>
+    </li>
+    <li>
+      <a href="Week_9_apply_mutate_map.html">Week 9</a>
+    </li>
+    <li>
+      <a href="Week_10_dashboards_reports_automation.html">Week 10</a>
+    </li>
+    <li>
+      <a href="Week_11_AI_ML.html">Week 11</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Homework
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="Week_1_homework_1.html">Homework 1</a>
+    </li>
+    <li>
+      <a href="Project_1.html">Project 1</a>
+    </li>
+    <li>
+      <a href="Project_2.html">Project 2</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Setup
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="submittinghomework.html">Submitting Homework</a>
+    </li>
+    <li>
+      <a href="SampleHomework.html">Sample Homework</a>
+    </li>
+    <li>
+      <a href="gitconf.html">Git Config</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://github.com/rsettlage/STAT5014_Fall2022">
+    <span class="fa fa-github"></span>
+     
+    Source code
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">Lecture 9 - Apply, mutate, map and
+LIME</h1>
+<h4 class="author">Robert Settlage</h4>
+<h4 class="date">2022-10-26</h4>
+
+</div>
+
+
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
+<span class="glyphicon glyphicon-list" aria-hidden="true"></span>
+workflowr <span class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span>
+</button>
+</p>
+<div id="workflowr-report" class="collapse">
+<ul class="nav nav-tabs">
+<li class="active">
+<a data-toggle="tab" href="#summary">Summary</a>
+</li>
+<li>
+<a data-toggle="tab" href="#checks"> Checks <span
+class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span> </a>
+</li>
+<li>
+<a data-toggle="tab" href="#versions">Past versions</a>
+</li>
+</ul>
+<div class="tab-content">
+<div id="summary" class="tab-pane fade in active">
+<p>
+<strong>Last updated:</strong> 2022-11-02
+</p>
+<p>
+<strong>Checks:</strong> <span
+class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 5
+<span class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span> 2
+</p>
+<p>
+<strong>Knit directory:</strong>
+<code>~/Projects/STAT5014_Fall2022/</code> <span
+class="glyphicon glyphicon-question-sign" aria-hidden="true"
+title="This is the local directory in which the code in this file was executed.">
+</span>
+</p>
+<p>
+This reproducible <a href="https://rmarkdown.rstudio.com">R Markdown</a>
+analysis was created with <a
+  href="https://github.com/workflowr/workflowr">workflowr</a> (version
+1.7.0). The <em>Checks</em> tab describes the reproducibility checks
+that were applied when the results were created. The <em>Past
+versions</em> tab lists the development history.
+</p>
+<hr>
+</div>
+<div id="checks" class="tab-pane fade">
+<div id="workflowr-checks" class="panel-group">
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguncommittedchanges">
+<span class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span> <strong>R Markdown file:</strong> uncommitted
+changes </a>
+</p>
+</div>
+<div id="strongRMarkdownfilestronguncommittedchanges"
+class="panel-collapse collapse">
+<div class="panel-body">
+<p>The R Markdown file has unstaged changes. To know which version of
+the R Markdown file created these results, you’ll want to first commit
+it to the Git repo. If you’re still working on the analysis, you can
+ignore this warning. When you’re finished, you can run
+<code>wflow_publish</code> to commit the R Markdown file and build the
+HTML.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongEnvironmentstrongempty">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Environment:</strong> empty </a>
+</p>
+</div>
+<div id="strongEnvironmentstrongempty" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! The global environment was empty. Objects defined in the
+global environment can affect the analysis in your R Markdown file in
+unknown ways. For reproduciblity it’s best to always run the code in an
+empty environment.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSeedstrongcodesetseed20210816code">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Seed:</strong>
+<code>set.seed(20210816)</code> </a>
+</p>
+</div>
+<div id="strongSeedstrongcodesetseed20210816code"
+class="panel-collapse collapse">
+<div class="panel-body">
+<p>The command <code>set.seed(20210816)</code> was run prior to running
+the code in the R Markdown file. Setting a seed ensures that any results
+that rely on randomness, e.g. subsampling or permutations, are
+reproducible.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSessioninformationstrongrecorded">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Session information:</strong>
+recorded </a>
+</p>
+</div>
+<div id="strongSessioninformationstrongrecorded"
+class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! Recording the operating system, R version, and package
+versions is critical for reproducibility.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongCachestrongdetected">
+<span class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span> <strong>Cache:</strong> detected </a>
+</p>
+</div>
+<div id="strongCachestrongdetected" class="panel-collapse collapse">
+<div class="panel-body">
+The following chunks had caches available:
+<ul>
+<li>
+model_and_predict_h2o
+</li>
+</ul>
+<p>To ensure reproducibility of the results, delete the cache directory
+<code>Week_9_apply_mutate_map_cache</code> and re-run the analysis. To
+have workflowr automatically delete the cache directory prior to
+building the file, set <code>delete_cache = TRUE</code> when running
+<code>wflow_build()</code> or <code>wflow_publish()</code>.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongFilepathsstrongrelative">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>File paths:</strong> relative </a>
+</p>
+</div>
+<div id="strongFilepathsstrongrelative" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! Using relative paths to the files within your workflowr
+project makes it easier to run your code on other machines.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomrsettlageSTAT5014Fall2022tree60f58adaf0eb7e65d5f5677276f79487941c32e5targetblank60f58ada">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Repository version:</strong>
+<a href="https://github.com/rsettlage/STAT5014_Fall2022/tree/60f58adaf0eb7e65d5f5677276f79487941c32e5" target="_blank">60f58ad</a>
+</a>
+</p>
+</div>
+<div
+id="strongRepositoryversionstrongahrefhttpsgithubcomrsettlageSTAT5014Fall2022tree60f58adaf0eb7e65d5f5677276f79487941c32e5targetblank60f58ada"
+class="panel-collapse collapse">
+<div class="panel-body">
+<p>
+Great! You are using Git for version control. Tracking code development
+and connecting the code version to the results is critical for
+reproducibility.
+</p>
+<p>
+The results in this page were generated with repository version
+<a href="https://github.com/rsettlage/STAT5014_Fall2022/tree/60f58adaf0eb7e65d5f5677276f79487941c32e5" target="_blank">60f58ad</a>.
+See the <em>Past versions</em> tab to see a history of the changes made
+to the R Markdown and HTML files.
+</p>
+<p>
+Note that you need to be careful to ensure that all relevant files for
+the analysis have been committed to Git prior to generating the results
+(you can use <code>wflow_publish</code> or
+<code>wflow_git_commit</code>). workflowr only checks the R Markdown
+file, but you know if there are other scripts or data files that it
+depends on. Below is the status of the Git repository when the results
+were generated:
+</p>
+<pre><code>
+Ignored files:
+    Ignored:    analysis/.Rhistory
+    Ignored:    analysis/Week_2_Reproducible_research_Git_Good_Programming_Practices_cache/
+    Ignored:    analysis/Week_9_apply_mutate_map_cache/
+    Ignored:    girder_raw.RDS
+    Ignored:    sensory_raw.RDS
+
+Unstaged changes:
+    Modified:   analysis/Week_8_forcats_recipes.Rmd
+    Modified:   analysis/Week_9_apply_mutate_map.Rmd
+    Modified:   analysis/_site.yml
+    Modified:   analysis/schedule.Rmd
+
+</code></pre>
+<p>
+Note that any generated files, e.g. HTML, png, CSS, etc., are not
+included in this status report because it is ok for generated content to
+have uncommitted changes.
+</p>
+</div>
+</div>
+</div>
+</div>
+<hr>
+</div>
+<div id="versions" class="tab-pane fade">
+
+<p>
+These are the previous versions of the repository in which changes were
+made to the R Markdown
+(<code>analysis/Week_9_apply_mutate_map.Rmd</code>) and HTML
+(<code>docs/Week_9_apply_mutate_map.html</code>) files. If you’ve
+configured a remote Git repository (see <code>?wflow_git_remote</code>),
+click on the hyperlinks in the table below to view the files as they
+were in that past version.
+</p>
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+File
+</th>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+<th>
+Message
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/rsettlage/STAT5014_Fall2022/blob/60f58adaf0eb7e65d5f5677276f79487941c32e5/analysis/Week_9_apply_mutate_map.Rmd" target="_blank">60f58ad</a>
+</td>
+<td>
+Robert Settlage
+</td>
+<td>
+2022-11-02
+</td>
+<td>
+week 9
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<hr>
+</div>
+</div>
+</div>
+<div id="last-time" class="section level1">
+<h1>Last time:</h1>
+<div id="categorical-data" class="section level2">
+<h2>Categorical data</h2>
+<p>Categorical data is best described as grouped data. This data has no
+intrinsic place and order (or scale) on the number line. Inclusive in
+this is nominal (no order) and ordinal (no scale) data. For example:</p>
+<ul>
+<li>yes/no<br />
+</li>
+<li>eye color<br />
+</li>
+<li>country<br />
+</li>
+<li>satisfaction rating from 1-5 (least to most)<br />
+</li>
+<li>income as high/med/low</li>
+</ul>
+<div id="converting-continuous-data-into-categorical"
+class="section level3">
+<h3>Converting continuous data into categorical</h3>
+<p>Sometimes, it is advantageous to lump continuous data into groups.
+For instance, you may have a date variable but are only interested in
+year, or weight and only interested in a high/med/low summary.</p>
+<p>Let’s play with the penguin data and see what we see:</p>
+<pre class="r"><code>
+penguins %&gt;%
+  glimpse()
+Rows: 344
+Columns: 8
+$ species           &lt;fct&gt; Adelie, Adelie, Adelie, Adelie, Adelie, Adelie, Adel…
+$ island            &lt;fct&gt; Torgersen, Torgersen, Torgersen, Torgersen, Torgerse…
+$ bill_length_mm    &lt;dbl&gt; 39.1, 39.5, 40.3, NA, 36.7, 39.3, 38.9, 39.2, 34.1, …
+$ bill_depth_mm     &lt;dbl&gt; 18.7, 17.4, 18.0, NA, 19.3, 20.6, 17.8, 19.6, 18.1, …
+$ flipper_length_mm &lt;int&gt; 181, 186, 195, NA, 193, 190, 181, 195, 193, 190, 186…
+$ body_mass_g       &lt;int&gt; 3750, 3800, 3250, NA, 3450, 3650, 3625, 4675, 3475, …
+$ sex               &lt;fct&gt; male, female, female, NA, female, male, female, male…
+$ year              &lt;int&gt; 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007…
+
+penguins %&gt;% 
+  filter(complete.cases(.)) %&gt;%
+  mutate(bill_volume = bill_length_mm * bill_depth_mm^2) %&gt;%
+  ggplot(aes(x=bill_volume, y=body_mass_g)) +
+  geom_point(aes(color=sex, shape=species)) + 
+  facet_grid(~island)</code></pre>
+<p><img src="figure/Week_9_apply_mutate_map.Rmd/palmer_category-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>
+penguins_new &lt;- penguins %&gt;%
+  filter(complete.cases(.)) %&gt;%
+  mutate(bill_volume = bill_length_mm * bill_depth_mm^2) %&gt;%
+  mutate(bill_volume_quartile = case_when(
+    bill_volume &lt; quantile(bill_volume, prob=c(0.25, 0.5, 0.75))[1] ~ &quot;small&quot;,
+    bill_volume &lt; quantile(bill_volume, prob=c(0.25, 0.5, 0.75))[2] ~ &quot;small-med&quot;,
+    bill_volume &lt; quantile(bill_volume, prob=c(0.25, 0.5, 0.75))[3] ~ &quot;med-large&quot;,
+    TRUE ~ &quot;large&quot;
+  )) 
+
+penguins_new %&gt;%
+  ggplot(aes(x=sex, y=body_mass_g)) +
+  geom_violin(aes(color=species)) + 
+  facet_grid(cols=vars(bill_volume_quartile), rows=vars(island))
+Warning: Groups with fewer than two data points have been dropped.</code></pre>
+<p><img src="figure/Week_9_apply_mutate_map.Rmd/palmer_category-2.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>
+skim(penguins_new)</code></pre>
+<table>
+<caption>Data summary</caption>
+<tbody>
+<tr class="odd">
+<td align="left">Name</td>
+<td align="left">penguins_new</td>
+</tr>
+<tr class="even">
+<td align="left">Number of rows</td>
+<td align="left">333</td>
+</tr>
+<tr class="odd">
+<td align="left">Number of columns</td>
+<td align="left">10</td>
+</tr>
+<tr class="even">
+<td align="left">_______________________</td>
+<td align="left"></td>
+</tr>
+<tr class="odd">
+<td align="left">Column type frequency:</td>
+<td align="left"></td>
+</tr>
+<tr class="even">
+<td align="left">character</td>
+<td align="left">1</td>
+</tr>
+<tr class="odd">
+<td align="left">factor</td>
+<td align="left">3</td>
+</tr>
+<tr class="even">
+<td align="left">numeric</td>
+<td align="left">6</td>
+</tr>
+<tr class="odd">
+<td align="left">________________________</td>
+<td align="left"></td>
+</tr>
+<tr class="even">
+<td align="left">Group variables</td>
+<td align="left">None</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Variable type: character</strong></p>
+<table style="width:100%;">
+<colgroup>
+<col width="26%" />
+<col width="12%" />
+<col width="17%" />
+<col width="5%" />
+<col width="5%" />
+<col width="7%" />
+<col width="11%" />
+<col width="13%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">skim_variable</th>
+<th align="right">n_missing</th>
+<th align="right">complete_rate</th>
+<th align="right">min</th>
+<th align="right">max</th>
+<th align="right">empty</th>
+<th align="right">n_unique</th>
+<th align="right">whitespace</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">bill_volume_quartile</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">5</td>
+<td align="right">9</td>
+<td align="right">0</td>
+<td align="right">4</td>
+<td align="right">0</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Variable type: factor</strong></p>
+<table>
+<colgroup>
+<col width="16%" />
+<col width="12%" />
+<col width="16%" />
+<col width="9%" />
+<col width="10%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">skim_variable</th>
+<th align="right">n_missing</th>
+<th align="right">complete_rate</th>
+<th align="left">ordered</th>
+<th align="right">n_unique</th>
+<th align="left">top_counts</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">species</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="left">FALSE</td>
+<td align="right">3</td>
+<td align="left">Ade: 146, Gen: 119, Chi: 68</td>
+</tr>
+<tr class="even">
+<td align="left">island</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="left">FALSE</td>
+<td align="right">3</td>
+<td align="left">Bis: 163, Dre: 123, Tor: 47</td>
+</tr>
+<tr class="odd">
+<td align="left">sex</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="left">FALSE</td>
+<td align="right">2</td>
+<td align="left">mal: 168, fem: 165</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Variable type: numeric</strong></p>
+<table style="width:100%;">
+<colgroup>
+<col width="16%" />
+<col width="9%" />
+<col width="12%" />
+<col width="8%" />
+<col width="7%" />
+<col width="7%" />
+<col width="8%" />
+<col width="8%" />
+<col width="8%" />
+<col width="8%" />
+<col width="5%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">skim_variable</th>
+<th align="right">n_missing</th>
+<th align="right">complete_rate</th>
+<th align="right">mean</th>
+<th align="right">sd</th>
+<th align="right">p0</th>
+<th align="right">p25</th>
+<th align="right">p50</th>
+<th align="right">p75</th>
+<th align="right">p100</th>
+<th align="left">hist</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">bill_length_mm</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">43.99</td>
+<td align="right">5.47</td>
+<td align="right">32.10</td>
+<td align="right">39.50</td>
+<td align="right">44.50</td>
+<td align="right">48.60</td>
+<td align="right">59.60</td>
+<td align="left">▃▇▇▆▁</td>
+</tr>
+<tr class="even">
+<td align="left">bill_depth_mm</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">17.16</td>
+<td align="right">1.97</td>
+<td align="right">13.10</td>
+<td align="right">15.60</td>
+<td align="right">17.30</td>
+<td align="right">18.70</td>
+<td align="right">21.50</td>
+<td align="left">▅▆▇▇▂</td>
+</tr>
+<tr class="odd">
+<td align="left">flipper_length_mm</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">200.97</td>
+<td align="right">14.02</td>
+<td align="right">172.00</td>
+<td align="right">190.00</td>
+<td align="right">197.00</td>
+<td align="right">213.00</td>
+<td align="right">231.00</td>
+<td align="left">▂▇▃▅▃</td>
+</tr>
+<tr class="even">
+<td align="left">body_mass_g</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">4207.06</td>
+<td align="right">805.22</td>
+<td align="right">2700.00</td>
+<td align="right">3550.00</td>
+<td align="right">4050.00</td>
+<td align="right">4775.00</td>
+<td align="right">6300.00</td>
+<td align="left">▃▇▅▃▂</td>
+</tr>
+<tr class="odd">
+<td align="left">year</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">2008.04</td>
+<td align="right">0.81</td>
+<td align="right">2007.00</td>
+<td align="right">2007.00</td>
+<td align="right">2008.00</td>
+<td align="right">2009.00</td>
+<td align="right">2009.00</td>
+<td align="left">▇▁▇▁▇</td>
+</tr>
+<tr class="even">
+<td align="left">bill_volume</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">13050.53</td>
+<td align="right">3149.32</td>
+<td align="right">7362.07</td>
+<td align="right">10754.86</td>
+<td align="right">12701.29</td>
+<td align="right">14764.74</td>
+<td align="right">23449.09</td>
+<td align="left">▅▇▅▂▁</td>
+</tr>
+</tbody>
+</table>
+<pre class="r"><code>
+penguins_new &lt;- penguins_new %&gt;%
+  mutate(bill_volume_buckets = case_when(
+    bill_volume &gt; quantile(bill_volume, prob=c(0.9, 0.8, 0.7, 0.6, 0.5, 0.4))[1] ~ &quot;Q9&quot;,
+    bill_volume &gt; quantile(bill_volume, prob=c(0.9, 0.8, 0.7, 0.6, 0.5, 0.4))[2] ~ &quot;Q8&quot;,
+    bill_volume &gt; quantile(bill_volume, prob=c(0.9, 0.8, 0.7, 0.6, 0.5, 0.4))[3] ~ &quot;Q7&quot;,
+    bill_volume &gt; quantile(bill_volume, prob=c(0.9, 0.8, 0.7, 0.6, 0.5, 0.4))[4] ~ &quot;Q6&quot;,
+    bill_volume &gt; quantile(bill_volume, prob=c(0.9, 0.8, 0.7, 0.6, 0.5, 0.4))[5] ~ &quot;Q5&quot;,
+    TRUE ~ &quot;other&quot;
+  )) 
+
+penguins_new %&gt;%
+  ggplot(aes(x=sex, y=body_mass_g)) +
+  geom_violin(aes(color=species)) + 
+  facet_grid(cols=vars(bill_volume_buckets), rows=vars(island))
+Warning: Groups with fewer than two data points have been dropped.
+Groups with fewer than two data points have been dropped.
+Groups with fewer than two data points have been dropped.
+Groups with fewer than two data points have been dropped.
+Groups with fewer than two data points have been dropped.</code></pre>
+<p><img src="figure/Week_9_apply_mutate_map.Rmd/palmer_category-3.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div id="factors" class="section level3">
+<h3>factors</h3>
+<p>What ggplot is doing under the hood for the text based variables is
+using as.factor to convert from text to a factor. We can test and change
+that. A handy alternative to <code>as.factor</code> is
+<code>as_factor</code> tidyverse alternative from
+<code>forcats</code>.</p>
+<pre class="r"><code># check out the factor assignments and levels
+as.factor(penguins_new$bill_volume_buckets)
+  [1] Q6    other Q5    Q6    Q8    other Q7    Q5    Q8    Q8    other Q6   
+ [13] Q9    other Q9    other Q5    Q5    other other other Q6    Q5    Q5   
+ [25] Q7    other other other Q7    other Q8    Q8    Q7    Q6    Q7    other
+ [37] Q6    other Q8    other Q6    Q7    other Q9    other Q7    other Q8   
+ [49] other Q7    other Q7    other Q6    other Q9    other Q6    other Q6   
+ [61] other Q7    other Q8    other Q6    other Q8    other Q7    other Q6   
+ [73] other Q7    other Q5    Q5    Q5    other Q8    Q6    Q5    Q6    Q6   
+ [85] other Q6    other Q5    other Q7    Q5    Q6    other Q7    other Q8   
+ [97] other Q7    Q5    Q6    other Q7    other Q8    other Q9    other Q8   
+[109] Q8    Q7    other Q8    other Q7    other Q7    other Q6    other Q7   
+[121] other Q6    other Q7    other Q8    other Q5    other other other Q8   
+[133] other Q5    other other other other other Q6    Q6    other other other
+[145] other Q6    other Q5    other other other other other other other other
+[157] other other other other other other other other other other other other
+[169] other other other other other other other other other other Q8    other
+[181] Q5    other Q5    other other other other other other Q5    other other
+[193] Q5    other other other other other other other other other other other
+[205] other other other other Q5    other Q6    Q5    other other other other
+[217] other other other other other Q6    other other other Q5    other other
+[229] other Q7    other other other Q7    other Q7    other Q5    other other
+[241] other other other Q6    other Q8    other other other other Q5    other
+[253] other other other other Q6    other Q6    Q5    other other other other
+[265] Q5    Q7    Q9    Q9    Q8    Q9    Q7    Q7    Q8    Q8    Q9    Q7   
+[277] Q9    Q6    Q8    Q6    Q9    Q9    Q9    Q8    Q8    other Q7    other
+[289] Q9    Q7    Q9    Q8    Q9    Q7    Q9    other Q9    other Q9    Q8   
+[301] Q6    Q8    Q9    Q5    Q9    Q9    Q6    Q9    Q5    Q8    Q8    Q8   
+[313] Q9    Q9    Q7    Q5    Q9    Q6    Q9    Q5    Q9    other Q9    Q9   
+[325] Q8    Q9    Q5    Q5    Q9    Q7    Q8    Q9    Q9   
+Levels: other Q5 Q6 Q7 Q8 Q9
+levels(as.factor(penguins_new$bill_volume_buckets))
+[1] &quot;other&quot; &quot;Q5&quot;    &quot;Q6&quot;    &quot;Q7&quot;    &quot;Q8&quot;    &quot;Q9&quot;   
+as.numeric(as.factor(penguins_new$bill_volume_buckets))
+  [1] 3 1 2 3 5 1 4 2 5 5 1 3 6 1 6 1 2 2 1 1 1 3 2 2 4 1 1 1 4 1 5 5 4 3 4 1 3
+ [38] 1 5 1 3 4 1 6 1 4 1 5 1 4 1 4 1 3 1 6 1 3 1 3 1 4 1 5 1 3 1 5 1 4 1 3 1 4
+ [75] 1 2 2 2 1 5 3 2 3 3 1 3 1 2 1 4 2 3 1 4 1 5 1 4 2 3 1 4 1 5 1 6 1 5 5 4 1
+[112] 5 1 4 1 4 1 3 1 4 1 3 1 4 1 5 1 2 1 1 1 5 1 2 1 1 1 1 1 3 3 1 1 1 1 3 1 2
+[149] 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 5 1 2 1 2 1 1
+[186] 1 1 1 1 2 1 1 2 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 2 1 3 2 1 1 1 1 1 1 1 1 1 3
+[223] 1 1 1 2 1 1 1 4 1 1 1 4 1 4 1 2 1 1 1 1 1 3 1 5 1 1 1 1 2 1 1 1 1 1 3 1 3
+[260] 2 1 1 1 1 2 4 6 6 5 6 4 4 5 5 6 4 6 3 5 3 6 6 6 5 5 1 4 1 6 4 6 5 6 4 6 1
+[297] 6 1 6 5 3 5 6 2 6 6 3 6 2 5 5 5 6 6 4 2 6 3 6 2 6 1 6 6 5 6 2 2 6 4 5 6 6
+
+# we can arrange by the variable, does it change the factor order?
+penguins_new &lt;- penguins_new %&gt;%
+  arrange(desc(bill_volume_buckets)) 
+as.factor(penguins_new$bill_volume_buckets)
+  [1] Q9    Q9    Q9    Q9    Q9    Q9    Q9    Q9    Q9    Q9    Q9    Q9   
+ [13] Q9    Q9    Q9    Q9    Q9    Q9    Q9    Q9    Q9    Q9    Q9    Q9   
+ [25] Q9    Q9    Q9    Q9    Q9    Q9    Q9    Q9    Q9    Q9    Q8    Q8   
+ [37] Q8    Q8    Q8    Q8    Q8    Q8    Q8    Q8    Q8    Q8    Q8    Q8   
+ [49] Q8    Q8    Q8    Q8    Q8    Q8    Q8    Q8    Q8    Q8    Q8    Q8   
+ [61] Q8    Q8    Q8    Q8    Q8    Q8    Q8    Q7    Q7    Q7    Q7    Q7   
+ [73] Q7    Q7    Q7    Q7    Q7    Q7    Q7    Q7    Q7    Q7    Q7    Q7   
+ [85] Q7    Q7    Q7    Q7    Q7    Q7    Q7    Q7    Q7    Q7    Q7    Q7   
+ [97] Q7    Q7    Q7    Q7    Q6    Q6    Q6    Q6    Q6    Q6    Q6    Q6   
+[109] Q6    Q6    Q6    Q6    Q6    Q6    Q6    Q6    Q6    Q6    Q6    Q6   
+[121] Q6    Q6    Q6    Q6    Q6    Q6    Q6    Q6    Q6    Q6    Q6    Q6   
+[133] Q6    Q5    Q5    Q5    Q5    Q5    Q5    Q5    Q5    Q5    Q5    Q5   
+[145] Q5    Q5    Q5    Q5    Q5    Q5    Q5    Q5    Q5    Q5    Q5    Q5   
+[157] Q5    Q5    Q5    Q5    Q5    Q5    Q5    Q5    Q5    Q5    other other
+[169] other other other other other other other other other other other other
+[181] other other other other other other other other other other other other
+[193] other other other other other other other other other other other other
+[205] other other other other other other other other other other other other
+[217] other other other other other other other other other other other other
+[229] other other other other other other other other other other other other
+[241] other other other other other other other other other other other other
+[253] other other other other other other other other other other other other
+[265] other other other other other other other other other other other other
+[277] other other other other other other other other other other other other
+[289] other other other other other other other other other other other other
+[301] other other other other other other other other other other other other
+[313] other other other other other other other other other other other other
+[325] other other other other other other other other other
+Levels: other Q5 Q6 Q7 Q8 Q9
+
+penguins_new %&gt;%
+  ggplot(aes(x=sex, y=body_mass_g)) +
+  geom_violin(aes(color=species)) + 
+  facet_grid(cols=vars(bill_volume_buckets), rows=vars(island))
+Warning: Groups with fewer than two data points have been dropped.
+Groups with fewer than two data points have been dropped.
+Groups with fewer than two data points have been dropped.
+Groups with fewer than two data points have been dropped.
+Groups with fewer than two data points have been dropped.</code></pre>
+<p><img src="figure/Week_9_apply_mutate_map.Rmd/factor_example-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>
+# what does as_factor do differently?
+penguins_new &lt;- penguins_new %&gt;%
+  mutate(bill_volume_buckets_fct = bill_volume_buckets %&gt;% as_factor())
+
+penguins_new %&gt;%
+  ggplot(aes(x=sex, y=body_mass_g)) +
+  geom_violin(aes(color=species)) + 
+  facet_grid(cols=vars(bill_volume_buckets_fct), rows=vars(island))
+Warning: Groups with fewer than two data points have been dropped.
+Groups with fewer than two data points have been dropped.
+Groups with fewer than two data points have been dropped.
+Groups with fewer than two data points have been dropped.
+Groups with fewer than two data points have been dropped.</code></pre>
+<p><img src="figure/Week_9_apply_mutate_map.Rmd/factor_example-2.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>
+# to reverse the factor levels, use fct_rev
+penguins_new &lt;- penguins_new %&gt;%
+  mutate(bill_volume_buckets_fct2 = bill_volume_buckets_fct %&gt;% as_factor() %&gt;% fct_rev())
+
+# what if we want to re-order with a non sortable order?
+penguins_new &lt;- penguins_new %&gt;%
+  mutate(bill_volume_buckets_fct3 = bill_volume_buckets_fct %&gt;% as_factor() %&gt;% fct_relevel(&quot;other&quot;, after=Inf))
+
+penguins_new %&gt;%
+  ggplot(aes(x=sex, y=body_mass_g)) +
+  geom_violin(aes(color=species)) + 
+  facet_grid(cols=vars(bill_volume_buckets_fct3), rows=vars(island))
+Warning: Groups with fewer than two data points have been dropped.
+Groups with fewer than two data points have been dropped.
+Groups with fewer than two data points have been dropped.
+Groups with fewer than two data points have been dropped.
+Groups with fewer than two data points have been dropped.</code></pre>
+<p><img src="figure/Week_9_apply_mutate_map.Rmd/factor_example-3.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div id="what-about-for-a-model" class="section level3">
+<h3>What about for a model?</h3>
+<p>What you need for a model is a “one-hot” encoded variable. It creates
+a new column for each unique value of the categorical variable. Each of
+these columns are binary with values 1 or 0 depending on whether the
+value of the variable is equal to the unique value being encoded by this
+column. The R function lm (through <code>model.matrix</code>) does this
+for us.</p>
+<pre class="r"><code># in this, what is does the intercept represent?
+model.matrix(bill_length_mm~sex+bill_volume, penguins_new) %&gt;% head()
+  (Intercept) sexmale bill_volume
+1           1       1    18210.82
+2           1       1    21263.50
+3           1       1    19011.31
+4           1       1    18387.17
+5           1       1    18791.30
+6           1       1    19012.50
+# if we just wanted the sex and species encodings
+model.matrix(~sex+species+0, penguins_new) %&gt;% head()
+  sexfemale sexmale speciesChinstrap speciesGentoo
+1         0       1                0             0
+2         0       1                0             0
+3         0       1                0             0
+4         0       1                0             0
+5         0       1                0             0
+6         0       1                1             0
+#model.matrix(~sex+species-1, penguins_new)
+penguins_new %&gt;% 
+  group_by(sex) %&gt;% 
+  summarise(means = mean(bill_volume))
+# A tibble: 2 × 2
+  sex     means
+  &lt;fct&gt;   &lt;dbl&gt;
+1 female 11373.
+2 male   14698.
+lm(bill_volume~sex+0, penguins_new)
+
+Call:
+lm(formula = bill_volume ~ sex + 0, data = penguins_new)
+
+Coefficients:
+sexfemale    sexmale  
+    11373      14698  </code></pre>
+</div>
+<div id="recipes-package" class="section level3">
+<h3>Recipes package</h3>
+<p>The <code>recipes</code> package aims to make our data engineering
+steps reproducible and easier for new data. The data engineering steps
+would come after data cleaning. Suppose, for example, we wanted to
+predict the penguin sex based on species, island, and observable
+physical characteristics including <code>flipper_length_mm</code> plus
+<code>bill_volume</code>. Using <code>recipes</code> and starting with
+the original dataset:</p>
+<pre class="r"><code>
+set.seed(16234)
+# Put 80% of the data into the training set
+penguins_new &lt;- palmerpenguins::penguins %&gt;% 
+  select(-year) %&gt;%
+  filter(complete.cases(.)) %&gt;%
+  mutate_if(is.factor, as_factor)
+penguins_split &lt;- initial_split(
+  penguins_new, 
+  prop = 0.95)
+# now do the split
+train_data &lt;- training(penguins_split)
+test_data  &lt;- testing(penguins_split)
+
+# start with the main ingredient
+pengiun_recipe &lt;- recipe(sex~., data=train_data) %&gt;%
+  step_center(all_numeric_predictors()) %&gt;%
+  step_scale(all_numeric_predictors()) %&gt;%
+  step_dummy(all_nominal_predictors())
+
+train_data_baked &lt;- pengiun_recipe %&gt;% 
+    prep() %&gt;% 
+    bake(train_data) 
+
+test_data_baked &lt;- pengiun_recipe %&gt;% 
+    prep() %&gt;% 
+    bake(test_data) </code></pre>
+<p>Just for fun:</p>
+<pre class="r"><code>
+h2o.init()
+
+train_h2o &lt;- as.h2o(train_data_baked)
+test_h2o  &lt;- as.h2o(test_data_baked)
+
+y &lt;- &quot;sex&quot;
+x &lt;- setdiff(names(train_h2o), y)
+
+# later
+# h2o_glm &lt;- h2o.glm(x, y, training_frame = train_h2o, family = &quot;binomial&quot;)
+
+automl_models_h2o &lt;- h2o.automl(
+    x = x,
+    y = y,
+    training_frame   = train_h2o,
+    max_runtime_secs = 300,
+    nfolds           = 5
+)
+
+automl_models_h2o@leaderboard
+
+# grab first model
+best_model &lt;- automl_models_h2o@leaderboard %&gt;% 
+  as_tibble() %&gt;%
+  slice(1)
+
+best_model
+
+best_model_results &lt;- h2o.getModel(paste0(best_model[1]))
+
+
+predictions &lt;- h2o.predict(best_model_results, newdata = test_h2o) %&gt;% 
+  as.tibble() %&gt;% 
+  bind_cols(test_data_baked %&gt;% select(flipper_length_mm, sex)) 
+
+predictions %&gt;%
+  ggplot(aes(x=flipper_length_mm, y=predict)) +
+  geom_point(aes(color=as_factor(sex))) +
+  theme(legend.position = &quot;bottom&quot;) 
+
+# quick confusion matrix
+#?yardstick
+predictions %&gt;% yardstick::conf_mat(sex, predict) %&gt;% autoplot(type=&quot;heatmap&quot;)
+
+# just curious what the model looks like on the training data
+predictions_train_data &lt;- h2o.predict(best_model_results, newdata = train_h2o) %&gt;% as.tibble() %&gt;% bind_cols(train_data_baked %&gt;% select(flipper_length_mm, sex)) 
+
+predictions_train_data %&gt;%
+  ggplot(aes(x=flipper_length_mm, y=predict)) +
+  geom_point(aes(color=as_factor(sex))) +
+  theme(legend.position = &quot;bottom&quot;) 
+</code></pre>
+</div>
+<div id="python" class="section level3">
+<h3>Python</h3>
+<p>Not to be left out, ports to python exist for forcats – siuba, but
+not for the recipes package. :(</p>
+<p>The functions are identically named. The docs aren’t great. BUT, I
+found <code>datar</code> which looks very promising:</p>
+<p><a href="https://github.com/pwwang/datar"
+class="uri">https://github.com/pwwang/datar</a></p>
+</div>
+</div>
+</div>
+<div id="todays-agenda" class="section level1">
+<h1>Today’s Agenda</h1>
+<ul>
+<li>Apply<br />
+</li>
+<li>group_by, summarise<br />
+</li>
+<li>map<br />
+</li>
+<li>LIME</li>
+</ul>
+<div id="apply-family-of-functions" class="section level2">
+<h2>Apply family of functions</h2>
+<p>We often want to “apply” a function along a “margin” of our data. In
+the previous example, we used a matrix operation, but what if we have a
+custom function we wish to use.</p>
+<p>In R, we have helper functions to further simplify our code by
+obviating the for loop.</p>
+<p>Apply family:</p>
+<p>apply, lapply , sapply, vapply, mapply, rapply, and tapply</p>
+<p>Also parxxApply</p>
+<p>Nice tutorial:<br />
+<a
+href="https://www.r-bloggers.com/r-tutorial-on-the-apply-family-of-functions/"
+class="uri">https://www.r-bloggers.com/r-tutorial-on-the-apply-family-of-functions/</a></p>
+</div>
+<div id="apply-detail" class="section level2">
+<h2>Apply detail</h2>
+<p><em>apply(X, MARGIN, FUN, …)</em></p>
+<pre class="r"><code>x &lt;- cbind(x1 = 3, x2 = c(4:1, 2:5))
+dimnames(x)[[1]] &lt;- letters[1:8]
+# colmeans
+apply(x,2,mean)
+x1 x2 
+ 3  3 
+# rowmeans
+apply(x,2,mean)
+x1 x2 
+ 3  3 
+
+# apply to list elements
+y&lt;-list(a = 1:10, beta = exp(-3:3), logic = c(TRUE,FALSE,FALSE,TRUE))
+
+lapply(y,mean)
+$a
+[1] 5.5
+
+$beta
+[1] 4.535125
+
+$logic
+[1] 0.5
+sapply(y,mean)
+       a     beta    logic 
+5.500000 4.535125 0.500000 </code></pre>
+</div>
+<div id="what-is-difference-between-various-apply-functions"
+class="section level2">
+<h2>What is difference between various apply functions</h2>
+<p>We could start with the help <code>?apply, ?sapply</code>. The main
+differences are:<br />
+<a
+href="http://www.dummies.com/programming/r/how-to-use-the-apply-family-of-functions-in-r/"
+class="uri">http://www.dummies.com/programming/r/how-to-use-the-apply-family-of-functions-in-r/</a></p>
+</div>
+<div id="group_by-and-summarize" class="section level2">
+<h2>group_by and summarize</h2>
+<p>Summary functions also exist in the tidyverse. For instance:</p>
+<pre class="r"><code>
+palmerpenguins::penguins %&gt;%
+  summarise_if(is.numeric, mean, na.rm=TRUE)
+# A tibble: 1 × 5
+  bill_length_mm bill_depth_mm flipper_length_mm body_mass_g  year
+           &lt;dbl&gt;         &lt;dbl&gt;             &lt;dbl&gt;       &lt;dbl&gt; &lt;dbl&gt;
+1           43.9          17.2              201.       4202. 2008.
+
+palmerpenguins::penguins %&gt;% 
+  select(-year) %&gt;%
+  filter(complete.cases(.)) %&gt;%
+  group_by(species, island, sex) %&gt;%
+  summarize(count=n())
+`summarise()` has grouped output by &#39;species&#39;, &#39;island&#39;. You can override using
+the `.groups` argument.
+# A tibble: 10 × 4
+# Groups:   species, island [5]
+   species   island    sex    count
+   &lt;fct&gt;     &lt;fct&gt;     &lt;fct&gt;  &lt;int&gt;
+ 1 Adelie    Biscoe    female    22
+ 2 Adelie    Biscoe    male      22
+ 3 Adelie    Dream     female    27
+ 4 Adelie    Dream     male      28
+ 5 Adelie    Torgersen female    24
+ 6 Adelie    Torgersen male      23
+ 7 Chinstrap Dream     female    34
+ 8 Chinstrap Dream     male      34
+ 9 Gentoo    Biscoe    female    58
+10 Gentoo    Biscoe    male      61</code></pre>
+</div>
+<div id="map" class="section level2">
+<h2>Map</h2>
+<p>purrr::map is a function to iterate and operate on each element of a
+list.</p>
+<pre class="r"><code>  
+palmerpenguins::penguins %&gt;% 
+  mutate(bill_volume=bill_length_mm*bill_depth_mm^2) %&gt;%
+  select(-bill_length_mm, -bill_depth_mm) %&gt;%
+  filter(complete.cases(.)) %&gt;%
+  nest(data = c(-species, -sex, -island)) %&gt;%
+  mutate(fit = map(data, ~ lm(body_mass_g~bill_volume+flipper_length_mm, data = .))) %&gt;%
+  mutate(results = map(fit, broom::augment)) %&gt;%
+  unnest(results) %&gt;%
+  ggplot(aes(x = body_mass_g, y = .fitted)) +
+    geom_abline(intercept = 0, slope = 1, alpha = .2) +  # Line of perfect fit
+    geom_point(aes(color=sex), alpha=0.2) +
+    facet_grid(rows=vars(island), cols=vars(species), scales=&quot;free&quot;)</code></pre>
+<p><img src="figure/Week_9_apply_mutate_map.Rmd/map_function-1.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div id="lime" class="section level2">
+<h2>LIME</h2>
+<p>Local Interpretable Model-Agnostic Explanations</p>
+<p>Basically create a bunch of permutations of the data point of
+interest to get an idea of the importance of each variable affecting the
+outcome of interest.</p>
+<p>Need to create the explainer object and then the explaination.</p>
+<pre class="r"><code>
+predictions
+
+# Create Random Forest model with ranger via caret
+fit.caret &lt;- train(
+  sex ~ ., 
+  data       = train_data, 
+  method     = &#39;ranger&#39;,
+  trControl  = trainControl(method = &quot;cv&quot;, number = 5, classProbs = TRUE),
+  tuneLength = 1,
+  importance = &#39;impurity&#39;
+  )
+explainer_caret &lt;- lime::lime(train_data, fit.caret, n_bins = 5)
+explanation_caret &lt;- lime::explain(
+  x               = test_data %&gt;% slice(1), 
+  explainer       = explainer_caret, 
+  n_permutations  = 5000,
+  kernel_width    = .75,
+  n_features      = 5, 
+  feature_select  = &quot;highest_weights&quot;,
+  labels          = &quot;female&quot;
+  )
+lime::plot_features(explanation_caret)
+
+# below is currently not working
+# explainer_penguins &lt;- train_data %&gt;% mutate_if(is.numeric, as.double) %&gt;% select(-sex) %&gt;%
+#   lime::lime(
+#         model         = best_model_results,
+#         bin_continous = TRUE,
+#         n_bins        = 4,
+#         quantile_bins = TRUE
+# )
+# summary(explainer_penguins)
+# 
+# explanation &lt;- test_data %&gt;% mutate_if(is.numeric, as.double) %&gt;% slice(1) %&gt;% select(-sex) %&gt;%
+#   lime::explain(
+#     explainer = explainer_penguins,
+#     n_labels = 1,
+#     #labels = &quot;female&quot;,
+#     n_features = 4,
+#     n_permutations = 5000,
+#     kernel_width = 0.75
+# )
+# 
+# lime::plot_features(explanation)
+# 
+# explanations &lt;- lime::explain(
+#   x = test_data %&gt;% select(-year, -sex) %&gt;% slice(1:20),
+#   explainer = explainer,
+#   n_labels = 1,
+#   n_features = 8,
+#   #n_permutations = 5000,
+#   kernel_width = 0.9
+# )
+# lime::plot_explanations(explanation)
+</code></pre>
+<pre class="r"><code>
+## pulled directly from the H2O writup ... 
+h2o.init()
+ Connection successful!
+
+R is connected to the H2O cluster: 
+    H2O cluster uptime:         9 days 26 minutes 
+    H2O cluster timezone:       America/New_York 
+    H2O data parsing timezone:  UTC 
+    H2O cluster version:        3.38.0.1 
+    H2O cluster version age:    1 month and 14 days  
+    H2O cluster name:           H2O_started_from_R_rsettlag_tdy670 
+    H2O cluster total nodes:    1 
+    H2O cluster total memory:   1.58 GB 
+    H2O cluster total cores:    10 
+    H2O cluster allowed cores:  10 
+    H2O cluster healthy:        TRUE 
+    H2O Connection ip:          localhost 
+    H2O Connection port:        54321 
+    H2O Connection proxy:       NA 
+    H2O Internal Security:      FALSE 
+    R Version:                  R version 4.2.1 (2022-06-23) 
+h2o.no_progress()
+# create data sets
+df &lt;- modeldata::attrition %&gt;% 
+  dplyr::mutate_if(is.ordered, factor, ordered = FALSE) %&gt;%
+  dplyr::mutate(Attrition = factor(Attrition, levels = c(&quot;Yes&quot;, &quot;No&quot;)))
+
+index &lt;- 1:4
+train_obs &lt;- df[-index, ]
+local_obs &lt;- df[index, ]
+
+# create h2o objects for modeling
+y &lt;- &quot;Attrition&quot;
+x &lt;- setdiff(names(train_obs), y)
+train_obs.h2o &lt;- as.h2o(train_obs)
+local_obs.h2o &lt;- as.h2o(local_obs)
+
+# Create Random Forest model with ranger via caret
+fit.caret &lt;- train(
+  Attrition ~ ., 
+  data = train_obs, 
+  method = &#39;ranger&#39;,
+  trControl = trainControl(method = &quot;cv&quot;, number = 5, classProbs = TRUE),
+  tuneLength = 1,
+  importance = &#39;impurity&#39;
+  )
+
+# create h2o models
+h2o_rf &lt;- h2o.randomForest(x, y, training_frame = train_obs.h2o)
+h2o_glm &lt;- h2o.glm(x, y, training_frame = train_obs.h2o, family = &quot;binomial&quot;)
+h2o_gbm &lt;- h2o.gbm(x, y, training_frame = train_obs.h2o)
+
+# ranger model --&gt; model type not built in to LIME
+fit.ranger &lt;- ranger::ranger(
+  Attrition ~ ., 
+  data = train_obs, 
+  importance = &#39;impurity&#39;,
+  probability = TRUE
+)
+
+explainer_caret &lt;- lime(train_obs, fit.caret, n_bins = 5)
+
+class(explainer_caret)
+[1] &quot;data_frame_explainer&quot; &quot;explainer&quot;            &quot;list&quot;                
+
+
+summary(explainer_caret)
+                     Length Class  Mode     
+model                25     train  list     
+preprocess            1     -none- function 
+bin_continuous        1     -none- logical  
+n_bins                1     -none- numeric  
+quantile_bins         1     -none- logical  
+use_density           1     -none- logical  
+feature_type         31     -none- character
+bin_cuts             31     -none- list     
+feature_distribution 31     -none- list     
+
+explanation_caret &lt;- explain(
+  x = local_obs, 
+  explainer = explainer_caret, 
+  n_permutations = 5000,
+  dist_fun = &quot;gower&quot;,
+  kernel_width = .75,
+  n_features = 10, 
+  feature_select = &quot;highest_weights&quot;,
+  labels = c(&quot;Yes&quot;,&quot;No&quot;)
+  )</code></pre>
+<pre class="r"><code>plot_features(explanation_caret)</code></pre>
+<p><img src="figure/Week_9_apply_mutate_map.Rmd/unnamed-chunk-1-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>
+plot_explanations(explanation_caret)</code></pre>
+<p><img src="figure/Week_9_apply_mutate_map.Rmd/unnamed-chunk-1-2.png" width="672" style="display: block; margin: auto;" /></p>
+<br>
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
+<span class="glyphicon glyphicon-wrench" aria-hidden="true"></span>
+Session information
+</button>
+</p>
+<div id="workflowr-sessioninfo" class="collapse">
+<pre class="r"><code>sessionInfo()
+R version 4.2.1 (2022-06-23)
+Platform: aarch64-apple-darwin20 (64-bit)
+Running under: macOS Monterey 12.4
+
+Matrix products: default
+BLAS:   /Library/Frameworks/R.framework/Versions/4.2-arm64/Resources/lib/libRblas.0.dylib
+LAPACK: /Library/Frameworks/R.framework/Versions/4.2-arm64/Resources/lib/libRlapack.dylib
+
+locale:
+[1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
+
+attached base packages:
+[1] stats     graphics  grDevices utils     datasets  methods   base     
+
+other attached packages:
+ [1] caret_6.0-93         lattice_0.20-45      lime_0.5.3          
+ [4] h2o_3.38.0.1         rsample_1.1.0        recipes_1.0.1.9000  
+ [7] skimr_2.1.4          palmerpenguins_0.1.1 reticulate_1.26     
+[10] forcats_0.5.2        stringr_1.4.1        dplyr_1.0.10        
+[13] purrr_0.3.5          readr_2.1.3          tidyr_1.2.1         
+[16] tibble_3.1.8         ggplot2_3.3.6        tidyverse_1.3.2     
+[19] data.table_1.14.2    knitr_1.40          
+
+loaded via a namespace (and not attached):
+  [1] googledrive_2.0.0    colorspace_2.0-3     ellipsis_0.3.2      
+  [4] class_7.3-20         rprojroot_2.0.3      base64enc_0.1-3     
+  [7] fs_1.5.2             proxy_0.4-27         rstudioapi_0.14     
+ [10] farver_2.1.1         listenv_0.8.0        furrr_0.3.1         
+ [13] bit64_4.0.5          prodlim_2019.11.13   fansi_1.0.3         
+ [16] lubridate_1.8.0      ranger_0.14.1        xml2_1.3.3          
+ [19] codetools_0.2-18     splines_4.2.1        cachem_1.0.6        
+ [22] jsonlite_1.8.2       workflowr_1.7.0      pROC_1.18.0         
+ [25] broom_1.0.1          dbplyr_2.2.1         png_0.1-7           
+ [28] compiler_4.2.1       httr_1.4.4           backports_1.4.1     
+ [31] assertthat_0.2.1     Matrix_1.5-1         fastmap_1.1.0       
+ [34] gargle_1.2.1         cli_3.4.1            later_1.3.0         
+ [37] htmltools_0.5.3      tools_4.2.1          gtable_0.3.1        
+ [40] glue_1.6.2           reshape2_1.4.4       Rcpp_1.0.9          
+ [43] cellranger_1.1.0     jquerylib_0.1.4      vctrs_0.4.2         
+ [46] nlme_3.1-159         iterators_1.0.14     timeDate_4021.106   
+ [49] gower_1.0.0          xfun_0.33            globals_0.16.1      
+ [52] rvest_1.0.3          lifecycle_1.0.3      googlesheets4_1.0.1 
+ [55] future_1.28.0        MASS_7.3-58.1        scales_1.2.1        
+ [58] ipred_0.9-13         hms_1.1.2            promises_1.2.0.1    
+ [61] parallel_4.2.1       curl_4.3.3           yaml_2.3.5          
+ [64] sass_0.4.2           rpart_4.1.16         modeldata_1.0.1     
+ [67] stringi_1.7.8        highr_0.9            foreach_1.5.2       
+ [70] e1071_1.7-12         hardhat_1.2.0        shape_1.4.6         
+ [73] lava_1.6.10          repr_1.1.4           rlang_1.0.6         
+ [76] pkgconfig_2.0.3      bitops_1.0-7         evaluate_0.16       
+ [79] labeling_0.4.2       bit_4.0.4            tidyselect_1.1.2    
+ [82] parallelly_1.32.1    plyr_1.8.7           magrittr_2.0.3      
+ [85] R6_2.5.1             generics_0.1.3       DBI_1.1.3           
+ [88] pillar_1.8.1         haven_2.5.1          whisker_0.4         
+ [91] withr_2.5.0          survival_3.4-0       RCurl_1.98-1.9      
+ [94] nnet_7.3-17          future.apply_1.9.1   modelr_0.1.9        
+ [97] crayon_1.5.2         utf8_1.2.2           tzdb_0.3.0          
+[100] rmarkdown_2.16       grid_4.2.1           readxl_1.4.1        
+[103] git2r_0.30.1         ModelMetrics_1.2.2.2 reprex_2.0.2        
+[106] digest_0.6.29        httpuv_1.6.6         stats4_4.2.1        
+[109] munsell_0.5.0        glmnet_4.1-4         bslib_0.4.0         </code></pre>
+</div>
+</div>
+</div>
+
+
+<!-- Adjust MathJax settings so that all math formulae are shown using
+TeX fonts only; see
+https://docs.mathjax.org/en/latest/web/configuration.html. This will make
+the presentation more consistent at the cost of the webpage sometimes
+taking slightly longer to load. Note that this only works because the
+footer is added to webpages before the MathJax javascript. -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    "HTML-CSS": { availableFonts: ["TeX"] }
+  });
+</script>
+
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

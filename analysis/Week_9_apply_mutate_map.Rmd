@@ -21,6 +21,7 @@ library(rsample)
 library(purrr)
 library(h2o)
 library(lime)
+library(caret)
 ```
 
 
@@ -141,9 +142,9 @@ What you need for a model is a "one-hot" encoded variable. It creates a new colu
 
 ```{r one_hot, eval=TRUE, echo=TRUE, include=TRUE}
 # in this, what is does the intercept represent?
-model.matrix(bill_length_mm~sex+bill_volume, penguins_new)
+model.matrix(bill_length_mm~sex+bill_volume, penguins_new) %>% head()
 # if we just wanted the sex and species encodings
-model.matrix(~sex+species+0, penguins_new)
+model.matrix(~sex+species+0, penguins_new) %>% head()
 #model.matrix(~sex+species-1, penguins_new)
 penguins_new %>% 
   group_by(sex) %>% 
@@ -159,26 +160,22 @@ The `recipes` package aims to make our data engineering steps reproducible and e
 
 set.seed(16234)
 # Put 80% of the data into the training set
+penguins_new <- palmerpenguins::penguins %>% 
+  select(-year) %>%
+  filter(complete.cases(.)) %>%
+  mutate_if(is.factor, as_factor)
 penguins_split <- initial_split(
-  penguins %>% filter(complete.cases(.)), prop = 0.8)
+  penguins_new, 
+  prop = 0.95)
 # now do the split
 train_data <- training(penguins_split)
 test_data  <- testing(penguins_split)
 
 # start with the main ingredient
 pengiun_recipe <- recipe(sex~., data=train_data) %>%
-  # define any roles that need tweaking, I dont want year as predictor/outcome
-  update_role(year, new_role = "YEAR") %>%
-  # remove variables that have no variation
-  step_zv(all_predictors()) %>%
-  step_mutate_at(all_nominal_predictors(), fn = as.factor) %>%
-  step_mutate(bill_volume = bill_length_mm * bill_depth_mm^2) %>%
-  step_select(-bill_length_mm, -bill_depth_mm) %>%
   step_center(all_numeric_predictors()) %>%
   step_scale(all_numeric_predictors()) %>%
-  # expand the nominal variables as one-hot encoded variable
-  step_dummy(all_nominal_predictors()) %>%
-  step_mutate(sex = sex %>% as_factor())
+  step_dummy(all_nominal_predictors())
 
 train_data_baked <- pengiun_recipe %>% 
     prep() %>% 
@@ -192,7 +189,7 @@ test_data_baked <- pengiun_recipe %>%
 
 Just for fun:
 
-```{r model_and_predict_h2o, eval=TRUE, echo=TRUE, include=TRUE, cache=TRUE}
+```{r model_and_predict_h2o, eval=FALSE}
 
 h2o.init()
 
@@ -200,14 +197,17 @@ train_h2o <- as.h2o(train_data_baked)
 test_h2o  <- as.h2o(test_data_baked)
 
 y <- "sex"
-x <- setdiff(names(train_h2o), c(y, "year"))
+x <- setdiff(names(train_h2o), y)
+
+# later
+# h2o_glm <- h2o.glm(x, y, training_frame = train_h2o, family = "binomial")
 
 automl_models_h2o <- h2o.automl(
     x = x,
     y = y,
     training_frame   = train_h2o,
     max_runtime_secs = 300,
-    nfolds           = 10
+    nfolds           = 5
 )
 
 automl_models_h2o@leaderboard
@@ -260,11 +260,24 @@ The functions are identically named.  The docs aren't great.  BUT, I found `data
 - map   
 - LIME
 
-## The apply family of functions
+## Apply family of functions
 
-(par)xxApply
+We often want to "apply" a function along a "margin" of our data.  In the previous example, we used a matrix operation, but what if we have a custom function we wish to use.
 
-Group of functions differing in both input object type and returned object type.  "par" versions are parallelized versions offering in some cases speed improvements.
+In R, we have helper functions to further simplify our code by obviating the for loop.
+
+Apply family:
+
+apply, lapply , sapply, vapply, mapply, rapply, and tapply
+
+Also parxxApply
+
+Nice tutorial:  
+<https://www.r-bloggers.com/r-tutorial-on-the-apply-family-of-functions/>
+
+## Apply detail
+
+*apply(X, MARGIN, FUN, ...)*
 
 ```{r apply_family}
 x <- cbind(x1 = 3, x2 = c(4:1, 2:5))
@@ -281,6 +294,12 @@ lapply(y,mean)
 sapply(y,mean)
 
 ```
+
+## What is difference between various apply functions
+
+We could start with the help `?apply, ?sapply`. The main differences are:  
+ <http://www.dummies.com/programming/r/how-to-use-the-apply-family-of-functions-in-r/>
+ 
 
 
 ## group_by and summarize
@@ -309,9 +328,9 @@ purrr::map is a function to iterate and operate on each element of a list.
   
 palmerpenguins::penguins %>% 
   mutate(bill_volume=bill_length_mm*bill_depth_mm^2) %>%
-  select(-year, -bill_length_mm, -bill_depth_mm) %>%
+  select(-bill_length_mm, -bill_depth_mm) %>%
   filter(complete.cases(.)) %>%
-  nest(-species, -sex, -island) %>%
+  nest(data = c(-species, -sex, -island)) %>%
   mutate(fit = map(data, ~ lm(body_mass_g~bill_volume+flipper_length_mm, data = .))) %>%
   mutate(results = map(fit, broom::augment)) %>%
   unnest(results) %>%
@@ -330,37 +349,131 @@ Basically create a bunch of permutations of the data point of interest to get an
 
 Need to create the explainer object and then the explaination.
 
-```{r lime_aide}
+```{r lime_aide, eval=FALSE}
 
 predictions
 
-explainer <- lime::lime(
-  x = train_data  %>% select(-year, -sex),
-  model = best_model_results,
-  bin_continous = TRUE,
-  n_bins = 4,
-  quantile_bins = TRUE,
+# Create Random Forest model with ranger via caret
+fit.caret <- train(
+  sex ~ ., 
+  data       = train_data, 
+  method     = 'ranger',
+  trControl  = trainControl(method = "cv", number = 5, classProbs = TRUE),
+  tuneLength = 1,
+  importance = 'impurity'
+  )
+explainer_caret <- lime::lime(train_data, fit.caret, n_bins = 5)
+explanation_caret <- lime::explain(
+  x               = test_data %>% slice(1), 
+  explainer       = explainer_caret, 
+  n_permutations  = 5000,
+  kernel_width    = .75,
+  n_features      = 5, 
+  feature_select  = "highest_weights",
+  labels          = "female"
+  )
+lime::plot_features(explanation_caret)
+
+# below is currently not working
+# explainer_penguins <- train_data %>% mutate_if(is.numeric, as.double) %>% select(-sex) %>%
+#   lime::lime(
+#         model         = best_model_results,
+#         bin_continous = TRUE,
+#         n_bins        = 4,
+#         quantile_bins = TRUE
+# )
+# summary(explainer_penguins)
+# 
+# explanation <- test_data %>% mutate_if(is.numeric, as.double) %>% slice(1) %>% select(-sex) %>%
+#   lime::explain(
+#     explainer = explainer_penguins,
+#     n_labels = 1,
+#     #labels = "female",
+#     n_features = 4,
+#     n_permutations = 5000,
+#     kernel_width = 0.75
+# )
+# 
+# lime::plot_features(explanation)
+# 
+# explanations <- lime::explain(
+#   x = test_data %>% select(-year, -sex) %>% slice(1:20),
+#   explainer = explainer,
+#   n_labels = 1,
+#   n_features = 8,
+#   #n_permutations = 5000,
+#   kernel_width = 0.9
+# )
+# lime::plot_explanations(explanation)
+
+```
+
+
+```{r test}
+
+## pulled directly from the H2O writup ... 
+h2o.init()
+h2o.no_progress()
+# create data sets
+df <- modeldata::attrition %>% 
+  dplyr::mutate_if(is.ordered, factor, ordered = FALSE) %>%
+  dplyr::mutate(Attrition = factor(Attrition, levels = c("Yes", "No")))
+
+index <- 1:4
+train_obs <- df[-index, ]
+local_obs <- df[index, ]
+
+# create h2o objects for modeling
+y <- "Attrition"
+x <- setdiff(names(train_obs), y)
+train_obs.h2o <- as.h2o(train_obs)
+local_obs.h2o <- as.h2o(local_obs)
+
+# Create Random Forest model with ranger via caret
+fit.caret <- train(
+  Attrition ~ ., 
+  data = train_obs, 
+  method = 'ranger',
+  trControl = trainControl(method = "cv", number = 5, classProbs = TRUE),
+  tuneLength = 1,
+  importance = 'impurity'
+  )
+
+# create h2o models
+h2o_rf <- h2o.randomForest(x, y, training_frame = train_obs.h2o)
+h2o_glm <- h2o.glm(x, y, training_frame = train_obs.h2o, family = "binomial")
+h2o_gbm <- h2o.gbm(x, y, training_frame = train_obs.h2o)
+
+# ranger model --> model type not built in to LIME
+fit.ranger <- ranger::ranger(
+  Attrition ~ ., 
+  data = train_obs, 
+  importance = 'impurity',
+  probability = TRUE
 )
 
-explanation <- lime::explain(
-  x = test_data %>% select(-year, -sex) %>% slice(6),
-  explainer = explainer,
-  n_labels = 1,
-  n_features = 8,
+explainer_caret <- lime(train_obs, fit.caret, n_bins = 5)
+
+class(explainer_caret)
+
+
+summary(explainer_caret)
+
+explanation_caret <- explain(
+  x = local_obs, 
+  explainer = explainer_caret, 
   n_permutations = 5000,
-  kernel_width = 0.9
-)
+  dist_fun = "gower",
+  kernel_width = .75,
+  n_features = 10, 
+  feature_select = "highest_weights",
+  labels = c("Yes","No")
+  )
+```
 
-lime::plot_features(explanation)
+```{r fig.height=10}
+plot_features(explanation_caret)
 
-explanations <- lime::explain(
-  x = test_data %>% select(-year, -sex) %>% slice(1:20),
-  explainer = explainer,
-  n_labels = 1,
-  n_features = 8,
-  #n_permutations = 5000,
-  kernel_width = 0.9
-)
-lime::plot_explanations(explanations)
+plot_explanations(explanation_caret)
 
 ```

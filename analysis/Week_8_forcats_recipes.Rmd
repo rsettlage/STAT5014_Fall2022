@@ -142,9 +142,9 @@ penguins_new <- penguins %>%
   filter(complete.cases(.)) %>%
   mutate(bill_volume = bill_length_mm * bill_depth_mm^2) %>%
   mutate(bill_volume_quartile = case_when(
-    penguins_new$bill_volume < quantile(penguins_new$bill_volume, prob=c(0.25, 0.5, 0.75))[1] ~ "small",
-    penguins_new$bill_volume < quantile(penguins_new$bill_volume, prob=c(0.25, 0.5, 0.75))[2] ~ "small-med",
-    penguins_new$bill_volume < quantile(penguins_new$bill_volume, prob=c(0.25, 0.5, 0.75))[3] ~ "med-large",
+    bill_volume < quantile(bill_volume, prob=c(0.25, 0.5, 0.75))[1] ~ "small",
+    bill_volume < quantile(bill_volume, prob=c(0.25, 0.5, 0.75))[2] ~ "small-med",
+    bill_volume < quantile(bill_volume, prob=c(0.25, 0.5, 0.75))[3] ~ "med-large",
     TRUE ~ "large"
   )) 
 
@@ -157,11 +157,11 @@ skim(penguins_new)
 
 penguins_new <- penguins_new %>%
   mutate(bill_volume_buckets = case_when(
-    penguins_new$bill_volume > quantile(penguins_new$bill_volume, prob=c(0.9, 0.8, 0.7, 0.6, 0.5, 0.4))[1] ~ "Q9",
-    penguins_new$bill_volume > quantile(penguins_new$bill_volume, prob=c(0.9, 0.8, 0.7, 0.6, 0.5, 0.4))[2] ~ "Q8",
-    penguins_new$bill_volume > quantile(penguins_new$bill_volume, prob=c(0.9, 0.8, 0.7, 0.6, 0.5, 0.4))[3] ~ "Q7",
-    penguins_new$bill_volume > quantile(penguins_new$bill_volume, prob=c(0.9, 0.8, 0.7, 0.6, 0.5, 0.4))[4] ~ "Q6",
-    penguins_new$bill_volume > quantile(penguins_new$bill_volume, prob=c(0.9, 0.8, 0.7, 0.6, 0.5, 0.4))[5] ~ "Q5",
+    bill_volume > quantile(bill_volume, prob=c(0.9, 0.8, 0.7, 0.6, 0.5, 0.4))[1] ~ "Q9",
+    bill_volume > quantile(bill_volume, prob=c(0.9, 0.8, 0.7, 0.6, 0.5, 0.4))[2] ~ "Q8",
+    bill_volume > quantile(bill_volume, prob=c(0.9, 0.8, 0.7, 0.6, 0.5, 0.4))[3] ~ "Q7",
+    bill_volume > quantile(bill_volume, prob=c(0.9, 0.8, 0.7, 0.6, 0.5, 0.4))[4] ~ "Q6",
+    bill_volume > quantile(bill_volume, prob=c(0.9, 0.8, 0.7, 0.6, 0.5, 0.4))[5] ~ "Q5",
     TRUE ~ "other"
   )) 
 
@@ -176,17 +176,17 @@ penguins_new %>%
 
 ### factors
 
-
 What ggplot is doing under the hood for the text based variables is using as.factor to convert from text to a factor.  We can test and change that.  A handy alternative to `as.factor` is `as_factor` tidyverse alternative from `forcats`.
 
 ```{r factor_example, echo=TRUE, eval=TRUE, include=TRUE}
 # check out the factor assignments and levels
 as.factor(penguins_new$bill_volume_buckets)
 levels(as.factor(penguins_new$bill_volume_buckets))
+as.numeric(as.factor(penguins_new$bill_volume_buckets))
 
 # we can arrange by the variable, does it change the factor order?
 penguins_new <- penguins_new %>%
-  arrange(desc(bill_volume_buckets))
+  arrange(desc(bill_volume_buckets)) 
 as.factor(penguins_new$bill_volume_buckets)
 
 penguins_new %>%
@@ -205,11 +205,11 @@ penguins_new %>%
 
 # to reverse the factor levels, use fct_rev
 penguins_new <- penguins_new %>%
-  mutate(bill_volume_buckets_fct2 = bill_volume_buckets %>% as_factor() %>% fct_rev())
+  mutate(bill_volume_buckets_fct2 = bill_volume_buckets_fct %>% as_factor() %>% fct_rev())
 
 # what if we want to re-order with a non sortable order?
 penguins_new <- penguins_new %>%
-  mutate(bill_volume_buckets_fct3 = bill_volume_buckets %>% as_factor() %>% fct_rev() %>% fct_relevel("other", after=Inf))
+  mutate(bill_volume_buckets_fct3 = bill_volume_buckets_fct2 %>% as_factor() %>% fct_relevel("other", after=Inf))
 
 penguins_new %>%
   ggplot(aes(x=sex, y=body_mass_g)) +
@@ -289,15 +289,25 @@ automl_models_h2o <- h2o.automl(
     x = x,
     y = y,
     training_frame   = train_h2o,
-    max_runtime_secs = 300,
-    nfolds           = 5
+    max_runtime_secs = 600,
+    nfolds           = 10
 )
 
 automl_models_h2o@leaderboard
 
-StackedEnsemble_BestOfFamily_6_AutoML_4_20221025_211615 <- h2o.getModel("StackedEnsemble_BestOfFamily_6_AutoML_4_20221025_211615")
+# grab first model
+best_model <- automl_models_h2o@leaderboard %>% 
+  as_tibble() %>%
+  slice(1)
 
-predictions <- h2o.predict(StackedEnsemble_BestOfFamily_6_AutoML_4_20221025_211615, newdata = test_h2o) %>% as.tibble() %>% bind_cols(test_data_baked %>% select(flipper_length_mm, sex_male)) 
+best_model
+
+best_model_results <- h2o.getModel(paste0(best_model[1]))
+
+
+predictions <- h2o.predict(best_model_results, newdata = test_h2o) %>% 
+  as.tibble() %>% 
+  bind_cols(test_data_baked %>% select(flipper_length_mm, sex_male)) 
 
 predictions %>%
   ggplot(aes(x=flipper_length_mm, y=predict)) +
@@ -308,7 +318,7 @@ predictions %>%
   expand_limits(x = c(180,230), y = c(180,230))
 
 # just curious what the model looks like on the training data
-predictions_train_data <- h2o.predict(StackedEnsemble_BestOfFamily_6_AutoML_4_20221025_211615, newdata = train_h2o) %>% as.tibble() %>% bind_cols(train_data_baked %>% select(flipper_length_mm, sex_male)) 
+predictions_train_data <- h2o.predict(best_model_results, newdata = train_h2o) %>% as.tibble() %>% bind_cols(train_data_baked %>% select(flipper_length_mm, sex_male)) 
 
 predictions_train_data %>%
   ggplot(aes(x=flipper_length_mm, y=predict)) +
