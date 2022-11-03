@@ -13,9 +13,9 @@
 
 <meta name="date" content="2021-10-12" />
 
-<title>Week 7 - R Vector/matrix manipulations and math, speed considerations</title>
+<title>Week 5 - R Vector/matrix manipulations and math, speed considerations</title>
 
-<script src="site_libs/header-attrs-2.13/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.16/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
@@ -158,11 +158,15 @@ $(document).ready(function () {
     href = "index.html";
   var menuAnchor = $('a[href="' + href + '"]');
 
-  // mark it active
-  menuAnchor.tab('show');
-
-  // if it's got a parent navbar menu mark it active as well
-  menuAnchor.closest('li.dropdown').addClass('active');
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
 
   // Navbar adjustments
   var navHeight = $(".navbar").first().height() + 15;
@@ -364,16 +368,16 @@ div.tocify {
       <a href="Week_4_Plots_using_ggplot2_plotly_more.html">Week 4</a>
     </li>
     <li>
-      <a href="Week_5_wrangling_munging_tidying.html">Week 5</a>
+      <a href="Week_5_matrix_vector_math.html">Week 5</a>
     </li>
     <li>
-      <a href="Week_6_R_functions_logic_good_programming_practices.html">Week 6</a>
+      <a href="Week_6_wrangling_munging_tidying.html">Week 6</a>
     </li>
     <li>
-      <a href="Week_7_matrix_vector_math.html">Week 7</a>
+      <a href="Week_7_importing_data.html">Week 7</a>
     </li>
     <li>
-      <a href="Week_8_apply_family.html">Week 8</a>
+      <a href="Week_8_forcats_recipes.html">Week 8</a>
     </li>
     <li>
       <a href="Week_9_going_parallel.html">Week 9</a>
@@ -449,7 +453,7 @@ div.tocify {
 
 
 
-<h1 class="title toc-ignore">Week 7 - R Vector/matrix manipulations and
+<h1 class="title toc-ignore">Week 5 - R Vector/matrix manipulations and
 math, speed considerations</h1>
 <h4 class="author">Robert Settlage</h4>
 <h4 class="date">2021-10-12</h4>
@@ -460,7 +464,7 @@ math, speed considerations</h1>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
 <span class="glyphicon glyphicon-list" aria-hidden="true"></span>
-workflowr <span class="glyphicon glyphicon-exclamation-sign text-danger"
+workflowr <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span>
 </button>
 </p>
@@ -471,8 +475,8 @@ aria-hidden="true"></span>
 </li>
 <li>
 <a data-toggle="tab" href="#checks"> Checks <span
-class="glyphicon glyphicon-exclamation-sign text-danger"
-aria-hidden="true"></span> </a>
+class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
+</a>
 </li>
 <li>
 <a data-toggle="tab" href="#versions">Past versions</a>
@@ -481,17 +485,18 @@ aria-hidden="true"></span> </a>
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2022-09-28
+<strong>Last updated:</strong> 2022-10-26
 </p>
 <p>
 <strong>Checks:</strong> <span
-class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6
+class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7
 <span class="glyphicon glyphicon-exclamation-sign text-danger"
-aria-hidden="true"></span> 1
+aria-hidden="true"></span> 0
 </p>
 <p>
-<strong>Knit directory:</strong> <code>STAT5014_Fall2022_website/</code>
-<span class="glyphicon glyphicon-question-sign" aria-hidden="true"
+<strong>Knit directory:</strong>
+<code>~/Projects/STAT5014_Fall2022/</code> <span
+class="glyphicon glyphicon-question-sign" aria-hidden="true"
 title="This is the local directory in which the code in this file was executed.">
 </span>
 </p>
@@ -510,21 +515,18 @@ versions</em> tab lists the development history.
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguncommittedchanges">
-<span class="glyphicon glyphicon-exclamation-sign text-danger"
-aria-hidden="true"></span> <strong>R Markdown file:</strong> uncommitted
-changes </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguptodate">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>R Markdown file:</strong> up-to-date
+</a>
 </p>
 </div>
-<div id="strongRMarkdownfilestronguncommittedchanges"
+<div id="strongRMarkdownfilestronguptodate"
 class="panel-collapse collapse">
 <div class="panel-body">
-<p>The R Markdown is untracked by Git. To know which version of the R
-Markdown file created these results, you’ll want to first commit it to
-the Git repo. If you’re still working on the analysis, you can ignore
-this warning. When you’re finished, you can run
-<code>wflow_publish</code> to commit the R Markdown file and build the
-HTML.</p>
+<p>Great! Since the R Markdown file has been committed to the Git
+repository, you know the exact version of the code that produced these
+results.</p>
 </div>
 </div>
 </div>
@@ -615,15 +617,15 @@ project makes it easier to run your code on other machines.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomrsettlageSTAT5014Fall2022tree64f47e9ac3d70c2005ea7797530ca5c32b297dd9targetblank64f47e9a">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomrsettlageSTAT5014Fall2022treeefe5cbb9fd93c98fafa68cd95a7854ef2dbd1e36targetblankefe5cbba">
 <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span> <strong>Repository version:</strong>
-<a href="https://github.com/rsettlage/STAT5014_Fall2022/tree/64f47e9ac3d70c2005ea7797530ca5c32b297dd9" target="_blank">64f47e9</a>
+<a href="https://github.com/rsettlage/STAT5014_Fall2022/tree/efe5cbb9fd93c98fafa68cd95a7854ef2dbd1e36" target="_blank">efe5cbb</a>
 </a>
 </p>
 </div>
 <div
-id="strongRepositoryversionstrongahrefhttpsgithubcomrsettlageSTAT5014Fall2022tree64f47e9ac3d70c2005ea7797530ca5c32b297dd9targetblank64f47e9a"
+id="strongRepositoryversionstrongahrefhttpsgithubcomrsettlageSTAT5014Fall2022treeefe5cbb9fd93c98fafa68cd95a7854ef2dbd1e36targetblankefe5cbba"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -633,7 +635,7 @@ reproducibility.
 </p>
 <p>
 The results in this page were generated with repository version
-<a href="https://github.com/rsettlage/STAT5014_Fall2022/tree/64f47e9ac3d70c2005ea7797530ca5c32b297dd9" target="_blank">64f47e9</a>.
+<a href="https://github.com/rsettlage/STAT5014_Fall2022/tree/efe5cbb9fd93c98fafa68cd95a7854ef2dbd1e36" target="_blank">efe5cbb</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -648,20 +650,10 @@ were generated:
 </p>
 <pre><code>
 Ignored files:
-    Ignored:    .DS_Store
-    Ignored:    .Rhistory
-    Ignored:    .Rproj.user/
     Ignored:    analysis/.Rhistory
     Ignored:    analysis/Week_2_Reproducible_research_Git_Good_Programming_Practices_cache/
-
-Untracked files:
-    Untracked:  STAT5014_Fall2022_website.Rproj
-    Untracked:  Syllabus.pdf
-    Untracked:  analysis/Week_5_matrix_vector_math.Rmd
-    Untracked:  code/
-    Untracked:  data/
-    Untracked:  output/
-    Untracked:  staging/
+    Ignored:    girder_raw.RDS
+    Ignored:    sensory_raw.RDS
 
 </code></pre>
 <p>
@@ -676,10 +668,126 @@ have uncommitted changes.
 <hr>
 </div>
 <div id="versions" class="tab-pane fade">
+
 <p>
-There are no past versions. Publish this analysis with
-<code>wflow_publish()</code> to start tracking its development.
+These are the previous versions of the repository in which changes were
+made to the R Markdown
+(<code>analysis/Week_5_matrix_vector_math.Rmd</code>) and HTML
+(<code>docs/Week_5_matrix_vector_math.html</code>) files. If you’ve
+configured a remote Git repository (see <code>?wflow_git_remote</code>),
+click on the hyperlinks in the table below to view the files as they
+were in that past version.
 </p>
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+File
+</th>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+<th>
+Message
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/rsettlage/STAT5014_Fall2022/blob/efe5cbb9fd93c98fafa68cd95a7854ef2dbd1e36/analysis/Week_5_matrix_vector_math.Rmd" target="_blank">efe5cbb</a>
+</td>
+<td>
+Robert Settlage
+</td>
+<td>
+2022-10-26
+</td>
+<td>
+fixing links
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/rsettlage/STAT5014_Fall2022/efe5cbb9fd93c98fafa68cd95a7854ef2dbd1e36/docs/Week_5_matrix_vector_math.html" target="_blank">efe5cbb</a>
+</td>
+<td>
+Robert Settlage
+</td>
+<td>
+2022-10-26
+</td>
+<td>
+fixing links
+</td>
+</tr>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/rsettlage/STAT5014_Fall2022/blob/b6051ddfb3c66d8972bec7e757cf257ae98d3970/analysis/Week_5_matrix_vector_math.Rmd" target="_blank">b6051dd</a>
+</td>
+<td>
+rsettlag
+</td>
+<td>
+2022-10-05
+</td>
+<td>
+Cleanup
+</td>
+</tr>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/rsettlage/STAT5014_Fall2022/blob/d6fd08d31bbeab79028357c75e99c89885fc3f71/analysis/Week_5_matrix_vector_math.Rmd" target="_blank">d6fd08d</a>
+</td>
+<td>
+rsettlag
+</td>
+<td>
+2022-09-28
+</td>
+<td>
+adding week 5, issue in code chunk 10, python
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/rsettlage/STAT5014_Fall2022/d6fd08d31bbeab79028357c75e99c89885fc3f71/docs/Week_5_matrix_vector_math.html" target="_blank">d6fd08d</a>
+</td>
+<td>
+rsettlag
+</td>
+<td>
+2022-09-28
+</td>
+<td>
+adding week 5, issue in code chunk 10, python
+</td>
+</tr>
+</tbody>
+</table>
+</div>
 <hr>
 </div>
 </div>
@@ -841,24 +949,24 @@ class="uri">https://csantill.github.io/RPerformanceWBLAS/</a></p>
 <p><a
 href="https://www.google.com/url?sa=t&amp;rct=j&amp;q=&amp;esrc=s&amp;source=web&amp;cd=&amp;ved=2ahUKEwiJjbnJ7rX6AhWsFlkFHchNDQwQFnoECAcQAQ&amp;url=https%3A%2F%2Fraw.githubusercontent.com%2Frstudio%2Fcheatsheets%2Fmain%2Freticulate.pdf&amp;usg=AOvVaw3zphxsBi9OZLtBiNaUO6I7"
 class="uri">https://www.google.com/url?sa=t&amp;rct=j&amp;q=&amp;esrc=s&amp;source=web&amp;cd=&amp;ved=2ahUKEwiJjbnJ7rX6AhWsFlkFHchNDQwQFnoECAcQAQ&amp;url=https%3A%2F%2Fraw.githubusercontent.com%2Frstudio%2Fcheatsheets%2Fmain%2Freticulate.pdf&amp;usg=AOvVaw3zphxsBi9OZLtBiNaUO6I7</a></p>
-<p>In Python, base python doesnt have great support for matraces,
+<p>In Python, base python doesnt have great support for matrices,
 dataframes etc, so you need to use a package, generally numpy or
 pandas.</p>
 <pre class="r"><code>library(reticulate)
 conda_list()</code></pre>
-<pre><code>          name                                                           python
-1         base                   /Users/rsettlag/Library/r-miniconda/bin/python
-2 r-reticulate /Users/rsettlag/Library/r-miniconda/envs/r-reticulate/bin/python
-3 r-reticulate           /Users/rsettlag/anaconda3/envs/r-reticulate/bin/python
-4    miniconda                             /Users/rsettlag/miniconda/bin/python
-5         base                    /usr/local/Caskroom/miniconda/base/bin/python
-6     bamtools      /usr/local/Caskroom/miniconda/base/envs/bamtools/bin/python
-7       turtle        /usr/local/Caskroom/miniconda/base/envs/turtle/bin/python</code></pre>
+<pre><code>          name
+1         base
+2 r-reticulate
+3     stat5014
+                                                                  python
+1                   /Users/rsettlag/Library/r-miniconda-arm64/bin/python
+2 /Users/rsettlag/Library/r-miniconda-arm64/envs/r-reticulate/bin/python
+3     /Users/rsettlag/Library/r-miniconda-arm64/envs/stat5014/bin/python</code></pre>
 <pre class="r"><code>use_condaenv(&quot;r-reticulate&quot;)</code></pre>
-<pre><code>Warning in use_condaenv(&quot;r-reticulate&quot;): multiple Conda environments found; the first-listed will be chosen.
-          name                                                           python
-2 r-reticulate /Users/rsettlag/Library/r-miniconda/envs/r-reticulate/bin/python
-3 r-reticulate           /Users/rsettlag/anaconda3/envs/r-reticulate/bin/python</code></pre>
+<pre><code>Warning: The request to `use_python(&quot;/Users/rsettlag/Library/r-miniconda-arm64/
+envs/r-reticulate/bin/python&quot;)` will be ignored because the environment variable
+RETICULATE_PYTHON is set to &quot;/Users/rsettlag/Library/r-miniconda-arm64/envs/
+stat5014/bin/python&quot;</code></pre>
 </div>
 <div id="vectors-and-matrices-in-python" class="section level2">
 <h2>vectors and matrices in Python</h2>
@@ -934,7 +1042,7 @@ df[&#39;Name&#39;]
 df.iloc[:,1]
 type(df)
 #dir(pd)
-#dir(df)
+dir(df)
 
 from palmerpenguins import load_penguins
 penguins = load_penguins()
@@ -954,12 +1062,12 @@ Session information
 <div id="workflowr-sessioninfo" class="collapse">
 <pre class="r"><code>sessionInfo()</code></pre>
 <pre><code>R version 4.2.1 (2022-06-23)
-Platform: x86_64-apple-darwin17.0 (64-bit)
-Running under: macOS Big Sur ... 10.16
+Platform: aarch64-apple-darwin20 (64-bit)
+Running under: macOS Monterey 12.4
 
 Matrix products: default
-BLAS:   /Library/Frameworks/R.framework/Versions/4.2/Resources/lib/libRblas.0.dylib
-LAPACK: /Library/Frameworks/R.framework/Versions/4.2/Resources/lib/libRlapack.dylib
+BLAS:   /Library/Frameworks/R.framework/Versions/4.2-arm64/Resources/lib/libRblas.0.dylib
+LAPACK: /Library/Frameworks/R.framework/Versions/4.2-arm64/Resources/lib/libRlapack.dylib
 
 locale:
 [1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
@@ -968,23 +1076,23 @@ attached base packages:
 [1] stats     graphics  grDevices utils     datasets  methods   base     
 
 other attached packages:
-[1] reticulate_1.24      microbenchmark_1.4.9 ggplot2_3.3.5       
+[1] reticulate_1.26      microbenchmark_1.4.9 ggplot2_3.3.6       
 
 loaded via a namespace (and not attached):
- [1] Rcpp_1.0.8.3     pillar_1.7.0     compiler_4.2.1   bslib_0.3.1     
+ [1] Rcpp_1.0.9       pillar_1.8.1     compiler_4.2.1   bslib_0.4.0     
  [5] later_1.3.0      jquerylib_0.1.4  git2r_0.30.1     workflowr_1.7.0 
- [9] tools_4.2.1      digest_0.6.29    lattice_0.20-45  jsonlite_1.8.0  
-[13] evaluate_0.15    lifecycle_1.0.1  tibble_3.1.6     gtable_0.3.0    
-[17] png_0.1-7        pkgconfig_2.0.3  rlang_1.0.2      Matrix_1.4-1    
-[21] DBI_1.1.2        cli_3.2.0        rstudioapi_0.13  yaml_2.3.5      
-[25] xfun_0.30        fastmap_1.1.0    withr_2.5.0      dplyr_1.0.8     
-[29] stringr_1.4.0    knitr_1.38       generics_0.1.2   fs_1.5.2        
-[33] vctrs_0.4.0      sass_0.4.1       tidyselect_1.1.2 rprojroot_2.0.3 
+ [9] tools_4.2.1      digest_0.6.29    lattice_0.20-45  gtable_0.3.1    
+[13] jsonlite_1.8.2   evaluate_0.16    lifecycle_1.0.3  tibble_3.1.8    
+[17] png_0.1-7        pkgconfig_2.0.3  rlang_1.0.6      Matrix_1.5-1    
+[21] DBI_1.1.3        cli_3.4.1        rstudioapi_0.14  yaml_2.3.5      
+[25] xfun_0.33        fastmap_1.1.0    withr_2.5.0      dplyr_1.0.10    
+[29] stringr_1.4.1    knitr_1.40       generics_0.1.3   fs_1.5.2        
+[33] vctrs_0.4.2      sass_0.4.2       tidyselect_1.1.2 rprojroot_2.0.3 
 [37] grid_4.2.1       glue_1.6.2       R6_2.5.1         fansi_1.0.3     
-[41] rmarkdown_2.13   purrr_0.3.4      magrittr_2.0.3   scales_1.1.1    
-[45] promises_1.2.0.1 ellipsis_0.3.2   htmltools_0.5.2  assertthat_0.2.1
-[49] colorspace_2.0-3 httpuv_1.6.5     utf8_1.2.2       stringi_1.7.6   
-[53] munsell_0.5.0    crayon_1.5.1    </code></pre>
+[41] rmarkdown_2.16   purrr_0.3.5      magrittr_2.0.3   whisker_0.4     
+[45] scales_1.2.1     promises_1.2.0.1 htmltools_0.5.3  assertthat_0.2.1
+[49] colorspace_2.0-3 httpuv_1.6.6     utf8_1.2.2       stringi_1.7.8   
+[53] munsell_0.5.0    cachem_1.0.6    </code></pre>
 </div>
 </div>
 

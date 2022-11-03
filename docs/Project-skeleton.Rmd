@@ -1,0 +1,43 @@
+---
+title: "Project 1"
+author: "you"
+output: pdf_document
+date: "2022-11-01"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r libraries, include=FALSE}
+# libraries
+```
+
+## Define objectives of writeup
+
+
+## Data (Munging - EDA stage)
+
+### Data inport/gathering
+
+### Data summarization
+
+### Data visualization 
+
+### Data preparation (tidying/engineering - human readable)
+
+#### transformations - center/scale - dummy variables
+
+#### correlation analysis
+
+### Data preparation (tidying/engineering - machine readable)
+
+#### transformations - center/scale - dummy variables
+
+#### correlation analysis
+
+## Modeling
+
+## Evaluation - Discussion of what you saw/did
+
+## Appendix ?

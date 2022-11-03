@@ -26,9 +26,9 @@ navbar:
       - text: "Week 7"
         href: Week_7_importing_data.html
       - text: "Week 8"
-        href: Week_8_apply_family.html
+        href: Week_8_forcats_recipes.html
       - text: "Week 9"
-        href: Week_9_going_parallel.html
+        href: Week_9_apply_mutate_map.html
       - text: "Week 10"
         href: Week_10_dashboards_reports_automation.html
       - text: "Week 11"
@@ -38,16 +38,10 @@ navbar:
     menu:
       - text: "Homework 1"
         href: Week_1_homework_1.html
-      - text: "Homework 2"
-        href: Week_2_homework_2.html
-      - text: "Homework 3"
-        href: Week_4_homework_3.html
-      - text: "Homework 4"
-        href: Week_6_homework_4.html
-      - text: "Homework 5"
-        href: Week_9_homework_5.html
-      - text: "Homework 6"
-        href: Week_11_homework_6.html
+      - text: "Project 1"
+        href: Project_1.html
+      - text: "Project 2"
+        href: Project_2.html
   - text: Setup
     menu:
       - text: "Submitting Homework"

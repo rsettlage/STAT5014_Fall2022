@@ -1,0 +1,344 @@
+---
+title:  'Lecture 8 - factors and recipes'
+author: "Robert Settlage"
+date: "2022-10-26"
+output: workflowr::wflow_html
+editor_options:
+  chunk_output_type: console
+header-includes: \setlength\parindent{24pt} \usepackage{MnSymbol} \usepackage{mathrsfs}
+---
+
+```{r load_libraries, echo=TRUE, warning=FALSE, include=FALSE}
+library(knitr)
+library(data.table)
+library(tidyverse)
+library(reticulate)
+library(palmerpenguins)
+library(skimr)
+library(recipes)
+library(rsample)
+```
+
+
+# Last time:
+
+- Importing data 
+
+(my)sql, excel, json, plain text, yaml, web scraping
+
+As usual, there's a library for that ...
+
+The functions I typically use are:
+
+plain text, csv, tab, etc - fread (data.table)  
+rectangular -- read_delim (readr)  
+excel - read_excel (readxl)  
+json - fromJSON (rjson)  
+yaml - read_yaml (yaml)  
+sql - bit more complicated, but ....  
+<https://datacarpentry.org/R-ecology-lesson/05-r-and-databases.html>
+
+## Plain text  
+
+These can be in many formats that may include single delimiters (eg csv, tsv, etc), multiple delimiters, a fixed with, garbled with a missing field/delimiter, or have incompatible line endings (Mac vs Windows).  
+
+Why don't I prefer read.csv/delim?  
+
+1. fread starts with a good guess at what my seperator is going to be "[,\t |;:]"  
+2. read_delim/fread are very fast, they sample the file and then set the column types  
+3. fread allows me to add a bash command that is run inline with the reading  
+4. readr functions capture the errors and attach them to the returned object as problems  
+5. readr gives me a summary of what it found  
+6. fread/readr allows me to read directly from compressed files  
+7. fread/readr allow me to read from a remote file  
+8. both have a lot of other useful options: skip, comment, trim_ws, select, sep2, fill  
+
+
+
+Examples:
+
+```{r read_delims_examples, echo=TRUE, eval=FALSE}
+library(dplyr)
+library(readr)
+library(data.table)
+
+# remote file
+read_csv("https://github.com/tidyverse/readr/raw/main/inst/extdata/mtcars.csv")
+
+# use inline bash commands
+# could do this operation with the select argument, but the idea translates into better stuff  
+readr_example("mtcars.csv")
+fread("awk -F',' '{print $1, $4}' /Users/rsettlag/R/readr/extdata/mtcars.csv")
+
+
+# problems example:
+y <- "x\n1\n2\nb" %>% read_csv(col_types = list(col_double()))
+
+problems(y)
+```
+
+python:
+
+```{python pandas_example, eval=FALSE}
+import pandas as pd
+
+df = pd.read_csv(r'/Users/rsettlag/R/readr/extdata/mtcars.csv')   
+print(df)
+```
+
+# Today's Agenda
+
+- Categorical data  
+- Recipes  
+
+## Categorical data  
+
+Categorical data is best described as grouped data.  This data has no intrinsic place and order (or scale) on the number line.  Inclusive in this is nominal (no order) and ordinal (no scale) data.  For example:  
+
+-  yes/no  
+-  eye color   
+-  country  
+-  satisfaction rating from 1-5 (least to most)  
+-  income as high/med/low  
+
+### Converting continuous data into categorical  
+
+Sometimes, it is advantageous to lump continuous data into groups.  For instance, you may have a date variable but are only interested in year, or weight and only interested in a high/med/low summary.
+
+Let's play with the penguin data and see what we see:  
+
+```{r palmer_category, eval=TRUE, echo=TRUE, include=TRUE}
+
+penguins %>%
+  glimpse()
+
+penguins %>%
+  filter(complete.cases(.)) %>%
+  ggplot(aes(x=sex, y=bill_length_mm)) +
+  geom_violin() +
+  geom_jitter(aes(color=island)) +
+  facet_wrap(~species)
+
+penguins %>% 
+  filter(complete.cases(.)) %>%
+  ggplot(aes(x=bill_length_mm, y=body_mass_g)) +
+  geom_point(aes(color=sex)) + 
+  facet_grid(~island)
+
+penguins %>% 
+  filter(complete.cases(.)) %>%
+  ggplot(aes(x=bill_depth_mm, y=body_mass_g)) +
+  geom_point(aes(color=sex, shape=species)) + 
+  facet_grid(~island)
+
+penguins %>% 
+  filter(complete.cases(.)) %>%
+  mutate(bill_volume = bill_length_mm * bill_depth_mm^2) %>%
+  ggplot(aes(x=bill_volume, y=body_mass_g)) +
+  geom_point(aes(color=sex, shape=species)) + 
+  facet_grid(~island)
+
+penguins_new <- penguins %>%
+  filter(complete.cases(.)) %>%
+  mutate(bill_volume = bill_length_mm * bill_depth_mm^2) %>%
+  mutate(bill_volume_quartile = case_when(
+    bill_volume < quantile(bill_volume, prob=c(0.25, 0.5, 0.75))[1] ~ "small",
+    bill_volume < quantile(bill_volume, prob=c(0.25, 0.5, 0.75))[2] ~ "small-med",
+    bill_volume < quantile(bill_volume, prob=c(0.25, 0.5, 0.75))[3] ~ "med-large",
+    TRUE ~ "large"
+  )) 
+
+penguins_new %>%
+  ggplot(aes(x=sex, y=body_mass_g)) +
+  geom_violin(aes(color=species)) + 
+  facet_grid(cols=vars(bill_volume_quartile), rows=vars(island))
+
+skim(penguins_new)
+
+penguins_new <- penguins_new %>%
+  mutate(bill_volume_buckets = case_when(
+    bill_volume > quantile(bill_volume, prob=c(0.9, 0.8, 0.7, 0.6, 0.5, 0.4))[1] ~ "Q9",
+    bill_volume > quantile(bill_volume, prob=c(0.9, 0.8, 0.7, 0.6, 0.5, 0.4))[2] ~ "Q8",
+    bill_volume > quantile(bill_volume, prob=c(0.9, 0.8, 0.7, 0.6, 0.5, 0.4))[3] ~ "Q7",
+    bill_volume > quantile(bill_volume, prob=c(0.9, 0.8, 0.7, 0.6, 0.5, 0.4))[4] ~ "Q6",
+    bill_volume > quantile(bill_volume, prob=c(0.9, 0.8, 0.7, 0.6, 0.5, 0.4))[5] ~ "Q5",
+    TRUE ~ "other"
+  )) 
+
+penguins_new %>%
+  ggplot(aes(x=sex, y=body_mass_g)) +
+  geom_violin(aes(color=species)) + 
+  facet_grid(cols=vars(bill_volume_buckets), rows=vars(island))
+
+```
+
+
+
+### factors
+
+What ggplot is doing under the hood for the text based variables is using as.factor to convert from text to a factor.  We can test and change that.  A handy alternative to `as.factor` is `as_factor` tidyverse alternative from `forcats`.
+
+```{r factor_example, echo=TRUE, eval=TRUE, include=TRUE}
+# check out the factor assignments and levels
+as.factor(penguins_new$bill_volume_buckets)
+levels(as.factor(penguins_new$bill_volume_buckets))
+as.numeric(as.factor(penguins_new$bill_volume_buckets))
+
+# we can arrange by the variable, does it change the factor order?
+penguins_new <- penguins_new %>%
+  arrange(desc(bill_volume_buckets)) 
+as.factor(penguins_new$bill_volume_buckets)
+
+penguins_new %>%
+  ggplot(aes(x=sex, y=body_mass_g)) +
+  geom_violin(aes(color=species)) + 
+  facet_grid(cols=vars(bill_volume_buckets), rows=vars(island))
+
+# what does as_factor do differently?
+penguins_new <- penguins_new %>%
+  mutate(bill_volume_buckets_fct = bill_volume_buckets %>% as_factor())
+
+penguins_new %>%
+  ggplot(aes(x=sex, y=body_mass_g)) +
+  geom_violin(aes(color=species)) + 
+  facet_grid(cols=vars(bill_volume_buckets_fct), rows=vars(island))
+
+# to reverse the factor levels, use fct_rev
+penguins_new <- penguins_new %>%
+  mutate(bill_volume_buckets_fct2 = bill_volume_buckets_fct %>% as_factor() %>% fct_rev())
+
+# what if we want to re-order with a non sortable order?
+penguins_new <- penguins_new %>%
+  mutate(bill_volume_buckets_fct3 = bill_volume_buckets_fct2 %>% as_factor() %>% fct_relevel("other", after=Inf))
+
+penguins_new %>%
+  ggplot(aes(x=sex, y=body_mass_g)) +
+  geom_violin(aes(color=species)) + 
+  facet_grid(cols=vars(bill_volume_buckets_fct3), rows=vars(island))
+
+```
+
+
+### What about for a model?
+
+What you need for a model is a "one-hot" encoded variable. It creates a new column for each unique value of the categorical variable. Each of these columns are binary with values 1 or 0 depending on whether the value of the variable is equal to the unique value being encoded by this column.  The R function lm (through `model.matrix`) does this for us.
+
+
+```{r one_hot, eval=TRUE, echo=TRUE, include=TRUE}
+# in this, what is does the intercept represent?
+model.matrix(bill_length_mm~sex+bill_volume, penguins_new)
+# if we just wanted the sex and species encodings
+model.matrix(~sex+species+0, penguins_new)
+#model.matrix(~sex+species-1, penguins_new)
+penguins_new %>% 
+  group_by(sex) %>% 
+  summarise(means = mean(bill_volume))
+lm(bill_volume~sex+0, penguins_new)
+```
+
+### Recipes package
+
+The `recipes` package aims to make our data engineering steps reproducible and easier for new data.  The data engineering steps would come after data cleaning.  Suppose, for example, we wanted to predict the `flipper_length_mm` as a function of the original `penguin` dataset plus `bill_volume`.  Using `recipes` and starting with the original dataset:
+
+```{r penguin_cooked, echo=TRUE, eval=TRUE, include=TRUE}
+
+set.seed(16234)
+# Put 80% of the data into the training set
+penguins_split <- initial_split(
+  penguins %>% filter(complete.cases(.)), prop = 0.8)
+# now do the split
+train_data <- training(penguins_split)
+test_data  <- testing(penguins_split)
+
+# start with the main ingredient
+pengiun_recipe <- recipe(flipper_length_mm~., data=train_data) %>%
+  # define any roles that need tweaking, I dont want year as predictor/outcome
+  update_role(year, new_role = "YEAR") %>%
+  # remove variables that have no variation
+  step_zv(all_predictors()) %>%
+  step_mutate_at(all_nominal_predictors(), fn = as.factor) %>%
+  step_mutate(bill_volume = bill_length_mm * bill_depth_mm^2) %>%
+  step_center(all_numeric_predictors()) %>%
+  step_scale(all_numeric_predictors()) %>%
+  # expand the nominal variables as one-hot encoded variable
+  step_dummy(all_nominal_predictors())
+
+train_data_baked <- pengiun_recipe %>% 
+    prep() %>% 
+    bake(train_data) 
+
+test_data_baked <- pengiun_recipe %>% 
+    prep() %>% 
+    bake(test_data) 
+
+```
+
+Just for fun:
+
+```{r model_and_predict_h2o, eval=TRUE, echo=TRUE, include=TRUE}
+library(h2o)
+h2o.init()
+
+train_h2o <- as.h2o(train_data_baked)
+test_h2o  <- as.h2o(test_data_baked)
+
+y <- "flipper_length_mm"
+x <- setdiff(names(train_h2o), y)
+
+automl_models_h2o <- h2o.automl(
+    x = x,
+    y = y,
+    training_frame   = train_h2o,
+    max_runtime_secs = 600,
+    nfolds           = 10
+)
+
+automl_models_h2o@leaderboard
+
+# grab first model
+best_model <- automl_models_h2o@leaderboard %>% 
+  as_tibble() %>%
+  slice(1)
+
+best_model
+
+best_model_results <- h2o.getModel(paste0(best_model[1]))
+
+
+predictions <- h2o.predict(best_model_results, newdata = test_h2o) %>% 
+  as.tibble() %>% 
+  bind_cols(test_data_baked %>% select(flipper_length_mm, sex_male)) 
+
+predictions %>%
+  ggplot(aes(x=flipper_length_mm, y=predict)) +
+  geom_point(aes(color=as_factor(sex_male))) +
+  geom_segment(x = -180, y = -180, xend = 230, yend = 230, 
+                     color = "black") +
+  theme(legend.position = "bottom") + 
+  expand_limits(x = c(180,230), y = c(180,230))
+
+# just curious what the model looks like on the training data
+predictions_train_data <- h2o.predict(best_model_results, newdata = train_h2o) %>% as.tibble() %>% bind_cols(train_data_baked %>% select(flipper_length_mm, sex_male)) 
+
+predictions_train_data %>%
+  ggplot(aes(x=flipper_length_mm, y=predict)) +
+  geom_point(aes(color=as_factor(sex_male))) +
+  geom_segment(x = -180, y = -180, xend = 230, yend = 230, 
+                     color = "black") +
+  theme(legend.position = "bottom") + 
+  expand_limits(x = c(175,230), y = c(175,230))
+
+```
+
+### Python
+
+Not to be left out, ports to python exist for forcats -- siuba, but not for the recipes package.  :(
+
+The functions are identically named.  The docs aren't great.  BUT, I found `datar` which looks very promising:
+
+<https://github.com/pwwang/datar>
+
+
+
+
+
