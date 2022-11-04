@@ -156,7 +156,7 @@ lm(bill_volume~sex+0, penguins_new)
 
 The `recipes` package aims to make our data engineering steps reproducible and easier for new data.  The data engineering steps would come after data cleaning.  Suppose, for example, we wanted to predict the penguin sex based on species, island, and observable physical characteristics including `flipper_length_mm` plus `bill_volume`.  Using `recipes` and starting with the original dataset:
 
-```{r penguin_cooked, echo=TRUE, eval=TRUE, include=TRUE}
+```{r penguin_cooked}
 
 set.seed(16234)
 # Put 80% of the data into the training set
@@ -189,9 +189,10 @@ test_data_baked <- pengiun_recipe %>%
 
 Just for fun:
 
-```{r model_and_predict_h2o, eval=FALSE}
+```{r model_and_predict_h2o}
 
 h2o.init()
+h2o.no_progress()
 
 train_h2o <- as.h2o(train_data_baked)
 test_h2o  <- as.h2o(test_data_baked)
@@ -220,7 +221,6 @@ best_model <- automl_models_h2o@leaderboard %>%
 best_model
 
 best_model_results <- h2o.getModel(paste0(best_model[1]))
-
 
 predictions <- h2o.predict(best_model_results, newdata = test_h2o) %>% 
   as.tibble() %>% 
@@ -347,9 +347,11 @@ Local Interpretable Model-Agnostic Explanations
 
 Basically create a bunch of permutations of the data point of interest to get an idea of the importance of each variable affecting the outcome of interest.
 
-Need to create the explainer object and then the explaination.
+Need to create the explainer object and then the explanation.
 
-```{r lime_aide, eval=FALSE}
+Note, to use LIME, we may want to use use untransformed data.  Something to play with.ya
+
+```{r lime_aide}
 
 predictions
 
@@ -374,40 +376,117 @@ explanation_caret <- lime::explain(
   )
 lime::plot_features(explanation_caret)
 
-# below is currently not working
-# explainer_penguins <- train_data %>% mutate_if(is.numeric, as.double) %>% select(-sex) %>%
-#   lime::lime(
-#         model         = best_model_results,
-#         bin_continous = TRUE,
-#         n_bins        = 4,
-#         quantile_bins = TRUE
-# )
-# summary(explainer_penguins)
-# 
-# explanation <- test_data %>% mutate_if(is.numeric, as.double) %>% slice(1) %>% select(-sex) %>%
-#   lime::explain(
-#     explainer = explainer_penguins,
-#     n_labels = 1,
-#     #labels = "female",
-#     n_features = 4,
-#     n_permutations = 5000,
-#     kernel_width = 0.75
-# )
-# 
-# lime::plot_features(explanation)
-# 
-# explanations <- lime::explain(
-#   x = test_data %>% select(-year, -sex) %>% slice(1:20),
-#   explainer = explainer,
-#   n_labels = 1,
-#   n_features = 8,
-#   #n_permutations = 5000,
-#   kernel_width = 0.9
-# )
-# lime::plot_explanations(explanation)
+## fixed the penguins, was a case of me not providing explainer with same data format as model
+
+# Put most of the data into the training set, want the other set more like a true
+# test set as h20 is doing cross validation so the validation data set is pulled 
+# from the training dataset
+
+# get dataset reformatted and filtered, dont want to deal with missing data
+penguins_new <- palmerpenguins::penguins %>% 
+  select(-year) %>%
+  filter(complete.cases(.)) %>%
+  mutate_if(is.factor, as_factor)
+
+# split data into train and test (validation comes from train)
+penguins_split <- initial_split(
+  penguins_new, 
+  prop = 0.95)
+# now do the split
+train_data <- training(penguins_split)
+test_data  <- testing(penguins_split)
+
+# just want to center and scale, leave factors to h2o
+pengiun_recipe <- recipe(sex~., data=train_data) %>%
+  step_center(all_numeric_predictors()) %>%
+  step_scale(all_numeric_predictors()) 
+
+train_data_baked <- pengiun_recipe %>% 
+    prep() %>% 
+    bake(train_data) 
+
+test_data_baked <- pengiun_recipe %>% 
+    prep() %>% 
+    bake(test_data) 
+
+# and off to h2o ...
+h2o.init()
+h2o.no_progress()
+
+train_h2o <- as.h2o(train_data_baked)
+test_h2o  <- as.h2o(test_data_baked)
+
+y <- "sex"
+x <- setdiff(names(train_h2o), y)
+
+automl_models_h2o <- h2o.automl(
+    x = x,
+    y = y,
+    training_frame   = train_h2o,
+    max_runtime_secs = 300,
+    nfolds           = 5
+)
+
+automl_models_h2o@leaderboard
+
+# grab first model
+best_model <- automl_models_h2o@leaderboard %>% 
+  as_tibble() %>%
+  slice(1)
+best_model
+
+best_model_results <- h2o.getModel(paste0(best_model[1]))
+
+# make some quick predictions to see how we did
+predictions <- h2o.predict(best_model_results, newdata = test_h2o) %>% 
+  as.tibble() %>% 
+  bind_cols(
+    test_data_baked %>% select(flipper_length_mm, sex)
+    ) 
+
+predictions %>% yardstick::conf_mat(sex, predict) %>% autoplot(type="heatmap")
+
+## ok, now for the fun, lets look at what the importance of each feature is
+## build the explainer
+explainer_penguins <- train_data %>% 
+  select(-sex) %>% 
+  lime::lime(
+        model         = best_model_results,
+        bin_continous = TRUE,
+        n_bins        = 4,
+        quantile_bins = TRUE
+)
+summary(explainer_penguins)
+
+# explain a data point
+explanation <- test_data %>% slice(1) %>% select(-sex) %>%
+  lime::explain(
+    explainer = explainer_penguins,
+    n_labels = 1,
+    #labels = "female",
+    n_features = 4,
+    n_permutations = 5000,
+    kernel_width = 0.75
+)
+
+# plot the importance in explaining the decision
+lime::plot_features(explanation)
+
+# can do it for many predictions
+explanations <- test_data %>% slice(1:20) %>% select(-sex) %>%
+  lime::explain(
+      explainer = explainer_penguins,
+      n_labels = 1,
+      n_features = 8,
+      #n_permutations = 5000,
+      kernel_width = 0.9
+)
+lime::plot_explanations(explanations)
 
 ```
 
+
+Another example ...
 
 ```{r test}
 
@@ -471,9 +550,14 @@ explanation_caret <- explain(
   )
 ```
 
+And the explanation figures:
+
 ```{r fig.height=10}
+
 plot_features(explanation_caret)
 
 plot_explanations(explanation_caret)
 
 ```
+
+
