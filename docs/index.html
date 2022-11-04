@@ -13,7 +13,7 @@
 
 <title>Home</title>
 
-<script src="site_libs/header-attrs-2.13/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.16/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
@@ -153,11 +153,15 @@ $(document).ready(function () {
     href = "index.html";
   var menuAnchor = $('a[href="' + href + '"]');
 
-  // mark it active
-  menuAnchor.tab('show');
-
-  // if it's got a parent navbar menu mark it active as well
-  menuAnchor.closest('li.dropdown').addClass('active');
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
 
   // Navbar adjustments
   var navHeight = $(".navbar").first().height() + 15;
@@ -394,7 +398,7 @@ class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2022-11-02
+<strong>Last updated:</strong> 2022-11-04
 </p>
 <p>
 <strong>Checks:</strong> <span
@@ -403,8 +407,9 @@ class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 2
 aria-hidden="true"></span> 0
 </p>
 <p>
-<strong>Knit directory:</strong> <code>STAT5014_Fall2022_website/</code>
-<span class="glyphicon glyphicon-question-sign" aria-hidden="true"
+<strong>Knit directory:</strong>
+<code>~/Projects/STAT5014_Fall2022/</code> <span
+class="glyphicon glyphicon-question-sign" aria-hidden="true"
 title="This is the local directory in which the code in this file was executed.">
 </span>
 </p>
@@ -441,15 +446,15 @@ results.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomrsettlageSTAT5014Fall2022tree4475bfa86006c1dfc3364174c662bc3e3c8a6c81targetblank4475bfaa">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomrsettlageSTAT5014Fall2022tree8ce5c34dd43b425cecd7363e1c50e15f66e1a8e3targetblank8ce5c34a">
 <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span> <strong>Repository version:</strong>
-<a href="https://github.com/rsettlage/STAT5014_Fall2022/tree/4475bfa86006c1dfc3364174c662bc3e3c8a6c81" target="_blank">4475bfa</a>
+<a href="https://github.com/rsettlage/STAT5014_Fall2022/tree/8ce5c34dd43b425cecd7363e1c50e15f66e1a8e3" target="_blank">8ce5c34</a>
 </a>
 </p>
 </div>
 <div
-id="strongRepositoryversionstrongahrefhttpsgithubcomrsettlageSTAT5014Fall2022tree4475bfa86006c1dfc3364174c662bc3e3c8a6c81targetblank4475bfaa"
+id="strongRepositoryversionstrongahrefhttpsgithubcomrsettlageSTAT5014Fall2022tree8ce5c34dd43b425cecd7363e1c50e15f66e1a8e3targetblank8ce5c34a"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -459,7 +464,7 @@ reproducibility.
 </p>
 <p>
 The results in this page were generated with repository version
-<a href="https://github.com/rsettlage/STAT5014_Fall2022/tree/4475bfa86006c1dfc3364174c662bc3e3c8a6c81" target="_blank">4475bfa</a>.
+<a href="https://github.com/rsettlage/STAT5014_Fall2022/tree/8ce5c34dd43b425cecd7363e1c50e15f66e1a8e3" target="_blank">8ce5c34</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -474,28 +479,11 @@ were generated:
 </p>
 <pre><code>
 Ignored files:
-    Ignored:    .DS_Store
-    Ignored:    .Rhistory
-    Ignored:    .Rproj.user/
     Ignored:    analysis/.Rhistory
     Ignored:    analysis/Week_2_Reproducible_research_Git_Good_Programming_Practices_cache/
-    Ignored:    analysis/girder_raw.RDS
-    Ignored:    analysis/sensory_raw.RDS
+    Ignored:    analysis/Week_9_apply_mutate_map_cache/
     Ignored:    girder_raw.RDS
     Ignored:    sensory_raw.RDS
-
-Untracked files:
-    Untracked:  STAT5014_Fall2022_website.Rproj
-    Untracked:  Syllabus.pdf
-    Untracked:  code/
-    Untracked:  data/
-    Untracked:  output/
-    Untracked:  staging/
-    Untracked:  testing.Rmd
-    Untracked:  testing.html
-
-Unstaged changes:
-    Modified:   analysis/_site.yml
 
 </code></pre>
 <p>
@@ -540,6 +528,23 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/rsettlage/STAT5014_Fall2022/57b549a1b794af01e44328787380e4182633e78f/docs/index.html" target="_blank">57b549a</a>
+</td>
+<td>
+rsettlag
+</td>
+<td>
+2022-11-02
+</td>
+<td>
+fixing index
+</td>
+</tr>
 <tr>
 <td>
 html
