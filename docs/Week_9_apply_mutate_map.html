@@ -406,6 +406,9 @@ div.tocify {
     <li>
       <a href="Project_2.html">Project 2</a>
     </li>
+    <li>
+      <a href="Project-skeleton.Rmd">Project Skeleton</a>
+    </li>
   </ul>
 </li>
 <li class="dropdown">
@@ -455,7 +458,7 @@ LIME</h1>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
 <span class="glyphicon glyphicon-list" aria-hidden="true"></span>
-workflowr <span class="glyphicon glyphicon-exclamation-sign text-danger"
+workflowr <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span>
 </button>
 </p>
@@ -466,8 +469,8 @@ aria-hidden="true"></span>
 </li>
 <li>
 <a data-toggle="tab" href="#checks"> Checks <span
-class="glyphicon glyphicon-exclamation-sign text-danger"
-aria-hidden="true"></span> </a>
+class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
+</a>
 </li>
 <li>
 <a data-toggle="tab" href="#versions">Past versions</a>
@@ -476,13 +479,13 @@ aria-hidden="true"></span> </a>
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2022-11-03
+<strong>Last updated:</strong> 2022-11-04
 </p>
 <p>
 <strong>Checks:</strong> <span
-class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 5
+class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7
 <span class="glyphicon glyphicon-exclamation-sign text-danger"
-aria-hidden="true"></span> 2
+aria-hidden="true"></span> 0
 </p>
 <p>
 <strong>Knit directory:</strong>
@@ -506,21 +509,18 @@ versions</em> tab lists the development history.
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguncommittedchanges">
-<span class="glyphicon glyphicon-exclamation-sign text-danger"
-aria-hidden="true"></span> <strong>R Markdown file:</strong> uncommitted
-changes </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguptodate">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>R Markdown file:</strong> up-to-date
+</a>
 </p>
 </div>
-<div id="strongRMarkdownfilestronguncommittedchanges"
+<div id="strongRMarkdownfilestronguptodate"
 class="panel-collapse collapse">
 <div class="panel-body">
-<p>The R Markdown file has unstaged changes. To know which version of
-the R Markdown file created these results, you’ll want to first commit
-it to the Git repo. If you’re still working on the analysis, you can
-ignore this warning. When you’re finished, you can run
-<code>wflow_publish</code> to commit the R Markdown file and build the
-HTML.</p>
+<p>Great! Since the R Markdown file has been committed to the Git
+repository, you know the exact version of the code that produced these
+results.</p>
 </div>
 </div>
 </div>
@@ -580,24 +580,16 @@ versions is critical for reproducibility.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongCachestrongdetected">
-<span class="glyphicon glyphicon-exclamation-sign text-danger"
-aria-hidden="true"></span> <strong>Cache:</strong> detected </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongCachestrongnone">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Cache:</strong> none </a>
 </p>
 </div>
-<div id="strongCachestrongdetected" class="panel-collapse collapse">
+<div id="strongCachestrongnone" class="panel-collapse collapse">
 <div class="panel-body">
-The following chunks had caches available:
-<ul>
-<li>
-model_and_predict_h2o
-</li>
-</ul>
-<p>To ensure reproducibility of the results, delete the cache directory
-<code>Week_9_apply_mutate_map_cache</code> and re-run the analysis. To
-have workflowr automatically delete the cache directory prior to
-building the file, set <code>delete_cache = TRUE</code> when running
-<code>wflow_build()</code> or <code>wflow_publish()</code>.</p>
+<p>Nice! There were no cached chunks for this analysis, so you can be
+confident that you successfully produced the results during this
+run.</p>
 </div>
 </div>
 </div>
@@ -619,15 +611,15 @@ project makes it easier to run your code on other machines.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomrsettlageSTAT5014Fall2022treebbd5d9da3bd0daee9a4c311dbb98289db3f099a8targetblankbbd5d9da">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomrsettlageSTAT5014Fall2022treea6d07e1ceadd7aca2ab028c3d5b3cc42b3213c06targetblanka6d07e1a">
 <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span> <strong>Repository version:</strong>
-<a href="https://github.com/rsettlage/STAT5014_Fall2022/tree/bbd5d9da3bd0daee9a4c311dbb98289db3f099a8" target="_blank">bbd5d9d</a>
+<a href="https://github.com/rsettlage/STAT5014_Fall2022/tree/a6d07e1ceadd7aca2ab028c3d5b3cc42b3213c06" target="_blank">a6d07e1</a>
 </a>
 </p>
 </div>
 <div
-id="strongRepositoryversionstrongahrefhttpsgithubcomrsettlageSTAT5014Fall2022treebbd5d9da3bd0daee9a4c311dbb98289db3f099a8targetblankbbd5d9da"
+id="strongRepositoryversionstrongahrefhttpsgithubcomrsettlageSTAT5014Fall2022treea6d07e1ceadd7aca2ab028c3d5b3cc42b3213c06targetblanka6d07e1a"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -637,7 +629,7 @@ reproducibility.
 </p>
 <p>
 The results in this page were generated with repository version
-<a href="https://github.com/rsettlage/STAT5014_Fall2022/tree/bbd5d9da3bd0daee9a4c311dbb98289db3f099a8" target="_blank">bbd5d9d</a>.
+<a href="https://github.com/rsettlage/STAT5014_Fall2022/tree/a6d07e1ceadd7aca2ab028c3d5b3cc42b3213c06" target="_blank">a6d07e1</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -654,13 +646,8 @@ were generated:
 Ignored files:
     Ignored:    analysis/.Rhistory
     Ignored:    analysis/Week_2_Reproducible_research_Git_Good_Programming_Practices_cache/
-    Ignored:    analysis/Week_9_apply_mutate_map_cache/
-    Ignored:    analysis/figure/
     Ignored:    girder_raw.RDS
     Ignored:    sensory_raw.RDS
-
-Unstaged changes:
-    Modified:   analysis/Week_9_apply_mutate_map.Rmd
 
 </code></pre>
 <p>
@@ -707,6 +694,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/rsettlage/STAT5014_Fall2022/blob/8ce5c34dd43b425cecd7363e1c50e15f66e1a8e3/analysis/Week_9_apply_mutate_map.Rmd" target="_blank">8ce5c34</a>
+</td>
+<td>
+Robert Settlage
+</td>
+<td>
+2022-11-04
+</td>
+<td>
+fix week 9
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/rsettlage/STAT5014_Fall2022/8ce5c34dd43b425cecd7363e1c50e15f66e1a8e3/docs/Week_9_apply_mutate_map.html" target="_blank">8ce5c34</a>
+</td>
+<td>
+Robert Settlage
+</td>
+<td>
+2022-11-04
+</td>
+<td>
+fix week 9
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -1308,14 +1329,14 @@ h2o.init()
  Connection successful!
 
 R is connected to the H2O cluster: 
-    H2O cluster uptime:         10 days 1 hours 
+    H2O cluster uptime:         10 days 12 hours 
     H2O cluster timezone:       America/New_York 
     H2O data parsing timezone:  UTC 
     H2O cluster version:        3.38.0.1 
     H2O cluster version age:    1 month and 15 days  
     H2O cluster name:           H2O_started_from_R_rsettlag_tdy670 
     H2O cluster total nodes:    1 
-    H2O cluster total memory:   1.31 GB 
+    H2O cluster total memory:   1.05 GB 
     H2O cluster total cores:    10 
     H2O cluster allowed cores:  10 
     H2O cluster healthy:        TRUE 
@@ -1345,21 +1366,21 @@ automl_models_h2o &lt;- h2o.automl(
 
 automl_models_h2o@leaderboard
                                                   model_id       auc   logloss
-1             GBM_grid_1_AutoML_29_20221103_231224_model_9 0.9728398 0.2093748
-2 StackedEnsemble_BestOfFamily_5_AutoML_29_20221103_231224 0.9726796 0.2051552
-3    DeepLearning_grid_2_AutoML_29_20221103_231224_model_3 0.9721588 0.2512132
-4    StackedEnsemble_AllModels_2_AutoML_29_20221103_231224 0.9721187 0.2110414
-5                          GLM_1_AutoML_29_20221103_231224 0.9720386 0.2163959
-6 StackedEnsemble_BestOfFamily_4_AutoML_29_20221103_231224 0.9718784 0.2153099
+1 StackedEnsemble_BestOfFamily_4_AutoML_31_20221104_100047 0.9729199 0.2092236
+2 StackedEnsemble_BestOfFamily_3_AutoML_31_20221104_100047 0.9728398 0.2110522
+3    StackedEnsemble_AllModels_1_AutoML_31_20221104_100047 0.9725594 0.2110989
+4 StackedEnsemble_BestOfFamily_2_AutoML_31_20221104_100047 0.9720386 0.2120969
+5                          GLM_1_AutoML_31_20221104_100047 0.9720386 0.2163959
+6    StackedEnsemble_AllModels_2_AutoML_31_20221104_100047 0.9717983 0.2124305
       aucpr mean_per_class_error      rmse        mse
-1 0.9735327           0.07607259 0.2484834 0.06174401
-2 0.9642403           0.06954292 0.2404154 0.05779959
-3 0.9602405           0.07599247 0.2522786 0.06364447
-4 0.9679135           0.07288787 0.2441433 0.05960593
+1 0.9690746           0.07292793 0.2445710 0.05981497
+2 0.9678828           0.07288787 0.2448020 0.05992802
+3 0.9702122           0.07296799 0.2453473 0.06019531
+4 0.9645901           0.07288787 0.2438359 0.05945594
 5 0.9679493           0.07611265 0.2477119 0.06136119
-6 0.9639969           0.07280776 0.2448719 0.05996223
+6 0.9678044           0.06974322 0.2444306 0.05974632
 
-[91 rows x 7 columns] 
+[90 rows x 7 columns] 
 
 # grab first model
 best_model &lt;- automl_models_h2o@leaderboard %&gt;% 
@@ -1370,11 +1391,10 @@ best_model
 # A tibble: 1 × 7
   model_id                                auc logloss aucpr mean_…¹  rmse    mse
   &lt;chr&gt;                                 &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;
-1 GBM_grid_1_AutoML_29_20221103_231224… 0.973   0.209 0.974  0.0761 0.248 0.0617
+1 StackedEnsemble_BestOfFamily_4_AutoM… 0.973   0.209 0.969  0.0729 0.245 0.0598
 # … with abbreviated variable name ¹​mean_per_class_error
 
 best_model_results &lt;- h2o.getModel(paste0(best_model[1]))
-
 
 predictions &lt;- h2o.predict(best_model_results, newdata = test_h2o) %&gt;% 
   as.tibble() %&gt;% 
@@ -1543,25 +1563,25 @@ Something to play with.ya</p>
 <pre class="r"><code>
 predictions
 # A tibble: 17 × 5
-   predict  female    male flipper_length_mm sex   
-   &lt;fct&gt;     &lt;dbl&gt;   &lt;dbl&gt;             &lt;dbl&gt; &lt;fct&gt; 
- 1 female  0.927   0.0725            -0.424  female
- 2 male    0.0108  0.989             -0.424  male  
- 3 female  0.706   0.294             -1.49   male  
- 4 male    0.281   0.719             -0.852  female
- 5 female  0.456   0.544             -0.994  female
- 6 male    0.00467 0.995             -0.282  male  
- 7 male    0.00766 0.992             -0.780  male  
- 8 female  0.526   0.474             -0.139  female
- 9 male    0.00366 0.996             -0.139  male  
-10 male    0.00767 0.992             -0.0683 male  
-11 female  0.997   0.00258            0.501  female
-12 male    0.00183 0.998              1.71   male  
-13 female  0.951   0.0487             1.36   female
-14 male    0.00141 0.999              2.07   male  
-15 male    0.198   0.802              1.00   female
-16 male    0.244   0.756             -0.424  female
-17 male    0.0413  0.959             -0.424  male  
+   predict   female    male flipper_length_mm sex   
+   &lt;fct&gt;      &lt;dbl&gt;   &lt;dbl&gt;             &lt;dbl&gt; &lt;fct&gt; 
+ 1 female  0.896    0.104             -0.424  female
+ 2 male    0.00234  0.998             -0.424  male  
+ 3 female  0.662    0.338             -1.49   male  
+ 4 male    0.346    0.654             -0.852  female
+ 5 male    0.456    0.544             -0.994  female
+ 6 male    0.00643  0.994             -0.282  male  
+ 7 male    0.0152   0.985             -0.780  male  
+ 8 female  0.681    0.319             -0.139  female
+ 9 male    0.0138   0.986             -0.139  male  
+10 male    0.00696  0.993             -0.0683 male  
+11 female  0.999    0.00127            0.501  female
+12 male    0.00563  0.994              1.71   male  
+13 female  0.983    0.0169             1.36   female
+14 male    0.000872 0.999              2.07   male  
+15 male    0.363    0.637              1.00   female
+16 male    0.115    0.885             -0.424  female
+17 male    0.0536   0.946             -0.424  male  
 
 # Create Random Forest model with ranger via caret
 fit.caret &lt;- train(
@@ -1623,7 +1643,7 @@ h2o.init()
  Connection successful!
 
 R is connected to the H2O cluster: 
-    H2O cluster uptime:         10 days 1 hours 
+    H2O cluster uptime:         10 days 12 hours 
     H2O cluster timezone:       America/New_York 
     H2O data parsing timezone:  UTC 
     H2O cluster version:        3.38.0.1 
@@ -1657,21 +1677,21 @@ automl_models_h2o &lt;- h2o.automl(
 
 automl_models_h2o@leaderboard
                                                   model_id       auc   logloss
-1 StackedEnsemble_BestOfFamily_5_AutoML_30_20221103_231736 0.9809696 0.1783455
-2            GBM_grid_1_AutoML_30_20221103_231736_model_26 0.9807692 0.1864499
-3            GBM_grid_1_AutoML_30_20221103_231736_model_16 0.9782853 0.1877121
-4                          GBM_4_AutoML_30_20221103_231736 0.9780048 0.1888769
-5            GBM_grid_1_AutoML_30_20221103_231736_model_10 0.9776042 0.1917033
-6             GBM_grid_1_AutoML_30_20221103_231736_model_7 0.9773237 0.1981574
+1 StackedEnsemble_BestOfFamily_5_AutoML_32_20221104_100558 0.9796074 0.1870584
+2            GBM_grid_1_AutoML_32_20221104_100558_model_16 0.9791667 0.1833373
+3                          GBM_4_AutoML_32_20221104_100558 0.9782051 0.1910766
+4            GBM_grid_1_AutoML_32_20221104_100558_model_20 0.9775240 0.1948769
+5                          GBM_5_AutoML_32_20221104_100558 0.9770833 0.1994330
+6            GBM_grid_1_AutoML_32_20221104_100558_model_19 0.9770433 0.1935374
       aucpr mean_per_class_error      rmse        mse
-1 0.9804031           0.06642628 0.2301629 0.05297497
-2 0.9812612           0.07291667 0.2368897 0.05611673
-3 0.9782591           0.06610577 0.2346846 0.05507687
-4 0.9760437           0.06009615 0.2333533 0.05445375
-5 0.9770792           0.06987179 0.2352806 0.05535695
-6 0.9772592           0.07315705 0.2432466 0.05916889
+1 0.9745577           0.06634615 0.2309675 0.05334597
+2 0.9800699           0.07251603 0.2358001 0.05560168
+3 0.9785459           0.06009615 0.2363009 0.05583810
+4 0.9767853           0.06634615 0.2406402 0.05790770
+5 0.9768699           0.07972756 0.2473675 0.06119068
+6 0.9760572           0.07003205 0.2385516 0.05690686
 
-[101 rows x 7 columns] 
+[94 rows x 7 columns] 
 
 # grab first model
 best_model &lt;- automl_models_h2o@leaderboard %&gt;% 
@@ -1681,7 +1701,7 @@ best_model
 # A tibble: 1 × 7
   model_id                                auc logloss aucpr mean_…¹  rmse    mse
   &lt;chr&gt;                                 &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;
-1 StackedEnsemble_BestOfFamily_5_AutoM… 0.981   0.178 0.980  0.0664 0.230 0.0530
+1 StackedEnsemble_BestOfFamily_5_AutoM… 0.980   0.187 0.975  0.0663 0.231 0.0533
 # … with abbreviated variable name ¹​mean_per_class_error
 
 best_model_results &lt;- h2o.getModel(paste0(best_model[1]))
@@ -1752,14 +1772,14 @@ h2o.init()
  Connection successful!
 
 R is connected to the H2O cluster: 
-    H2O cluster uptime:         10 days 1 hours 
+    H2O cluster uptime:         10 days 12 hours 
     H2O cluster timezone:       America/New_York 
     H2O data parsing timezone:  UTC 
     H2O cluster version:        3.38.0.1 
     H2O cluster version age:    1 month and 15 days  
     H2O cluster name:           H2O_started_from_R_rsettlag_tdy670 
     H2O cluster total nodes:    1 
-    H2O cluster total memory:   1.27 GB 
+    H2O cluster total memory:   1.12 GB 
     H2O cluster total cores:    10 
     H2O cluster allowed cores:  10 
     H2O cluster healthy:        TRUE 
