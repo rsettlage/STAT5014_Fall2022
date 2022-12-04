@@ -42,14 +42,13 @@ Suggested schedule, you can speed ahead.
 |8	     | 26-Oct    | factors (forcats) and recipes  
 |9	     |  2-Nov    | R's Apply vs mutate + map  
 |        |           | **MODULE 3 -- Fun with text, ML and automation**  
-|10	     |  9-Nov    | ML in both languages -- Keras vs PyTorch (SciKitLearn?  mle4? others?) 
-|11	     | 10-Nov    | text munging -- tidytext (https://analyticsindiamag.com/top-10-r-packages-for-natural-language-processing-nlp/) vs textblob,torch text,PySpark and Sparklinlp   
+|10	     | 9-Nov    | text munging -- tidytext (https://analyticsindiamag.com/top-10-r-packages-for-natural-language-processing-nlp/) vs textblob,torch text,PySpark and Sparklinlp   
 |- 	     | 16-Nov    | No class  
 |        |           | **MODULE 4 -- Automation, Shiny and SQL**  
-|12	     | 23-Nov    | Automation, Shiny, and GUIs for working with collaborators  
+|12	     | 23-Nov    | ML in both languages -- Keras vs PyTorch (SciKitLearn?  mle4? others?)   
 |-	     | 30-Nov*   | No class -- Thanksgiving  
-|13	     |  7-Dec    | SQL basics  
-|14	     | 14-Dec*   | SQL intermediate    
+|13	     |  7-Dec    | Automation, Shiny, and GUIs for working with collaborators   
+|14	     | 14-Dec*   | SQL basics    
 |-       | ------    | Final -- none  
 
 
