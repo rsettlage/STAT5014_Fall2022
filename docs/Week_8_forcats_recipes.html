@@ -15,7 +15,7 @@
 
 <title>Lecture 8 - factors and recipes</title>
 
-<script src="site_libs/header-attrs-2.16/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.18/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
@@ -195,8 +195,8 @@ $(document).ready(function () {
   border-radius: 4px;
 }
 
-.tabset-dropdown > .nav-tabs > li.active:before {
-  content: "";
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
   font-family: 'Glyphicons Halflings';
   display: inline-block;
   padding: 10px;
@@ -204,16 +204,9 @@ $(document).ready(function () {
 }
 
 .tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
-  content: "&#xe258;";
-  border: none;
-}
-
-.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
-  content: "";
+  content: "\e258";
   font-family: 'Glyphicons Halflings';
-  display: inline-block;
-  padding: 10px;
-  border-right: 1px solid #ddd;
+  border: none;
 }
 
 .tabset-dropdown > .nav-tabs > li.active {
@@ -380,7 +373,7 @@ div.tocify {
       <a href="Week_8_forcats_recipes.html">Week 8</a>
     </li>
     <li>
-      <a href="Week_9_going_parallel.html">Week 9</a>
+      <a href="Week_9_apply_mutate_map.html">Week 9</a>
     </li>
     <li>
       <a href="Week_10_dashboards_reports_automation.html">Week 10</a>
@@ -401,19 +394,13 @@ div.tocify {
       <a href="Week_1_homework_1.html">Homework 1</a>
     </li>
     <li>
-      <a href="Week_2_homework_2.html">Homework 2</a>
+      <a href="Project_1.html">Project 1</a>
     </li>
     <li>
-      <a href="Week_4_homework_3.html">Homework 3</a>
+      <a href="Project_2.html">Project 2</a>
     </li>
     <li>
-      <a href="Week_6_homework_4.html">Homework 4</a>
-    </li>
-    <li>
-      <a href="Week_9_homework_5.html">Homework 5</a>
-    </li>
-    <li>
-      <a href="Week_11_homework_6.html">Homework 6</a>
+      <a href="Project-skeleton.Rmd">Project Skeleton</a>
     </li>
   </ul>
 </li>
@@ -463,7 +450,7 @@ div.tocify {
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
 <span class="glyphicon glyphicon-list" aria-hidden="true"></span>
-workflowr <span class="glyphicon glyphicon-exclamation-sign text-danger"
+workflowr <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span>
 </button>
 </p>
@@ -474,8 +461,8 @@ aria-hidden="true"></span>
 </li>
 <li>
 <a data-toggle="tab" href="#checks"> Checks <span
-class="glyphicon glyphicon-exclamation-sign text-danger"
-aria-hidden="true"></span> </a>
+class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
+</a>
 </li>
 <li>
 <a data-toggle="tab" href="#versions">Past versions</a>
@@ -484,18 +471,17 @@ aria-hidden="true"></span> </a>
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2022-10-26
+<strong>Last updated:</strong> 2022-12-03
 </p>
 <p>
 <strong>Checks:</strong> <span
-class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6
+class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7
 <span class="glyphicon glyphicon-exclamation-sign text-danger"
-aria-hidden="true"></span> 1
+aria-hidden="true"></span> 0
 </p>
 <p>
-<strong>Knit directory:</strong>
-<code>~/Projects/STAT5014_Fall2022/</code> <span
-class="glyphicon glyphicon-question-sign" aria-hidden="true"
+<strong>Knit directory:</strong> <code>STAT5014_Fall2022_website/</code>
+<span class="glyphicon glyphicon-question-sign" aria-hidden="true"
 title="This is the local directory in which the code in this file was executed.">
 </span>
 </p>
@@ -514,21 +500,18 @@ versions</em> tab lists the development history.
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguncommittedchanges">
-<span class="glyphicon glyphicon-exclamation-sign text-danger"
-aria-hidden="true"></span> <strong>R Markdown file:</strong> uncommitted
-changes </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguptodate">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>R Markdown file:</strong> up-to-date
+</a>
 </p>
 </div>
-<div id="strongRMarkdownfilestronguncommittedchanges"
+<div id="strongRMarkdownfilestronguptodate"
 class="panel-collapse collapse">
 <div class="panel-body">
-<p>The R Markdown file has unstaged changes. To know which version of
-the R Markdown file created these results, you’ll want to first commit
-it to the Git repo. If you’re still working on the analysis, you can
-ignore this warning. When you’re finished, you can run
-<code>wflow_publish</code> to commit the R Markdown file and build the
-HTML.</p>
+<p>Great! Since the R Markdown file has been committed to the Git
+repository, you know the exact version of the code that produced these
+results.</p>
 </div>
 </div>
 </div>
@@ -619,15 +602,15 @@ project makes it easier to run your code on other machines.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomrsettlageSTAT5014Fall2022tree32006e837dd9c2fed41b3004e5eec037184501a4targetblank32006e8a">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomrsettlageSTAT5014Fall2022tree57b549a1b794af01e44328787380e4182633e78ftargetblank57b549aa">
 <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span> <strong>Repository version:</strong>
-<a href="https://github.com/rsettlage/STAT5014_Fall2022/tree/32006e837dd9c2fed41b3004e5eec037184501a4" target="_blank">32006e8</a>
+<a href="https://github.com/rsettlage/STAT5014_Fall2022/tree/57b549a1b794af01e44328787380e4182633e78f" target="_blank">57b549a</a>
 </a>
 </p>
 </div>
 <div
-id="strongRepositoryversionstrongahrefhttpsgithubcomrsettlageSTAT5014Fall2022tree32006e837dd9c2fed41b3004e5eec037184501a4targetblank32006e8a"
+id="strongRepositoryversionstrongahrefhttpsgithubcomrsettlageSTAT5014Fall2022tree57b549a1b794af01e44328787380e4182633e78ftargetblank57b549aa"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -637,7 +620,7 @@ reproducibility.
 </p>
 <p>
 The results in this page were generated with repository version
-<a href="https://github.com/rsettlage/STAT5014_Fall2022/tree/32006e837dd9c2fed41b3004e5eec037184501a4" target="_blank">32006e8</a>.
+<a href="https://github.com/rsettlage/STAT5014_Fall2022/tree/57b549a1b794af01e44328787380e4182633e78f" target="_blank">57b549a</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -652,13 +635,31 @@ were generated:
 </p>
 <pre><code>
 Ignored files:
+    Ignored:    .DS_Store
+    Ignored:    .Rhistory
+    Ignored:    .Rproj.user/
     Ignored:    analysis/.Rhistory
     Ignored:    analysis/Week_2_Reproducible_research_Git_Good_Programming_Practices_cache/
+    Ignored:    analysis/figure/
+    Ignored:    analysis/girder_raw.RDS
+    Ignored:    analysis/sensory_raw.RDS
     Ignored:    girder_raw.RDS
     Ignored:    sensory_raw.RDS
 
+Untracked files:
+    Untracked:  STAT5014_Fall2022_website.Rproj
+    Untracked:  Syllabus.pdf
+    Untracked:  code/
+    Untracked:  data/
+    Untracked:  figure/matplotlib_test.jpg
+    Untracked:  output/
+    Untracked:  staging/
+    Untracked:  testing.Rmd
+    Untracked:  testing.html
+
 Unstaged changes:
-    Modified:   analysis/Week_8_forcats_recipes.Rmd
+    Modified:   analysis/Week_4_Plots_using_ggplot2_plotly_more.Rmd
+    Modified:   figure/seaborn_pairplot.jpg
 
 </code></pre>
 <p>
@@ -705,6 +706,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/rsettlage/STAT5014_Fall2022/blob/bbd5d9da3bd0daee9a4c311dbb98289db3f099a8/analysis/Week_8_forcats_recipes.Rmd" target="_blank">bbd5d9d</a>
+</td>
+<td>
+Robert Settlage
+</td>
+<td>
+2022-11-02
+</td>
+<td>
+week 9
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/rsettlage/STAT5014_Fall2022/bbd5d9da3bd0daee9a4c311dbb98289db3f099a8/docs/Week_8_forcats_recipes.html" target="_blank">bbd5d9d</a>
+</td>
+<td>
+Robert Settlage
+</td>
+<td>
+2022-11-02
+</td>
+<td>
+week 9
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -2065,19 +2100,27 @@ Attaching package: &#39;h2o&#39;</code></pre>
     colnames&lt;-, ifelse, is.character, is.factor, is.numeric, log,
     log10, log1p, log2, round, signif, trunc</code></pre>
 <pre class="r"><code>h2o.init()</code></pre>
-<pre><code> Connection successful!
+<pre><code>
+H2O is not running yet, starting it now...
+
+Note:  In case of errors look at the following log files:
+    /var/folders/sq/55gc2tpd6hjbrwhdq6bn5p6w0000gn/T//Rtmp3XS37Z/file66e38ff6001/h2o_rsettlag_started_from_r.out
+    /var/folders/sq/55gc2tpd6hjbrwhdq6bn5p6w0000gn/T//Rtmp3XS37Z/file66e335f7e644/h2o_rsettlag_started_from_r.err
+
+
+Starting H2O JVM and connecting: .. Connection successful!
 
 R is connected to the H2O cluster: 
-    H2O cluster uptime:         1 days 23 hours 
+    H2O cluster uptime:         2 seconds 306 milliseconds 
     H2O cluster timezone:       America/New_York 
     H2O data parsing timezone:  UTC 
     H2O cluster version:        3.38.0.1 
-    H2O cluster version age:    1 month and 7 days  
-    H2O cluster name:           H2O_started_from_R_rsettlag_tdy670 
+    H2O cluster version age:    2 months and 14 days  
+    H2O cluster name:           H2O_started_from_R_rsettlag_ibf816 
     H2O cluster total nodes:    1 
-    H2O cluster total memory:   2.80 GB 
-    H2O cluster total cores:    10 
-    H2O cluster allowed cores:  10 
+    H2O cluster total memory:   8.00 GB 
+    H2O cluster total cores:    12 
+    H2O cluster allowed cores:  12 
     H2O cluster healthy:        TRUE 
     H2O Connection ip:          localhost 
     H2O Connection port:        54321 
@@ -2110,9 +2153,15 @@ automl_models_h2o &lt;- h2o.automl(
   |                                                                            
   |                                                                      |   0%
   |                                                                            
-  |====                                                                  |   5%
+  |=                                                                     |   2%
   |                                                                            
-  |=============                                                         |  18%
+  |=====                                                                 |   8%
+  |                                                                            
+  |============                                                          |  17%
+  |                                                                            
+  |===============                                                       |  22%
+  |                                                                            
+  |================                                                      |  24%
   |                                                                            
   |==================                                                    |  26%
   |                                                                            
@@ -2142,9 +2191,9 @@ automl_models_h2o &lt;- h2o.automl(
   |                                                                            
   |=========================================                             |  59%
   |                                                                            
-  |==========================================                            |  60%
+  |==========================================                            |  59%
   |                                                                            
-  |==========================================                            |  61%
+  |==========================================                            |  60%
   |                                                                            
   |===========================================                           |  61%
   |                                                                            
@@ -2154,6 +2203,8 @@ automl_models_h2o &lt;- h2o.automl(
   |                                                                            
   |============================================                          |  63%
   |                                                                            
+  |============================================                          |  64%
+  |                                                                            
   |=============================================                         |  64%
   |                                                                            
   |=============================================                         |  65%
@@ -2161,8 +2212,6 @@ automl_models_h2o &lt;- h2o.automl(
   |==============================================                        |  65%
   |                                                                            
   |==============================================                        |  66%
-  |                                                                            
-  |===============================================                       |  66%
   |                                                                            
   |===============================================                       |  67%
   |                                                                            
@@ -2172,9 +2221,9 @@ automl_models_h2o &lt;- h2o.automl(
   |                                                                            
   |================================================                      |  69%
   |                                                                            
-  |=================================================                     |  70%
+  |=================================================                     |  69%
   |                                                                            
-  |=================================================                     |  71%
+  |=================================================                     |  70%
   |                                                                            
   |==================================================                    |  71%
   |                                                                            
@@ -2183,6 +2232,8 @@ automl_models_h2o &lt;- h2o.automl(
   |===================================================                   |  72%
   |                                                                            
   |===================================================                   |  73%
+  |                                                                            
+  |===================================================                   |  74%
   |                                                                            
   |====================================================                  |  74%
   |                                                                            
@@ -2212,6 +2263,8 @@ automl_models_h2o &lt;- h2o.automl(
   |                                                                            
   |==========================================================            |  83%
   |                                                                            
+  |==========================================================            |  84%
+  |                                                                            
   |===========================================================           |  84%
   |                                                                            
   |===========================================================           |  85%
@@ -2240,6 +2293,8 @@ automl_models_h2o &lt;- h2o.automl(
   |                                                                            
   |=================================================================     |  93%
   |                                                                            
+  |=================================================================     |  94%
+  |                                                                            
   |==================================================================    |  94%
   |                                                                            
   |==================================================================    |  95%
@@ -2257,21 +2312,21 @@ automl_models_h2o &lt;- h2o.automl(
   |======================================================================| 100%</code></pre>
 <pre class="r"><code>automl_models_h2o@leaderboard</code></pre>
 <pre><code>                                                 model_id     rmse      mse
-1 StackedEnsemble_BestOfFamily_6_AutoML_8_20221026_210224 4.798266 23.02336
-2    StackedEnsemble_AllModels_6_AutoML_8_20221026_210224 4.821490 23.24676
-3            GBM_grid_1_AutoML_8_20221026_210224_model_13 4.855273 23.57368
-4            GBM_grid_1_AutoML_8_20221026_210224_model_28 4.865970 23.67766
-5   DeepLearning_grid_1_AutoML_8_20221026_210224_model_12 4.869037 23.70752
-6            GBM_grid_1_AutoML_8_20221026_210224_model_32 4.880637 23.82061
+1 StackedEnsemble_BestOfFamily_6_AutoML_1_20221203_202646 4.722280 22.29993
+2    DeepLearning_grid_1_AutoML_1_20221203_202646_model_3 4.779665 22.84520
+3   DeepLearning_grid_1_AutoML_1_20221203_202646_model_12 4.790856 22.95230
+4    StackedEnsemble_AllModels_6_AutoML_1_20221203_202646 4.798466 23.02528
+5    DeepLearning_grid_3_AutoML_1_20221203_202646_model_1 4.854706 23.56817
+6            GBM_grid_1_AutoML_1_20221203_202646_model_16 4.881017 23.82432
        mae      rmsle mean_residual_deviance
-1 3.710842 0.02419419               23.02336
-2 3.745128 0.02438187               23.24676
-3 3.758864 0.02450547               23.57368
-4 3.783707 0.02457290               23.67766
-5 3.807092 0.02460939               23.70752
-6 3.800886 0.02461157               23.82061
+1 3.678673 0.02382557               22.29993
+2 3.718589 0.02414664               22.84520
+3 3.713944 0.02418438               22.95230
+4 3.722280 0.02421727               23.02528
+5 3.728125 0.02446733               23.56817
+6 3.772855 0.02460650               23.82432
 
-[135 rows x 6 columns] </code></pre>
+[125 rows x 6 columns] </code></pre>
 <pre class="r"><code># grab first model
 best_model &lt;- automl_models_h2o@leaderboard %&gt;% 
   as_tibble() %&gt;%
@@ -2279,10 +2334,9 @@ best_model &lt;- automl_models_h2o@leaderboard %&gt;%
 
 best_model</code></pre>
 <pre><code># A tibble: 1 × 6
-  model_id                                       rmse   mse   mae  rmsle mean_…¹
-  &lt;chr&gt;                                         &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt;
-1 StackedEnsemble_BestOfFamily_6_AutoML_8_2022…  4.80  23.0  3.71 0.0242    23.0
-# … with abbreviated variable name ¹​mean_residual_deviance</code></pre>
+  model_id                              rmse   mse   mae  rmsle mean_residual_d…
+  &lt;chr&gt;                                &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;            &lt;dbl&gt;
+1 StackedEnsemble_BestOfFamily_6_Auto…  4.72  22.3  3.68 0.0238             22.3</code></pre>
 <pre class="r"><code>best_model_results &lt;- h2o.getModel(paste0(best_model[1]))
 
 
@@ -2290,8 +2344,10 @@ predictions &lt;- h2o.predict(best_model_results, newdata = test_h2o) %&gt;%
   as.tibble() %&gt;% 
   bind_cols(test_data_baked %&gt;% select(flipper_length_mm, sex_male)) </code></pre>
 <pre><code>Warning: `as.tibble()` was deprecated in tibble 2.0.0.
-ℹ Please use `as_tibble()` instead.
-ℹ The signature and semantics have changed, see `?as_tibble`.</code></pre>
+Please use `as_tibble()` instead.
+The signature and semantics have changed, see `?as_tibble`.
+This warning is displayed once every 8 hours.
+Call `lifecycle::last_lifecycle_warnings()` to see where this warning was generated.</code></pre>
 <pre><code>
   |                                                                            
   |                                                                      |   0%
@@ -2339,12 +2395,12 @@ Session information
 <div id="workflowr-sessioninfo" class="collapse">
 <pre class="r"><code>sessionInfo()</code></pre>
 <pre><code>R version 4.2.1 (2022-06-23)
-Platform: aarch64-apple-darwin20 (64-bit)
-Running under: macOS Monterey 12.4
+Platform: x86_64-apple-darwin17.0 (64-bit)
+Running under: macOS Big Sur ... 10.16
 
 Matrix products: default
-BLAS:   /Library/Frameworks/R.framework/Versions/4.2-arm64/Resources/lib/libRblas.0.dylib
-LAPACK: /Library/Frameworks/R.framework/Versions/4.2-arm64/Resources/lib/libRlapack.dylib
+BLAS:   /Library/Frameworks/R.framework/Versions/4.2/Resources/lib/libRblas.0.dylib
+LAPACK: /Library/Frameworks/R.framework/Versions/4.2/Resources/lib/libRlapack.dylib
 
 locale:
 [1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
@@ -2353,47 +2409,38 @@ attached base packages:
 [1] stats     graphics  grDevices utils     datasets  methods   base     
 
 other attached packages:
- [1] h2o_3.38.0.1         rsample_1.1.0        recipes_1.0.1.9000  
- [4] skimr_2.1.4          palmerpenguins_0.1.1 reticulate_1.26     
- [7] forcats_0.5.2        stringr_1.4.1        dplyr_1.0.10        
-[10] purrr_0.3.5          readr_2.1.3          tidyr_1.2.1         
-[13] tibble_3.1.8         ggplot2_3.3.6        tidyverse_1.3.2     
-[16] data.table_1.14.2    knitr_1.40          
+ [1] h2o_3.38.0.1         rsample_0.1.1        recipes_0.2.0       
+ [4] skimr_2.1.4          palmerpenguins_0.1.1 reticulate_1.24     
+ [7] forcats_0.5.1        stringr_1.4.0        dplyr_1.0.8         
+[10] purrr_0.3.4          readr_2.1.2          tidyr_1.2.0         
+[13] tibble_3.1.6         ggplot2_3.3.5        tidyverse_1.3.1     
+[16] data.table_1.14.2    knitr_1.38          
 
 loaded via a namespace (and not attached):
- [1] googledrive_2.0.0   colorspace_2.0-3    ellipsis_0.3.2     
- [4] class_7.3-20        rprojroot_2.0.3     base64enc_0.1-3    
- [7] fs_1.5.2            rstudioapi_0.14     listenv_0.8.0      
-[10] furrr_0.3.1         farver_2.1.1        bit64_4.0.5        
-[13] prodlim_2019.11.13  fansi_1.0.3         lubridate_1.8.0    
-[16] xml2_1.3.3          codetools_0.2-18    splines_4.2.1      
-[19] cachem_1.0.6        jsonlite_1.8.2      workflowr_1.7.0    
-[22] broom_1.0.1         dbplyr_2.2.1        png_0.1-7          
-[25] compiler_4.2.1      httr_1.4.4          backports_1.4.1    
-[28] assertthat_0.2.1    Matrix_1.5-1        fastmap_1.1.0      
-[31] gargle_1.2.1        cli_3.4.1           later_1.3.0        
-[34] htmltools_0.5.3     tools_4.2.1         gtable_0.3.1       
-[37] glue_1.6.2          Rcpp_1.0.9          cellranger_1.1.0   
-[40] jquerylib_0.1.4     vctrs_0.4.2         timeDate_4021.106  
-[43] gower_1.0.0         xfun_0.33           globals_0.16.1     
-[46] rvest_1.0.3         lifecycle_1.0.3     googlesheets4_1.0.1
-[49] future_1.28.0       MASS_7.3-58.1       scales_1.2.1       
-[52] ipred_0.9-13        hms_1.1.2           promises_1.2.0.1   
-[55] parallel_4.2.1      yaml_2.3.5          curl_4.3.3         
-[58] sass_0.4.2          rpart_4.1.16        stringi_1.7.8      
-[61] highr_0.9           hardhat_1.2.0       lava_1.6.10        
-[64] repr_1.1.4          rlang_1.0.6         pkgconfig_2.0.3    
-[67] bitops_1.0-7        evaluate_0.16       lattice_0.20-45    
-[70] labeling_0.4.2      bit_4.0.4           tidyselect_1.1.2   
-[73] parallelly_1.32.1   magrittr_2.0.3      R6_2.5.1           
-[76] generics_0.1.3      DBI_1.1.3           pillar_1.8.1       
-[79] haven_2.5.1         whisker_0.4         withr_2.5.0        
-[82] survival_3.4-0      RCurl_1.98-1.9      nnet_7.3-17        
-[85] future.apply_1.9.1  modelr_0.1.9        crayon_1.5.2       
-[88] utf8_1.2.2          tzdb_0.3.0          rmarkdown_2.16     
-[91] grid_4.2.1          readxl_1.4.1        git2r_0.30.1       
-[94] reprex_2.0.2        digest_0.6.29       httpuv_1.6.6       
-[97] munsell_0.5.0       bslib_0.4.0        </code></pre>
+ [1] colorspace_2.0-3   ellipsis_0.3.2     class_7.3-20       rprojroot_2.0.3   
+ [5] base64enc_0.1-3    fs_1.5.2           rstudioapi_0.13    listenv_0.8.0     
+ [9] furrr_0.2.3        farver_2.1.0       bit64_4.0.5        prodlim_2019.11.13
+[13] fansi_1.0.3        lubridate_1.8.0    xml2_1.3.3         codetools_0.2-18  
+[17] splines_4.2.1      jsonlite_1.8.0     workflowr_1.7.0    broom_0.7.12      
+[21] dbplyr_2.1.1       png_0.1-7          compiler_4.2.1     httr_1.4.2        
+[25] backports_1.4.1    assertthat_0.2.1   Matrix_1.4-1       fastmap_1.1.0     
+[29] cli_3.2.0          later_1.3.0        htmltools_0.5.2    tools_4.2.1       
+[33] gtable_0.3.0       glue_1.6.2         Rcpp_1.0.8.3       cellranger_1.1.0  
+[37] jquerylib_0.1.4    vctrs_0.4.0        timeDate_3043.102  gower_1.0.0       
+[41] xfun_0.30          globals_0.14.0     rvest_1.0.2        lifecycle_1.0.1   
+[45] future_1.24.0      MASS_7.3-57        scales_1.1.1       ipred_0.9-12      
+[49] hms_1.1.1          promises_1.2.0.1   parallel_4.2.1     yaml_2.3.5        
+[53] curl_4.3.2         sass_0.4.1         rpart_4.1.16       stringi_1.7.6     
+[57] highr_0.9          hardhat_0.2.0      lava_1.6.10        repr_1.1.4        
+[61] rlang_1.0.2        pkgconfig_2.0.3    bitops_1.0-7       evaluate_0.15     
+[65] lattice_0.20-45    labeling_0.4.2     bit_4.0.4          tidyselect_1.1.2  
+[69] parallelly_1.30.0  magrittr_2.0.3     R6_2.5.1           generics_0.1.2    
+[73] DBI_1.1.2          pillar_1.7.0       haven_2.4.3        whisker_0.4       
+[77] withr_2.5.0        survival_3.3-1     RCurl_1.98-1.6     nnet_7.3-17       
+[81] future.apply_1.8.1 modelr_0.1.8       crayon_1.5.1       utf8_1.2.2        
+[85] tzdb_0.3.0         rmarkdown_2.18     grid_4.2.1         readxl_1.4.0      
+[89] git2r_0.30.1       reprex_2.0.1       digest_0.6.29      httpuv_1.6.5      
+[93] munsell_0.5.0      bslib_0.3.1       </code></pre>
 </div>
 </div>
 </div>

@@ -9,7 +9,7 @@ header-includes: \setlength\parindent{24pt} \usepackage{MnSymbol} \usepackage{ma
 ---
 
 ```{r echo=TRUE, include=FALSE}
-knitr::opts_knit$set(root.dir = "/Users/rsettlag/Projects/STAT5014_Fall2022")
+knitr::opts_knit$set(root.dir = "/Users/rsettlag/Projects/Classes/STAT_5014_Fall_2022_SITE/STAT5014_Fall2022_website/analysis")
 library(palmerpenguins)
 library(tidyverse)
 library(ggplot2)
@@ -65,8 +65,8 @@ Hint:
 
 Remeber this nice visual from Git-flow <https://jeffkreeftmeijer.com/git-flow/>
 
-```{r out.height="40%",echo=F,include=T}
-knitr::include_graphics("./figure/Git_flow.png")
+```{r git-flow, out.height="40%",echo=F,include=T}
+knitr::include_graphics("../figure/Git_flow.png")
 ```
 
 
@@ -137,10 +137,7 @@ I personally find these the most rewarding, but most time consuming plots.  I of
 
 Consider a Base R 3 panel plot showing density of a scatter plot in the margins.
 
-```{r multipanel_plot, echo=F, eval=T, include=T, out.height=290, out.width=290, fig.align="center"}
-    knitr::include_graphics("./figure/base_multipanel.png")
-
-```
+![Base R multipanel](./figure/base_multipanel.png)
 
 ### Multipanel base plot
 
@@ -296,7 +293,7 @@ IMO, there are really two ways to use python in Rstudio, both using the Reticula
 
 Setup Reticulate, Python and Conda env:  
 
-```{r}
+```{r python1}
 # install.packages("reticulate")
 ## from terminal -- could do this via reticulate functions as in:
 ## https://rstudio.github.io/reticulate/articles/python_packages.html
@@ -305,7 +302,7 @@ Setup Reticulate, Python and Conda env:
 # conda install matplotlib seaborn pandas numpy plotnine plotly
 # pip install palmerpenguins # <- could also use reticulate to pass penguin data from R->python
 library(reticulate)
-use_condaenv("stat5014")
+use_condaenv("r-reticulate")
 #importing required Python libraries/modules
 sns <- import('seaborn')
 plt <- import('matplotlib.pyplot')
@@ -326,7 +323,7 @@ plt.grid(True)
 cb= plt.colorbar()
 cb.set_label('bodymass', fontsize=20)
 #plt.show()
-plt.savefig('./docs/figure/matplotlib_test.jpg')
+plt.savefig('../figure/matplotlib_test.jpg')
 ```
 ![matplotlib](./figure/matplotlib_test.jpg)
 
@@ -335,7 +332,7 @@ plt.savefig('./docs/figure/matplotlib_test.jpg')
 s <- sns$pairplot(r_to_py(penguins), hue = 'species')
 #display the plot
 #plt$show()
-plt$savefig('./docs/figure/seaborn_pairplot.jpg')
+plt$savefig('../figure/seaborn_pairplot.jpg')
 ```
 
 ![pairplot](./figure/seaborn_pairplot.jpg)
