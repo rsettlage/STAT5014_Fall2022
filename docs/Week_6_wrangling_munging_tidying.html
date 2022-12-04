@@ -15,7 +15,7 @@
 
 <title>Lecture 6 - Data wrangling, munging and creating tidy datasets</title>
 
-<script src="site_libs/header-attrs-2.16/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.18/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
@@ -195,8 +195,8 @@ $(document).ready(function () {
   border-radius: 4px;
 }
 
-.tabset-dropdown > .nav-tabs > li.active:before {
-  content: "";
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
   font-family: 'Glyphicons Halflings';
   display: inline-block;
   padding: 10px;
@@ -204,16 +204,9 @@ $(document).ready(function () {
 }
 
 .tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
-  content: "&#xe258;";
-  border: none;
-}
-
-.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
-  content: "";
+  content: "\e258";
   font-family: 'Glyphicons Halflings';
-  display: inline-block;
-  padding: 10px;
-  border-right: 1px solid #ddd;
+  border: none;
 }
 
 .tabset-dropdown > .nav-tabs > li.active {
@@ -380,7 +373,7 @@ div.tocify {
       <a href="Week_8_forcats_recipes.html">Week 8</a>
     </li>
     <li>
-      <a href="Week_9_going_parallel.html">Week 9</a>
+      <a href="Week_9_apply_mutate_map.html">Week 9</a>
     </li>
     <li>
       <a href="Week_10_dashboards_reports_automation.html">Week 10</a>
@@ -401,19 +394,13 @@ div.tocify {
       <a href="Week_1_homework_1.html">Homework 1</a>
     </li>
     <li>
-      <a href="Week_2_homework_2.html">Homework 2</a>
+      <a href="Project_1.html">Project 1</a>
     </li>
     <li>
-      <a href="Week_4_homework_3.html">Homework 3</a>
+      <a href="Project_2.html">Project 2</a>
     </li>
     <li>
-      <a href="Week_6_homework_4.html">Homework 4</a>
-    </li>
-    <li>
-      <a href="Week_9_homework_5.html">Homework 5</a>
-    </li>
-    <li>
-      <a href="Week_11_homework_6.html">Homework 6</a>
+      <a href="Project-skeleton.Rmd">Project Skeleton</a>
     </li>
   </ul>
 </li>
@@ -485,7 +472,7 @@ class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2022-10-26
+<strong>Last updated:</strong> 2022-12-03
 </p>
 <p>
 <strong>Checks:</strong> <span
@@ -494,9 +481,8 @@ class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7
 aria-hidden="true"></span> 0
 </p>
 <p>
-<strong>Knit directory:</strong>
-<code>~/Projects/STAT5014_Fall2022/</code> <span
-class="glyphicon glyphicon-question-sign" aria-hidden="true"
+<strong>Knit directory:</strong> <code>STAT5014_Fall2022_website/</code>
+<span class="glyphicon glyphicon-question-sign" aria-hidden="true"
 title="This is the local directory in which the code in this file was executed.">
 </span>
 </p>
@@ -617,15 +603,15 @@ project makes it easier to run your code on other machines.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomrsettlageSTAT5014Fall2022tree337eaf4c6ce83f7ee71015d47ff3c36c3a80c9e2targetblank337eaf4a">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomrsettlageSTAT5014Fall2022treeaa540467839b89073e369c2bfffe77ed9256161etargetblankaa54046a">
 <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span> <strong>Repository version:</strong>
-<a href="https://github.com/rsettlage/STAT5014_Fall2022/tree/337eaf4c6ce83f7ee71015d47ff3c36c3a80c9e2" target="_blank">337eaf4</a>
+<a href="https://github.com/rsettlage/STAT5014_Fall2022/tree/aa540467839b89073e369c2bfffe77ed9256161e" target="_blank">aa54046</a>
 </a>
 </p>
 </div>
 <div
-id="strongRepositoryversionstrongahrefhttpsgithubcomrsettlageSTAT5014Fall2022tree337eaf4c6ce83f7ee71015d47ff3c36c3a80c9e2targetblank337eaf4a"
+id="strongRepositoryversionstrongahrefhttpsgithubcomrsettlageSTAT5014Fall2022treeaa540467839b89073e369c2bfffe77ed9256161etargetblankaa54046a"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -635,7 +621,7 @@ reproducibility.
 </p>
 <p>
 The results in this page were generated with repository version
-<a href="https://github.com/rsettlage/STAT5014_Fall2022/tree/337eaf4c6ce83f7ee71015d47ff3c36c3a80c9e2" target="_blank">337eaf4</a>.
+<a href="https://github.com/rsettlage/STAT5014_Fall2022/tree/aa540467839b89073e369c2bfffe77ed9256161e" target="_blank">aa54046</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -650,13 +636,27 @@ were generated:
 </p>
 <pre><code>
 Ignored files:
+    Ignored:    .DS_Store
+    Ignored:    .Rhistory
+    Ignored:    .Rproj.user/
     Ignored:    analysis/.Rhistory
     Ignored:    analysis/Week_2_Reproducible_research_Git_Good_Programming_Practices_cache/
+    Ignored:    analysis/Week_8_forcats_recipes_cache/
+    Ignored:    analysis/girder_raw.RDS
+    Ignored:    analysis/sensory_raw.RDS
+    Ignored:    girder_raw.RDS
     Ignored:    sensory_raw.RDS
 
-Unstaged changes:
-    Modified:   analysis/Week_5_matrix_vector_math.Rmd
-    Modified:   analysis/_site.yml
+Untracked files:
+    Untracked:  STAT5014_Fall2022_website.Rproj
+    Untracked:  Syllabus.pdf
+    Untracked:  code/
+    Untracked:  data/
+    Untracked:  figure/matplotlib_test.jpg
+    Untracked:  output/
+    Untracked:  staging/
+    Untracked:  testing.Rmd
+    Untracked:  testing.html
 
 </code></pre>
 <p>
@@ -703,6 +703,23 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/rsettlage/STAT5014_Fall2022/efe5cbb9fd93c98fafa68cd95a7854ef2dbd1e36/docs/Week_6_wrangling_munging_tidying.html" target="_blank">efe5cbb</a>
+</td>
+<td>
+Robert Settlage
+</td>
+<td>
+2022-10-26
+</td>
+<td>
+fixing links
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -1178,14 +1195,14 @@ arrage | - sort_values | | group_by | - groupby | | summarize | - agg |
 <a
 href="https://nikgrozev.com/2015/07/01/reshaping-in-pandas-pivot-pivot-table-stack-and-unstack-explained-with-pictures/"
 class="uri">https://nikgrozev.com/2015/07/01/reshaping-in-pandas-pivot-pivot-table-stack-and-unstack-explained-with-pictures/</a></p>
-<pre><code>          name
-1         base
-2 r-reticulate
-3     stat5014
-                                                                  python
-1                   /Users/rsettlag/Library/r-miniconda-arm64/bin/python
-2 /Users/rsettlag/Library/r-miniconda-arm64/envs/r-reticulate/bin/python
-3     /Users/rsettlag/Library/r-miniconda-arm64/envs/stat5014/bin/python</code></pre>
+<pre><code>          name                                                           python
+1         base                   /Users/rsettlag/Library/r-miniconda/bin/python
+2 r-reticulate /Users/rsettlag/Library/r-miniconda/envs/r-reticulate/bin/python
+3 r-reticulate           /Users/rsettlag/anaconda3/envs/r-reticulate/bin/python
+4    miniconda                             /Users/rsettlag/miniconda/bin/python
+5         base                    /usr/local/Caskroom/miniconda/base/bin/python
+6     bamtools      /usr/local/Caskroom/miniconda/base/envs/bamtools/bin/python
+7       turtle        /usr/local/Caskroom/miniconda/base/envs/turtle/bin/python</code></pre>
 <pre><code>   carat      cut color clarity  depth  table  price     x     y     z
 0   0.23    Ideal     E     SI2   61.5   55.0    326  3.95  3.98  2.43
 1   0.21  Premium     E     SI1   59.8   61.0    326  3.89  3.84  2.31
@@ -1217,12 +1234,12 @@ Session information
 </p>
 <div id="workflowr-sessioninfo" class="collapse">
 <pre><code>R version 4.2.1 (2022-06-23)
-Platform: aarch64-apple-darwin20 (64-bit)
-Running under: macOS Monterey 12.4
+Platform: x86_64-apple-darwin17.0 (64-bit)
+Running under: macOS Big Sur ... 10.16
 
 Matrix products: default
-BLAS:   /Library/Frameworks/R.framework/Versions/4.2-arm64/Resources/lib/libRblas.0.dylib
-LAPACK: /Library/Frameworks/R.framework/Versions/4.2-arm64/Resources/lib/libRlapack.dylib
+BLAS:   /Library/Frameworks/R.framework/Versions/4.2/Resources/lib/libRblas.0.dylib
+LAPACK: /Library/Frameworks/R.framework/Versions/4.2/Resources/lib/libRlapack.dylib
 
 locale:
 [1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
@@ -1231,52 +1248,51 @@ attached base packages:
 [1] stats     graphics  grDevices utils     datasets  methods   base     
 
 other attached packages:
- [1] reticulate_1.26   datasauRus_0.1.6  beeswarm_0.4.0    forcats_0.5.2    
- [5] stringr_1.4.1     dplyr_1.0.10      purrr_0.3.5       readr_2.1.3      
- [9] tidyr_1.2.1       tibble_3.1.8      ggplot2_3.3.6     tidyverse_1.3.2  
-[13] data.table_1.14.2 knitr_1.40       
+ [1] reticulate_1.24   datasauRus_0.1.6  beeswarm_0.4.0    forcats_0.5.1    
+ [5] stringr_1.4.0     dplyr_1.0.8       purrr_0.3.4       readr_2.1.2      
+ [9] tidyr_1.2.0       tibble_3.1.6      ggplot2_3.3.5     tidyverse_1.3.1  
+[13] data.table_1.14.2 knitr_1.38       
 
 loaded via a namespace (and not attached):
  [1] fs_1.5.2                   xts_0.12.1                
- [3] lubridate_1.8.0            httr_1.4.4                
+ [3] lubridate_1.8.0            httr_1.4.2                
  [5] rprojroot_2.0.3            tools_4.2.1               
- [7] backports_1.4.1            bslib_0.4.0               
+ [7] backports_1.4.1            bslib_0.3.1               
  [9] utf8_1.2.2                 R6_2.5.1                  
-[11] DBI_1.1.3                  colorspace_2.0-3          
+[11] DBI_1.1.2                  colorspace_2.0-3          
 [13] withr_2.5.0                tidyselect_1.1.2          
-[15] curl_4.3.3                 compiler_4.2.1            
-[17] git2r_0.30.1               cli_3.4.1                 
-[19] rvest_1.0.3                xml2_1.3.3                
-[21] labeling_0.4.2             sass_0.4.2                
-[23] scales_1.2.1               tidyquant_1.0.5           
+[15] curl_4.3.2                 compiler_4.2.1            
+[17] git2r_0.30.1               cli_3.2.0                 
+[19] rvest_1.0.2                xml2_1.3.3                
+[21] labeling_0.4.2             sass_0.4.1                
+[23] scales_1.1.1               tidyquant_1.0.3           
 [25] quadprog_1.5-8             digest_0.6.29             
-[27] rmarkdown_2.16             pkgconfig_2.0.3           
-[29] htmltools_0.5.3            dbplyr_2.2.1              
+[27] rmarkdown_2.18             pkgconfig_2.0.3           
+[29] htmltools_0.5.2            dbplyr_2.1.1              
 [31] fastmap_1.1.0              highr_0.9                 
-[33] rlang_1.0.6                readxl_1.4.1              
-[35] TTR_0.24.3                 rstudioapi_0.14           
-[37] quantmod_0.4.20            jquerylib_0.1.4           
-[39] generics_0.1.3             farver_2.1.1              
-[41] zoo_1.8-11                 jsonlite_1.8.2            
-[43] googlesheets4_1.0.1        magrittr_2.0.3            
-[45] Matrix_1.5-1               Rcpp_1.0.9                
-[47] Quandl_2.11.0              munsell_0.5.0             
-[49] fansi_1.0.3                lifecycle_1.0.3           
-[51] stringi_1.7.8              whisker_0.4               
-[53] yaml_2.3.5                 PerformanceAnalytics_2.0.4
-[55] grid_4.2.1                 promises_1.2.0.1          
-[57] crayon_1.5.2               lattice_0.20-45           
-[59] haven_2.5.1                hms_1.1.2                 
-[61] pillar_1.8.1               reprex_2.0.2              
-[63] glue_1.6.2                 evaluate_0.16             
-[65] modelr_0.1.9               png_0.1-7                 
-[67] vctrs_0.4.2                tzdb_0.3.0                
-[69] httpuv_1.6.6               cellranger_1.1.0          
-[71] gtable_0.3.1               assertthat_0.2.1          
-[73] cachem_1.0.6               xfun_0.33                 
-[75] broom_1.0.1                later_1.3.0               
-[77] googledrive_2.0.0          gargle_1.2.1              
-[79] workflowr_1.7.0            ellipsis_0.3.2            </code></pre>
+[33] rlang_1.0.2                readxl_1.4.0              
+[35] TTR_0.24.3                 rstudioapi_0.13           
+[37] quantmod_0.4.18            jquerylib_0.1.4           
+[39] generics_0.1.2             farver_2.1.0              
+[41] zoo_1.8-9                  jsonlite_1.8.0            
+[43] magrittr_2.0.3             Matrix_1.4-1              
+[45] Rcpp_1.0.8.3               Quandl_2.11.0             
+[47] munsell_0.5.0              fansi_1.0.3               
+[49] lifecycle_1.0.1            stringi_1.7.6             
+[51] whisker_0.4                yaml_2.3.5                
+[53] PerformanceAnalytics_2.0.4 grid_4.2.1                
+[55] promises_1.2.0.1           crayon_1.5.1              
+[57] lattice_0.20-45            haven_2.4.3               
+[59] hms_1.1.1                  pillar_1.7.0              
+[61] reprex_2.0.1               glue_1.6.2                
+[63] evaluate_0.15              modelr_0.1.8              
+[65] vctrs_0.4.0                png_0.1-7                 
+[67] tzdb_0.3.0                 httpuv_1.6.5              
+[69] cellranger_1.1.0           gtable_0.3.0              
+[71] assertthat_0.2.1           xfun_0.30                 
+[73] broom_0.7.12               later_1.3.0               
+[75] workflowr_1.7.0            ellipsis_0.3.2            
+[77] here_1.0.1                </code></pre>
 </div>
 </div>
 </div>

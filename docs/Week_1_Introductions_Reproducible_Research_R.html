@@ -14,7 +14,7 @@
 
 <title>Week 1 - Introductions, Reproducible Research, (a little) R, and (a little) Git</title>
 
-<script src="site_libs/header-attrs-2.16/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.18/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
@@ -194,8 +194,8 @@ $(document).ready(function () {
   border-radius: 4px;
 }
 
-.tabset-dropdown > .nav-tabs > li.active:before {
-  content: "";
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
   font-family: 'Glyphicons Halflings';
   display: inline-block;
   padding: 10px;
@@ -203,16 +203,9 @@ $(document).ready(function () {
 }
 
 .tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
-  content: "&#xe258;";
-  border: none;
-}
-
-.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
-  content: "";
+  content: "\e258";
   font-family: 'Glyphicons Halflings';
-  display: inline-block;
-  padding: 10px;
-  border-right: 1px solid #ddd;
+  border: none;
 }
 
 .tabset-dropdown > .nav-tabs > li.active {
@@ -370,7 +363,7 @@ div.tocify {
       <a href="Week_5_matrix_vector_math.html">Week 5</a>
     </li>
     <li>
-      <a href="Week_6_R_functions_logic_good_programming_practices.html">Week 6</a>
+      <a href="Week_6_wrangling_munging_tidying.html">Week 6</a>
     </li>
     <li>
       <a href="Week_7_importing_data.html">Week 7</a>
@@ -379,7 +372,7 @@ div.tocify {
       <a href="Week_8_forcats_recipes.html">Week 8</a>
     </li>
     <li>
-      <a href="Week_9_going_parallel.html">Week 9</a>
+      <a href="Week_9_apply_mutate_map.html">Week 9</a>
     </li>
     <li>
       <a href="Week_10_dashboards_reports_automation.html">Week 10</a>
@@ -400,19 +393,13 @@ div.tocify {
       <a href="Week_1_homework_1.html">Homework 1</a>
     </li>
     <li>
-      <a href="Week_2_homework_2.html">Homework 2</a>
+      <a href="Project_1.html">Project 1</a>
     </li>
     <li>
-      <a href="Week_4_homework_3.html">Homework 3</a>
+      <a href="Project_2.html">Project 2</a>
     </li>
     <li>
-      <a href="Week_6_homework_4.html">Homework 4</a>
-    </li>
-    <li>
-      <a href="Week_9_homework_5.html">Homework 5</a>
-    </li>
-    <li>
-      <a href="Week_11_homework_6.html">Homework 6</a>
+      <a href="Project-skeleton.Rmd">Project Skeleton</a>
     </li>
   </ul>
 </li>
@@ -484,7 +471,7 @@ class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2022-10-26
+<strong>Last updated:</strong> 2022-12-03
 </p>
 <p>
 <strong>Checks:</strong> <span
@@ -493,9 +480,8 @@ class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7
 aria-hidden="true"></span> 0
 </p>
 <p>
-<strong>Knit directory:</strong>
-<code>~/Projects/STAT5014_Fall2022/</code> <span
-class="glyphicon glyphicon-question-sign" aria-hidden="true"
+<strong>Knit directory:</strong> <code>STAT5014_Fall2022_website/</code>
+<span class="glyphicon glyphicon-question-sign" aria-hidden="true"
 title="This is the local directory in which the code in this file was executed.">
 </span>
 </p>
@@ -616,15 +602,15 @@ project makes it easier to run your code on other machines.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomrsettlageSTAT5014Fall2022tree337eaf4c6ce83f7ee71015d47ff3c36c3a80c9e2targetblank337eaf4a">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomrsettlageSTAT5014Fall2022treeaa540467839b89073e369c2bfffe77ed9256161etargetblankaa54046a">
 <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span> <strong>Repository version:</strong>
-<a href="https://github.com/rsettlage/STAT5014_Fall2022/tree/337eaf4c6ce83f7ee71015d47ff3c36c3a80c9e2" target="_blank">337eaf4</a>
+<a href="https://github.com/rsettlage/STAT5014_Fall2022/tree/aa540467839b89073e369c2bfffe77ed9256161e" target="_blank">aa54046</a>
 </a>
 </p>
 </div>
 <div
-id="strongRepositoryversionstrongahrefhttpsgithubcomrsettlageSTAT5014Fall2022tree337eaf4c6ce83f7ee71015d47ff3c36c3a80c9e2targetblank337eaf4a"
+id="strongRepositoryversionstrongahrefhttpsgithubcomrsettlageSTAT5014Fall2022treeaa540467839b89073e369c2bfffe77ed9256161etargetblankaa54046a"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -634,7 +620,7 @@ reproducibility.
 </p>
 <p>
 The results in this page were generated with repository version
-<a href="https://github.com/rsettlage/STAT5014_Fall2022/tree/337eaf4c6ce83f7ee71015d47ff3c36c3a80c9e2" target="_blank">337eaf4</a>.
+<a href="https://github.com/rsettlage/STAT5014_Fall2022/tree/aa540467839b89073e369c2bfffe77ed9256161e" target="_blank">aa54046</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -649,12 +635,27 @@ were generated:
 </p>
 <pre><code>
 Ignored files:
+    Ignored:    .DS_Store
+    Ignored:    .Rhistory
+    Ignored:    .Rproj.user/
     Ignored:    analysis/.Rhistory
     Ignored:    analysis/Week_2_Reproducible_research_Git_Good_Programming_Practices_cache/
+    Ignored:    analysis/Week_8_forcats_recipes_cache/
+    Ignored:    analysis/girder_raw.RDS
+    Ignored:    analysis/sensory_raw.RDS
+    Ignored:    girder_raw.RDS
     Ignored:    sensory_raw.RDS
 
-Unstaged changes:
-    Modified:   analysis/_site.yml
+Untracked files:
+    Untracked:  STAT5014_Fall2022_website.Rproj
+    Untracked:  Syllabus.pdf
+    Untracked:  code/
+    Untracked:  data/
+    Untracked:  figure/matplotlib_test.jpg
+    Untracked:  output/
+    Untracked:  staging/
+    Untracked:  testing.Rmd
+    Untracked:  testing.html
 
 </code></pre>
 <p>
@@ -702,6 +703,23 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/rsettlage/STAT5014_Fall2022/efe5cbb9fd93c98fafa68cd95a7854ef2dbd1e36/docs/Week_1_Introductions_Reproducible_Research_R.html" target="_blank">efe5cbb</a>
+</td>
+<td>
+Robert Settlage
+</td>
+<td>
+2022-10-26
+</td>
+<td>
+fixing links
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -1237,12 +1255,12 @@ Session information
 <div id="workflowr-sessioninfo" class="collapse">
 <pre class="r"><code>sessionInfo()</code></pre>
 <pre><code>R version 4.2.1 (2022-06-23)
-Platform: aarch64-apple-darwin20 (64-bit)
-Running under: macOS Monterey 12.4
+Platform: x86_64-apple-darwin17.0 (64-bit)
+Running under: macOS Big Sur ... 10.16
 
 Matrix products: default
-BLAS:   /Library/Frameworks/R.framework/Versions/4.2-arm64/Resources/lib/libRblas.0.dylib
-LAPACK: /Library/Frameworks/R.framework/Versions/4.2-arm64/Resources/lib/libRlapack.dylib
+BLAS:   /Library/Frameworks/R.framework/Versions/4.2/Resources/lib/libRblas.0.dylib
+LAPACK: /Library/Frameworks/R.framework/Versions/4.2/Resources/lib/libRlapack.dylib
 
 locale:
 [1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
@@ -1251,16 +1269,17 @@ attached base packages:
 [1] stats     graphics  grDevices utils     datasets  methods   base     
 
 loaded via a namespace (and not attached):
- [1] Rcpp_1.0.9       rstudioapi_0.14  whisker_0.4      knitr_1.40      
- [5] magrittr_2.0.3   workflowr_1.7.0  R6_2.5.1         rlang_1.0.6     
- [9] fastmap_1.1.0    fansi_1.0.3      highr_0.9        stringr_1.4.1   
-[13] tools_4.2.1      xfun_0.33        utf8_1.2.2       cli_3.4.1       
-[17] git2r_0.30.1     jquerylib_0.1.4  htmltools_0.5.3  rprojroot_2.0.3 
-[21] yaml_2.3.5       digest_0.6.29    tibble_3.1.8     lifecycle_1.0.3 
-[25] later_1.3.0      sass_0.4.2       vctrs_0.4.2      promises_1.2.0.1
-[29] fs_1.5.2         cachem_1.0.6     glue_1.6.2       evaluate_0.16   
-[33] rmarkdown_2.16   stringi_1.7.8    bslib_0.4.0      compiler_4.2.1  
-[37] pillar_1.8.1     jsonlite_1.8.2   httpuv_1.6.6     pkgconfig_2.0.3 </code></pre>
+ [1] Rcpp_1.0.8.3     rstudioapi_0.13  whisker_0.4      knitr_1.38      
+ [5] magrittr_2.0.3   workflowr_1.7.0  R6_2.5.1         rlang_1.0.2     
+ [9] fastmap_1.1.0    fansi_1.0.3      highr_0.9        stringr_1.4.0   
+[13] tools_4.2.1      xfun_0.30        utf8_1.2.2       cli_3.2.0       
+[17] git2r_0.30.1     jquerylib_0.1.4  htmltools_0.5.2  ellipsis_0.3.2  
+[21] rprojroot_2.0.3  yaml_2.3.5       digest_0.6.29    tibble_3.1.6    
+[25] lifecycle_1.0.1  crayon_1.5.1     later_1.3.0      sass_0.4.1      
+[29] vctrs_0.4.0      fs_1.5.2         promises_1.2.0.1 glue_1.6.2      
+[33] evaluate_0.15    rmarkdown_2.18   stringi_1.7.6    bslib_0.3.1     
+[37] compiler_4.2.1   pillar_1.7.0     jsonlite_1.8.0   httpuv_1.6.5    
+[41] pkgconfig_2.0.3 </code></pre>
 </div>
 </div>
 
