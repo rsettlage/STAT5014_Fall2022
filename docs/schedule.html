@@ -15,7 +15,7 @@
 
 <title>Stat 5014 Fall 2022 Schedule</title>
 
-<script src="site_libs/header-attrs-2.16/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.18/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
@@ -195,8 +195,8 @@ $(document).ready(function () {
   border-radius: 4px;
 }
 
-.tabset-dropdown > .nav-tabs > li.active:before {
-  content: "";
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
   font-family: 'Glyphicons Halflings';
   display: inline-block;
   padding: 10px;
@@ -204,16 +204,9 @@ $(document).ready(function () {
 }
 
 .tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
-  content: "&#xe258;";
-  border: none;
-}
-
-.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
-  content: "";
+  content: "\e258";
   font-family: 'Glyphicons Halflings';
-  display: inline-block;
-  padding: 10px;
-  border-right: 1px solid #ddd;
+  border: none;
 }
 
 .tabset-dropdown > .nav-tabs > li.active {
@@ -457,7 +450,7 @@ div.tocify {
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
 <span class="glyphicon glyphicon-list" aria-hidden="true"></span>
-workflowr <span class="glyphicon glyphicon-exclamation-sign text-danger"
+workflowr <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span>
 </button>
 </p>
@@ -468,8 +461,8 @@ aria-hidden="true"></span>
 </li>
 <li>
 <a data-toggle="tab" href="#checks"> Checks <span
-class="glyphicon glyphicon-exclamation-sign text-danger"
-aria-hidden="true"></span> </a>
+class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
+</a>
 </li>
 <li>
 <a data-toggle="tab" href="#versions">Past versions</a>
@@ -478,18 +471,21 @@ aria-hidden="true"></span> </a>
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
+<<<<<<< HEAD
+<strong>Last updated:</strong> 2022-12-03
+=======
 <strong>Last updated:</strong> 2022-11-08
+>>>>>>> bc479ec9cbe04685ee35529d5890b6ca194c4bdb
 </p>
 <p>
 <strong>Checks:</strong> <span
-class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 1
+class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 2
 <span class="glyphicon glyphicon-exclamation-sign text-danger"
-aria-hidden="true"></span> 1
+aria-hidden="true"></span> 0
 </p>
 <p>
-<strong>Knit directory:</strong>
-<code>~/Projects/STAT5014_Fall2022/</code> <span
-class="glyphicon glyphicon-question-sign" aria-hidden="true"
+<strong>Knit directory:</strong> <code>STAT5014_Fall2022_website/</code>
+<span class="glyphicon glyphicon-question-sign" aria-hidden="true"
 title="This is the local directory in which the code in this file was executed.">
 </span>
 </p>
@@ -508,36 +504,44 @@ versions</em> tab lists the development history.
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguncommittedchanges">
-<span class="glyphicon glyphicon-exclamation-sign text-danger"
-aria-hidden="true"></span> <strong>R Markdown file:</strong> uncommitted
-changes </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguptodate">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>R Markdown file:</strong> up-to-date
+</a>
 </p>
 </div>
-<div id="strongRMarkdownfilestronguncommittedchanges"
+<div id="strongRMarkdownfilestronguptodate"
 class="panel-collapse collapse">
 <div class="panel-body">
-<p>The R Markdown file has unstaged changes. To know which version of
-the R Markdown file created these results, you’ll want to first commit
-it to the Git repo. If you’re still working on the analysis, you can
-ignore this warning. When you’re finished, you can run
-<code>wflow_publish</code> to commit the R Markdown file and build the
-HTML.</p>
+<p>Great! Since the R Markdown file has been committed to the Git
+repository, you know the exact version of the code that produced these
+results.</p>
 </div>
 </div>
 </div>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
+<<<<<<< HEAD
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomrsettlageSTAT5014Fall2022treeaa540467839b89073e369c2bfffe77ed9256161etargetblankaa54046a">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Repository version:</strong>
+<a href="https://github.com/rsettlage/STAT5014_Fall2022/tree/aa540467839b89073e369c2bfffe77ed9256161e" target="_blank">aa54046</a>
+=======
 <a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomrsettlageSTAT5014Fall2022tree78682bcc02e93e16308031f99ef6b62eaa578cbbtargetblank78682bca">
 <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span> <strong>Repository version:</strong>
 <a href="https://github.com/rsettlage/STAT5014_Fall2022/tree/78682bcc02e93e16308031f99ef6b62eaa578cbb" target="_blank">78682bc</a>
+>>>>>>> bc479ec9cbe04685ee35529d5890b6ca194c4bdb
 </a>
 </p>
 </div>
 <div
+<<<<<<< HEAD
+id="strongRepositoryversionstrongahrefhttpsgithubcomrsettlageSTAT5014Fall2022treeaa540467839b89073e369c2bfffe77ed9256161etargetblankaa54046a"
+=======
 id="strongRepositoryversionstrongahrefhttpsgithubcomrsettlageSTAT5014Fall2022tree78682bcc02e93e16308031f99ef6b62eaa578cbbtargetblank78682bca"
+>>>>>>> bc479ec9cbe04685ee35529d5890b6ca194c4bdb
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -547,7 +551,11 @@ reproducibility.
 </p>
 <p>
 The results in this page were generated with repository version
+<<<<<<< HEAD
+<a href="https://github.com/rsettlage/STAT5014_Fall2022/tree/aa540467839b89073e369c2bfffe77ed9256161e" target="_blank">aa54046</a>.
+=======
 <a href="https://github.com/rsettlage/STAT5014_Fall2022/tree/78682bcc02e93e16308031f99ef6b62eaa578cbb" target="_blank">78682bc</a>.
+>>>>>>> bc479ec9cbe04685ee35529d5890b6ca194c4bdb
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -562,13 +570,35 @@ were generated:
 </p>
 <pre><code>
 Ignored files:
+    Ignored:    .DS_Store
+    Ignored:    .Rhistory
+    Ignored:    .Rproj.user/
     Ignored:    analysis/.Rhistory
     Ignored:    analysis/Week_2_Reproducible_research_Git_Good_Programming_Practices_cache/
+<<<<<<< HEAD
+    Ignored:    analysis/Week_8_forcats_recipes_cache/
+    Ignored:    analysis/girder_raw.RDS
+    Ignored:    analysis/sensory_raw.RDS
+    Ignored:    girder_raw.RDS
+    Ignored:    sensory_raw.RDS
+
+Untracked files:
+    Untracked:  STAT5014_Fall2022_website.Rproj
+    Untracked:  Syllabus.pdf
+    Untracked:  code/
+    Untracked:  data/
+    Untracked:  figure/matplotlib_test.jpg
+    Untracked:  output/
+    Untracked:  staging/
+    Untracked:  testing.Rmd
+    Untracked:  testing.html
+=======
     Ignored:    girder_raw.RDS
     Ignored:    sensory_raw.RDS
 
 Unstaged changes:
     Modified:   analysis/schedule.Rmd
+>>>>>>> bc479ec9cbe04685ee35529d5890b6ca194c4bdb
 
 </code></pre>
 <p>

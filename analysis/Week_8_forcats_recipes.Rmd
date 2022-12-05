@@ -275,7 +275,7 @@ test_data_baked <- pengiun_recipe %>%
 
 Just for fun:
 
-```{r model_and_predict_h2o, eval=TRUE, echo=TRUE, include=TRUE}
+```{r model_and_predict_h2o, eval=TRUE, echo=TRUE, include=TRUE, cache=TRUE}
 library(h2o)
 h2o.init()
 
