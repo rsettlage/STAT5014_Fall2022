@@ -39,7 +39,7 @@ navbar:
       - text: "Homework 1"
         href: Week_1_homework_1.html
       - text: "Project 1"
-        href: Project_1.html
+        href: https://rsettlage.github.io/deeplearning/2022-11-04-fun-with-h2o/
       - text: "Project 2"
         href: Project_2.html
       - text: "Project Skeleton"
