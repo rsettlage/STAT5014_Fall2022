@@ -32,7 +32,7 @@ navbar:
       - text: "Week 10"
         href: Week_10_dashboards_reports_automation.html
       - text: "Week 11"
-        href: Week_11_AI_ML.html
+        href: Week_11_AIML.html
 
   - text: Homework
     menu:
