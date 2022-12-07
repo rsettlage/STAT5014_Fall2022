@@ -386,7 +386,7 @@ div.tocify {
       <a href="Week_10_dashboards_reports_automation.html">Week 10</a>
     </li>
     <li>
-      <a href="Week_11_AI_ML.html">Week 11</a>
+      <a href="Week_11_AIML.html">Week 11</a>
     </li>
   </ul>
 </li>
@@ -517,10 +517,10 @@ changes </a>
 <div id="strongRMarkdownfilestronguncommittedchanges"
 class="panel-collapse collapse">
 <div class="panel-body">
-<p>The R Markdown is untracked by Git. To know which version of the R
-Markdown file created these results, you’ll want to first commit it to
-the Git repo. If you’re still working on the analysis, you can ignore
-this warning. When you’re finished, you can run
+<p>The R Markdown file has unstaged changes. To know which version of
+the R Markdown file created these results, you’ll want to first commit
+it to the Git repo. If you’re still working on the analysis, you can
+ignore this warning. When you’re finished, you can run
 <code>wflow_publish</code> to commit the R Markdown file and build the
 HTML.</p>
 </div>
@@ -613,15 +613,15 @@ project makes it easier to run your code on other machines.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomrsettlageSTAT5014Fall2022treec4243a1dc4a52cd74f04918e544f90d7ac82d2cdtargetblankc4243a1a">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomrsettlageSTAT5014Fall2022treec7306a8d226ed19ba1890bdb0baf53bfbb0653e3targetblankc7306a8a">
 <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span> <strong>Repository version:</strong>
-<a href="https://github.com/rsettlage/STAT5014_Fall2022/tree/c4243a1dc4a52cd74f04918e544f90d7ac82d2cd" target="_blank">c4243a1</a>
+<a href="https://github.com/rsettlage/STAT5014_Fall2022/tree/c7306a8d226ed19ba1890bdb0baf53bfbb0653e3" target="_blank">c7306a8</a>
 </a>
 </p>
 </div>
 <div
-id="strongRepositoryversionstrongahrefhttpsgithubcomrsettlageSTAT5014Fall2022treec4243a1dc4a52cd74f04918e544f90d7ac82d2cdtargetblankc4243a1a"
+id="strongRepositoryversionstrongahrefhttpsgithubcomrsettlageSTAT5014Fall2022treec7306a8d226ed19ba1890bdb0baf53bfbb0653e3targetblankc7306a8a"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -631,7 +631,7 @@ reproducibility.
 </p>
 <p>
 The results in this page were generated with repository version
-<a href="https://github.com/rsettlage/STAT5014_Fall2022/tree/c4243a1dc4a52cd74f04918e544f90d7ac82d2cd" target="_blank">c4243a1</a>.
+<a href="https://github.com/rsettlage/STAT5014_Fall2022/tree/c7306a8d226ed19ba1890bdb0baf53bfbb0653e3" target="_blank">c7306a8</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -651,11 +651,8 @@ Ignored files:
     Ignored:    girder_raw.RDS
     Ignored:    sensory_raw.RDS
 
-Untracked files:
-    Untracked:  analysis/Week_11_AIML.Rmd
-
 Unstaged changes:
-    Modified:   analysis/schedule.Rmd
+    Modified:   analysis/Week_11_AIML.Rmd
 
 </code></pre>
 <p>
@@ -670,10 +667,74 @@ have uncommitted changes.
 <hr>
 </div>
 <div id="versions" class="tab-pane fade">
+
 <p>
-There are no past versions. Publish this analysis with
-<code>wflow_publish()</code> to start tracking its development.
+These are the previous versions of the repository in which changes were
+made to the R Markdown (<code>analysis/Week_11_AIML.Rmd</code>) and HTML
+(<code>docs/Week_11_AIML.html</code>) files. If you’ve configured a
+remote Git repository (see <code>?wflow_git_remote</code>), click on the
+hyperlinks in the table below to view the files as they were in that
+past version.
 </p>
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+File
+</th>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+<th>
+Message
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/rsettlage/STAT5014_Fall2022/blob/54eebde4e62d7143cef4ec2b26729e7508894032/analysis/Week_11_AIML.Rmd" target="_blank">54eebde</a>
+</td>
+<td>
+Robert Settlage
+</td>
+<td>
+2022-12-06
+</td>
+<td>
+week 11
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/rsettlage/STAT5014_Fall2022/54eebde4e62d7143cef4ec2b26729e7508894032/docs/Week_11_AIML.html" target="_blank">54eebde</a>
+</td>
+<td>
+Robert Settlage
+</td>
+<td>
+2022-12-06
+</td>
+<td>
+week 11
+</td>
+</tr>
+</tbody>
+</table>
+</div>
 <hr>
 </div>
 </div>
@@ -711,8 +772,9 @@ to learn how to call the species from sepal and petal measurements<br />
 </li>
 <li>linear regression</li>
 </ul>
-<p><img src="../figure/supervised_learning.png" alt="supervised" /> <img
-src="../figure/market_segmentation.png" alt="unsupervised" /></p>
+<p>supervised learning – labeled data –&gt; decision trees, regression,
+…</p>
+<p>unsupervised learning – unlabeled data –&gt; clustering, KNN, …</p>
 <p>!!!! 3blue1brown <a href="https://www.3blue1brown.com/"
 class="uri">https://www.3blue1brown.com/</a></p>
 <p><a
@@ -734,20 +796,20 @@ class="section level3">
 <h3>Our goal is to mimic the power of the worlds most powerful
 computer</h3>
 <div class="figure">
-<img src="../figure/neuron.png" alt="" />
+<img src="./figure/neuron.png" alt="" />
 <p class="caption">Neuron</p>
 </div>
 <div id="biological-inspiration-1" class="section level4">
 <h4>Biological inspiration 1</h4>
 <div class="figure">
-<img src="../figure/neural_net_biological.png" alt="" />
+<img src="./figure/neural_net_biological.png" alt="" />
 <p class="caption">biological inspiration 1</p>
 </div>
 </div>
 <div id="biological-inspiration-2" class="section level4">
 <h4>Biological inspiration 2</h4>
 <div class="figure">
-<img src="../figure/biological_inspiration.png" alt="" />
+<img src="./figure/biological_inspiration.png" alt="" />
 <p class="caption">biological inspiration 2</p>
 </div>
 </div>
@@ -755,7 +817,7 @@ computer</h3>
 <div id="layers-neurons-etc" class="section level3">
 <h3>Layers, neurons, etc</h3>
 <div class="figure">
-<img src="../figure/neural_network_layer_counting.png" alt="" />
+<img src="./figure/neural_network_layer_counting.png" alt="" />
 <p class="caption">layers</p>
 </div>
 </div>
@@ -763,14 +825,14 @@ computer</h3>
 <div id="logistic-regression" class="section level2">
 <h2>Logistic regression</h2>
 <div class="figure">
-<img src="../figure/logistic_regression.png" alt="" />
+<img src="./figure/logistic_regression.png" alt="" />
 <p class="caption">logistic regression</p>
 </div>
 <div id="logistic-regression-as-a-neural-network"
 class="section level3">
 <h3>Logistic regression as a neural network</h3>
 <div class="figure">
-<img src="../figure/neural_network.png" alt="" />
+<img src="./figure/neural_network.png" alt="" />
 <p class="caption">logistic regression NN</p>
 </div>
 </div>
@@ -778,34 +840,34 @@ class="section level3">
 <div id="multi-class-nn" class="section level2">
 <h2>Multi-class NN</h2>
 <div class="figure">
-<img src="../figure/multiclass_NN.png" alt="" />
+<img src="./figure/multiclass_NN.png" alt="" />
 <p class="caption">multiclass NN</p>
 </div>
 </div>
 <div id="multi-layer-nn" class="section level2">
 <h2>Multi-layer NN</h2>
 <div class="figure">
-<img src="../figure/multiclass_NN_multilayer.png" alt="" />
+<img src="./figure/multiclass_NN_multilayer.png" alt="" />
 <p class="caption">multilayer NN</p>
 </div>
 <div id="multi-layer-nn-parameter-count" class="section level3">
 <h3>Multi-layer NN parameter count</h3>
 <div class="figure">
-<img src="../figure/calculation_of_params.png" alt="" />
+<img src="./figure/calculation_of_params.png" alt="" />
 <p class="caption">multilayer parameter count</p>
 </div>
 </div>
 <div id="multi-layer-nn-forward-propogation" class="section level3">
 <h3>Multi-layer NN: forward propogation</h3>
 <div class="figure">
-<img src="../figure/calculation_of_params2.png" alt="" />
+<img src="./figure/calculation_of_params2.png" alt="" />
 <p class="caption">multilayer parameter count</p>
 </div>
 </div>
 <div id="nn-terms-hidden-layers" class="section level3">
 <h3>NN terms: hidden layers</h3>
 <div class="figure">
-<img src="../figure/NN_latent_units.png" alt="" />
+<img src="./figure/NN_latent_units.png" alt="" />
 <p class="caption">NN hidden layers</p>
 </div>
 </div>
@@ -813,13 +875,13 @@ class="section level3">
 <div id="iris-data" class="section level2">
 <h2>Iris data</h2>
 <div class="figure">
-<img src="../figure/iris_hidden_layer.png" alt="" />
+<img src="./figure/iris_hidden_layer.png" alt="" />
 <p class="caption">NN iris</p>
 </div>
 <div id="iris-nn-1-hidden-trained-weights" class="section level4">
 <h4>Iris NN – 1 hidden, trained weights</h4>
 <div class="figure">
-<img src="../figure/NN_iris_1_hidden.png" alt="" />
+<img src="./figure/NN_iris_1_hidden.png" alt="" />
 <p class="caption">NN iris training</p>
 </div>
 </div>
@@ -827,21 +889,21 @@ class="section level3">
 <div id="nn-architectures" class="section level2">
 <h2>NN architectures</h2>
 <div class="figure">
-<img src="../figure/NN_architectures.png" alt="" />
+<img src="./figure/NN_architectures.png" alt="" />
 <p class="caption">NN architecture</p>
 </div>
 </div>
 <div id="nn-parameter-estimation-cost" class="section level2">
 <h2>NN parameter estimation – cost</h2>
 <div class="figure">
-<img src="../figure/parameter_estimation_NN_style.png" alt="" />
+<img src="./figure/parameter_estimation_NN_style.png" alt="" />
 <p class="caption">NN cost</p>
 </div>
 </div>
 <div id="gradient-back-propogation" class="section level2">
 <h2>Gradient – back propogation</h2>
 <div class="figure">
-<img src="../figure/gradient.png" alt="" />
+<img src="./figure/gradient.png" alt="" />
 <p class="caption">NN back prop</p>
 </div>
 </div>
@@ -850,7 +912,7 @@ class="section level3">
 <p>As Cassie Kozyrkov says, “Split your damn data”.
 Train/Validate/Test</p>
 <div class="figure">
-<img src="../figure/ML_workflow.png" alt="" />
+<img src="./figure/ML_workflow.png" alt="" />
 <p class="caption">ML workflow</p>
 </div>
 </div>
@@ -1002,16 +1064,16 @@ attached base packages:
 [1] stats     graphics  grDevices utils     datasets  methods   base     
 
 loaded via a namespace (and not attached):
- [1] Rcpp_1.0.9       rstudioapi_0.14  knitr_1.40       magrittr_2.0.3  
- [5] workflowr_1.7.0  R6_2.5.1         rlang_1.0.6      fastmap_1.1.0   
- [9] fansi_1.0.3      stringr_1.4.1    tools_4.2.1      xfun_0.33       
-[13] utf8_1.2.2       cli_3.4.1        git2r_0.30.1     jquerylib_0.1.4 
-[17] htmltools_0.5.3  rprojroot_2.0.3  yaml_2.3.5       digest_0.6.29   
-[21] tibble_3.1.8     lifecycle_1.0.3  later_1.3.0      sass_0.4.2      
-[25] vctrs_0.4.2      promises_1.2.0.1 fs_1.5.2         cachem_1.0.6    
-[29] glue_1.6.2       evaluate_0.16    rmarkdown_2.16   stringi_1.7.8   
-[33] bslib_0.4.0      compiler_4.2.1   pillar_1.8.1     jsonlite_1.8.2  
-[37] httpuv_1.6.6     pkgconfig_2.0.3 </code></pre>
+ [1] Rcpp_1.0.9       rstudioapi_0.14  whisker_0.4      knitr_1.40      
+ [5] magrittr_2.0.3   workflowr_1.7.0  R6_2.5.1         rlang_1.0.6     
+ [9] fastmap_1.1.0    fansi_1.0.3      stringr_1.4.1    tools_4.2.1     
+[13] xfun_0.33        utf8_1.2.2       cli_3.4.1        git2r_0.30.1    
+[17] jquerylib_0.1.4  htmltools_0.5.3  rprojroot_2.0.3  yaml_2.3.5      
+[21] digest_0.6.29    tibble_3.1.8     lifecycle_1.0.3  later_1.3.0     
+[25] sass_0.4.2       vctrs_0.4.2      promises_1.2.0.1 fs_1.5.2        
+[29] cachem_1.0.6     glue_1.6.2       evaluate_0.16    rmarkdown_2.16  
+[33] stringi_1.7.8    bslib_0.4.0      compiler_4.2.1   pillar_1.8.1    
+[37] jsonlite_1.8.2   httpuv_1.6.6     pkgconfig_2.0.3 </code></pre>
 </div>
 </div>
 

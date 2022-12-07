@@ -30,8 +30,9 @@ As examples:
 + Iris dataset has labeled classes (species) and you want the machine to learn how to call the species from sepal and petal measurements  
 + linear regression
 
-![supervised](../figure/supervised_learning.png)
-![unsupervised](../figure/market_segmentation.png)
+supervised learning -- labeled data --> decision trees, regression, ...  
+
+unsupervised learning -- unlabeled data --> clustering, KNN, ...
 
 !!!! 3blue1brown <https://www.3blue1brown.com/>  
 
@@ -47,79 +48,79 @@ As examples:
 
 ### Our goal is to mimic the power of the worlds most powerful computer 
 
-![Neuron](../figure/neuron.png)
+![Neuron](./figure/neuron.png)
 
 
 #### Biological inspiration 1
 
-![biological inspiration 1](../figure/neural_net_biological.png)
+![biological inspiration 1](./figure/neural_net_biological.png)
 
 #### Biological inspiration 2
 
-![biological inspiration 2](../figure/biological_inspiration.png)
+![biological inspiration 2](./figure/biological_inspiration.png)
 
 ### Layers, neurons, etc
 
-![layers](../figure/neural_network_layer_counting.png)
+![layers](./figure/neural_network_layer_counting.png)
 
 
 ## Logistic regression
 
-![logistic regression](../figure/logistic_regression.png)
+![logistic regression](./figure/logistic_regression.png)
 
 ### Logistic regression as a neural network
 
-![logistic regression NN](../figure/neural_network.png)
+![logistic regression NN](./figure/neural_network.png)
 
 ## Multi-class NN
 
-![multiclass NN](../figure/multiclass_NN.png)
+![multiclass NN](./figure/multiclass_NN.png)
 
 
 ## Multi-layer NN
 
-![multilayer NN](../figure/multiclass_NN_multilayer.png)
+![multilayer NN](./figure/multiclass_NN_multilayer.png)
 
 ### Multi-layer NN parameter count
 
-![multilayer parameter count](../figure/calculation_of_params.png)
+![multilayer parameter count](./figure/calculation_of_params.png)
 
 ### Multi-layer NN: forward propogation
 
-![multilayer parameter count](../figure/calculation_of_params2.png)
+![multilayer parameter count](./figure/calculation_of_params2.png)
 
 
 ### NN terms: hidden layers
 
-![NN hidden layers](../figure/NN_latent_units.png)
+![NN hidden layers](./figure/NN_latent_units.png)
 
 
 ## Iris data 
 
 
-![NN iris](../figure/iris_hidden_layer.png)
+![NN iris](./figure/iris_hidden_layer.png)
 
 #### Iris NN -- 1 hidden, trained weights
 
-![NN iris training](../figure/NN_iris_1_hidden.png)
+![NN iris training](./figure/NN_iris_1_hidden.png)
 
 ## NN architectures
 
-![NN architecture](../figure/NN_architectures.png)
+![NN architecture](./figure/NN_architectures.png)
 
 ## NN parameter estimation -- cost
 
-![NN cost](../figure/parameter_estimation_NN_style.png)
+![NN cost](./figure/parameter_estimation_NN_style.png)
 
 ## Gradient -- back propogation
 
-![NN back prop](../figure/gradient.png)
+![NN back prop](./figure/gradient.png)
 
 ## AI/ML workflow
 
 As Cassie Kozyrkov says, “Split your damn data”. Train/Validate/Test
 
-![ML workflow](../figure/ML_workflow.png)
+![ML workflow](./figure/ML_workflow.png)
 
 ## OK, so how do we do that in R
 
