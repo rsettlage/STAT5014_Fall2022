@@ -1,0 +1,248 @@
+---
+title:  'Another firehose introduction to ... AI/ML'
+author: "Robert Settlage"
+date: "2022-12-06"
+output: workflowr::wflow_html
+editor_options:
+  chunk_output_type: console
+header-includes: \setlength\parindent{24pt} \usepackage{MnSymbol} \usepackage{mathrsfs}
+---
+
+## Today's Agenda
+
+- Three objectives today
+    + Automation and Dashboards poll
+    + AI/ML introduction via Keras
+    
+- Sorry in advance for all the unreferenced pictures, will work on adding references later.  MOST were taken from Nvidia DLI materials.  <https://www.nvidia.com/en-us/training/>
+
+## Automation or text processing
+
+Poll -- given 1 more week, would you prefer to discuss automation or text processing?
+
+## Machine learning problems
+
++ supervised  
++ unsupervised 
+
+As examples:
+
++ Iris dataset has labeled classes (species) and you want the machine to learn how to call the species from sepal and petal measurements  
++ linear regression
+
+![supervised](../figure/supervised_learning.png)
+![unsupervised](../figure/market_segmentation.png)
+
+!!!! 3blue1brown <https://www.3blue1brown.com/>  
+
+<https://www.youtube.com/watch?v=aircAruvnKk&list=PLZHQObOWTQDNU6R1_67000Dx_ZCJB-3pi&index=2&t=199s>
+
+
+## Neural networks 
+
++ single layer model  
++ binary/multiple classification  
++ NN's, hidden layers, forward/backward propogation  
+
+
+### Our goal is to mimic the power of the worlds most powerful computer 
+
+![Neuron](../figure/neuron.png)
+
+
+#### Biological inspiration 1
+
+![biological inspiration 1](../figure/neural_net_biological.png)
+
+#### Biological inspiration 2
+
+![biological inspiration 2](../figure/biological_inspiration.png)
+
+### Layers, neurons, etc
+
+![layers](../figure/neural_network_layer_counting.png)
+
+
+## Logistic regression
+
+![logistic regression](../figure/logistic_regression.png)
+
+### Logistic regression as a neural network
+
+![logistic regression NN](../figure/neural_network.png)
+
+## Multi-class NN
+
+![multiclass NN](../figure/multiclass_NN.png)
+
+
+## Multi-layer NN
+
+![multilayer NN](../figure/multiclass_NN_multilayer.png)
+
+### Multi-layer NN parameter count
+
+![multilayer parameter count](../figure/calculation_of_params.png)
+
+### Multi-layer NN: forward propogation
+
+![multilayer parameter count](../figure/calculation_of_params2.png)
+
+
+### NN terms: hidden layers
+
+![NN hidden layers](../figure/NN_latent_units.png)
+
+
+## Iris data 
+
+
+![NN iris](../figure/iris_hidden_layer.png)
+
+#### Iris NN -- 1 hidden, trained weights
+
+![NN iris training](../figure/NN_iris_1_hidden.png)
+
+## NN architectures
+
+![NN architecture](../figure/NN_architectures.png)
+
+## NN parameter estimation -- cost
+
+![NN cost](../figure/parameter_estimation_NN_style.png)
+
+## Gradient -- back propogation
+
+![NN back prop](../figure/gradient.png)
+
+## AI/ML workflow
+
+As Cassie Kozyrkov says, “Split your damn data”. Train/Validate/Test
+
+![ML workflow](../figure/ML_workflow.png)
+
+## OK, so how do we do that in R
+
++ we COULD (and should 1x) code this up manually  
++ Keras!
+
+Keras is a high level API to a TensorFlow backend.  Think R + Python, and sometimes tricky to install.
+
+<https://tensorflow.rstudio.com/guide/keras/>  
+<https://tensorflow.rstudio.com/installation/>
+
+This worked for me last night:  
+```{r eval=FALSE}
+install.packages("keras")
+devtools::install_github("rstudio/keras")
+install_keras()
+```
+
+## Object classifiction
+
+Direct from the docs...
+
+<https://tensorflow.rstudio.com/tutorials/beginners/basic-ml/tutorial_basic_classification/>
+
+```{r eval=FALSE}
+#require(devtools)
+#install_github("rstudio/tensorflow")
+#install_github("rstudio/keras")
+
+library(keras)
+#install_keras()
+
+
+fashion_mnist <- dataset_fashion_mnist()
+
+c(train_images, train_labels) %<-% fashion_mnist$train
+c(test_images, test_labels) %<-% fashion_mnist$test
+
+class_names = c('T-shirt/top',
+                'Trouser',
+                'Pullover',
+                'Dress',
+                'Coat', 
+                'Sandal',
+                'Shirt',
+                'Sneaker',
+                'Bag',
+                'Ankle boot')
+dim(train_images)
+dim(test_images)
+
+# look at data
+library(tidyr)
+library(ggplot2)
+
+image_1 <- as.data.frame(train_images[1, , ])
+colnames(image_1) <- seq_len(ncol(image_1))
+image_1$y <- seq_len(nrow(image_1))
+image_1 <- gather(image_1, "x", "value", -y)
+image_1$x <- as.integer(image_1$x)
+
+ggplot(image_1, aes(x = x, y = y, fill = value)) +
+  geom_tile() +
+  scale_fill_gradient(low = "white", high = "black", na.value = NA) +
+  scale_y_reverse() +
+  theme_minimal() +
+  theme(panel.grid = element_blank())   +
+  theme(aspect.ratio = 1) +
+  xlab("") +
+  ylab("")
+##
+
+train_images <- train_images / 255
+test_images <- test_images / 255
+
+par(mfcol=c(5,5))
+par(mar=c(0, 0, 1.5, 0), xaxs='i', yaxs='i')
+for (i in 1:25) { 
+  img <- train_images[i, , ]
+  img <- t(apply(img, 2, rev)) 
+  image(1:28, 1:28, img, col = gray((0:255)/255), xaxt = 'n', yaxt = 'n',
+        main = paste(class_names[train_labels[i] + 1]))
+}
+
+model <- keras_model_sequential()
+model %>%
+  layer_flatten(input_shape = c(28, 28)) %>%
+  layer_dense(units = 128, activation = 'relu') %>%
+  layer_dense(units = 10, activation = 'softmax')
+
+model %>% compile(
+  optimizer = 'adam', 
+  loss = 'sparse_categorical_crossentropy',
+  metrics = c('accuracy')
+)
+
+model %>% fit(train_images, train_labels, epochs = 5)
+
+score <- model %>% evaluate(test_images, test_labels)
+
+cat('Test loss:', score$loss, "\n")
+cat('Test accuracy:', score$acc, "\n")
+
+predictions <- model %>% predict(test_images)
+
+class_pred <- model %>% predict_classes(test_images)
+
+par(mfcol=c(5,5))
+par(mar=c(0, 0, 1.5, 0), xaxs='i', yaxs='i')
+for (i in 1:25) { 
+  img <- test_images[i, , ]
+  img <- t(apply(img, 2, rev)) 
+  # subtract 1 as labels go from 0 to 9
+  predicted_label <- which.max(predictions[i, ]) - 1
+  true_label <- test_labels[i]
+  if (predicted_label == true_label) {
+    color <- '#008800' 
+  } else {
+    color <- '#bb0000'
+  }
+  image(1:28, 1:28, img, col = gray((0:255)/255), xaxt = 'n', yaxt = 'n',
+        main = paste0(class_names[predicted_label + 1], " (",
+                      class_names[true_label + 1], ")"),
+        col.main = color)
+}
+```

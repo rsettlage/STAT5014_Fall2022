@@ -45,10 +45,10 @@ Suggested schedule, you can speed ahead.
 |10	     | 9-Nov    | text munging -- tidytext (https://analyticsindiamag.com/top-10-r-packages-for-natural-language-processing-nlp/) vs textblob,torch text,PySpark and Sparklinlp   
 |- 	     | 16-Nov    | No class  
 |        |           | **MODULE 4 -- Automation, Shiny and SQL**  
-|12	     | 23-Nov    | ML in both languages -- Keras vs PyTorch (SciKitLearn?  mle4? others?)   
-|-	     | 30-Nov*   | No class -- Thanksgiving  
-|13	     |  7-Dec    | Automation, Shiny, and GUIs for working with collaborators   
-|14	     | 14-Dec*   | SQL basics    
+|-	     | 23-Nov    | No class -- Thanksgiving     
+|-	     | 30-Nov*   | No class -- on your own  
+|11	     |  7-Dec    | ML in both languages -- Keras vs PyTorch (SciKitLearn?  mle4? others?)     
+|12	     | 14-Dec*   | Automation, Shiny, and GUIs for working with collaborators    
 |-       | ------    | Final -- none  
 
 
